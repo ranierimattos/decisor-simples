@@ -25,7 +25,8 @@ Cada parâmetro de [`parametros-2027.js`](parametros-2027.js) traz fonte, URL, d
 | `parametros-2027.js` | Anexos I a V, partilha de CBS/IBS de 2027, alíquota de referência, reduções e prazos |
 | `diagnostico.js` | Motor (navegador e Node) |
 | `src/` | Fontes da página (`pagina.html`, `pagina.js`, `estilos.css`, `privacidade.html`, `termos.html`, `config.json`) |
-| `scripts/montar.js` | Gera `index.html`, `privacidade.html` e `termos.html` em arquivo único |
+| `scripts/montar.js` | Gera `index.html`, `privacidade.html` e `termos.html` (CSS e scripts em linha) |
+| `img/`, `fontes/` | Marca Decisor: logotipo, ícones, imagem de compartilhamento e Manrope auto-hospedada (licença OFL em `fontes/OFL-Manrope.txt`) |
 | `tests/diagnostico.test.js` | Testes do motor e das páginas |
 
 ## Comandos

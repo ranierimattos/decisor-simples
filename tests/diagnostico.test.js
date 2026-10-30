@@ -288,6 +288,29 @@ test('páginas: viewport móvel, idioma, título, links de privacidade e termos'
   }
 });
 
+test('páginas: arquivos locais referenciados existem (fontes, ícones, logotipo)', () => {
+  for (const f of PAGINAS) {
+    const h = semFormulario(ler(f));
+    const refs = [...h.matchAll(/(?:src|href)\s*=\s*"([^"#:]+)"|url\("([^"]+)"\)/g)].map((m) => m[1] || m[2]);
+    assert.ok(refs.length > 5, f);
+    for (const r of refs) assert.ok(fs.existsSync(path.join(RAIZ, r)), `${f}: ${r} não existe`);
+  }
+});
+
+test('index.html: compartilhamento com imagem absoluta do GitHub Pages', () => {
+  const h = ler('index.html');
+  const base = 'https://ranierimattos.github.io/decisor-simples/';
+  assert.match(h, /<meta property="og:title" content="Simples 2027: híbrido ou não\?">/);
+  for (const prop of ['property="og:image"', 'name="twitter:image"']) {
+    const m = h.match(new RegExp('<meta ' + prop + ' content="([^"]+)"'));
+    assert.ok(m, prop);
+    assert.ok(m[1].startsWith(base), m[1]);
+    assert.ok(fs.existsSync(path.join(RAIZ, m[1].slice(base.length))), m[1]);
+  }
+  assert.match(h, /font-family: "Manrope", "Segoe UI", Roboto, Arial, sans-serif/);
+  assert.ok(fs.existsSync(path.join(RAIZ, 'fontes', 'OFL-Manrope.txt')), 'licença OFL junto das fontes');
+});
+
 test('index.html está montado com a versão atual dos scripts', () => {
   const h = ler('index.html');
   for (const f of ['parametros-2027.js', 'diagnostico.js', 'src/pagina.js']) {

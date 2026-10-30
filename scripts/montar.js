@@ -30,6 +30,7 @@ function formulario() {
 }
 
 const INCLUSOES = {
+  'cabeca.html': () => ler(path.join(SRC, 'cabeca.html')).trim(),
   'estilos.css': () => '<style>\n' + ler(path.join(SRC, 'estilos.css')) + '</style>',
   'parametros-2027.js': () => '<script>\n' + ler(path.join(RAIZ, 'parametros-2027.js')) + '</script>',
   'diagnostico.js': () => '<script>\n' + ler(path.join(RAIZ, 'diagnostico.js')) + '</script>',
