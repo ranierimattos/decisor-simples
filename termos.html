@@ -126,6 +126,8 @@ input[type="text"], select {
 .detalhes { font-size: 0.92rem; color: var(--texto-suave); }
 .detalhes ul, .alertas ul { padding-left: 18px; margin: 6px 0; }
 .acoes { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+.salvar-pdf { margin: 4px 0 16px; }
+.salvar-pdf .aviso { margin-top: 6px; }
 .tabela-rolagem { overflow-x: auto; }
 table.exemplo { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-variant-numeric: tabular-nums; font-weight: 500; background: var(--branco); }
 table.exemplo th, table.exemplo td { padding: 7px 6px; border-bottom: 1px solid var(--borda); text-align: right; vertical-align: top; overflow-wrap: normal; }
@@ -215,11 +217,11 @@ footer p { margin: 6px 0; }
 .legal header.topo h1 { color: var(--branco); }
 @media (min-width: 640px) {
   header.topo h1 { font-size: 2.4rem; }
-  .acoes { grid-template-columns: 1fr 1fr; }
+  .salvar-pdf .botao { width: auto; min-width: 320px; }
   table.exemplo { font-size: 0.95rem; }
 }
 @media print {
-  header.topo, #recado-topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, form, .acoes, .contagem { display: none !important; }
+  header.topo, #recado-topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, form, .acoes, .salvar-pdf, .contagem { display: none !important; }
   body { background: #fff; font-size: 12pt; }
   .cartao { border: 0; padding: 0; }
   #imprimir-cabecalho { display: block !important; }

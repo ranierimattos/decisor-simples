@@ -302,7 +302,7 @@ test('formulário do Brevo: campos, ids e envio preservados', () => {
     'src="https://sibforms.com/forms/end-form/build/main.js"',
     'placeholder="voce@empresa.com.br"', 'placeholder="Seu nome"', 'data-placeholder="DDD + número"',
     'Digite DDD + número, só números (ex.: 11987654321)',
-    'Concordo em receber e-mails e mensagens de WhatsApp do Decisor do Simples 2027, com o relatório, os avisos sobre a reforma e ofertas dos produtos, e li <a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>.',
+    'Concordo em receber e-mails e mensagens de WhatsApp do Decisor do Simples 2027, com os avisos sobre a reforma, a abertura do Decisor completo e ofertas dos produtos, e li <a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>.',
     'id="inscricao-confirmada"', 'Inscrição confirmada. Você está na lista prioritária.',
     '<div class="g-recaptcha sib-visible-recaptcha" id="sib-captcha" data-sitekey="6LetXQguAAAAAKx7X_TZJf9AVGP3c9rpJDYkRBy1" data-callback="handleCaptchaResponse"',
     'function handleCaptchaResponse()', 'src="https://www.google.com/recaptcha/api.js?hl=pt"'
@@ -365,6 +365,10 @@ test('index.html: conteúdo obrigatório da página', () => {
   for (const proibido of [/economia garantida/i, /bras[aã]o/i, /logo(tipo)? (da|do) (receita|governo)/i]) {
     assert.doesNotMatch(h, proibido);
   }
+  // O PDF é baixado na hora; a lista não promete relatório por e-mail.
+  for (const f of PAGINAS) assert.doesNotMatch(ler(f), /relat[óo]rio em PDF|receber o relat[óo]rio|com o relat[óo]rio/i, f);
+  assert.ok(h.indexOf('id="imprimir"') < h.indexOf('id="lista"'), 'botão do PDF antes do formulário');
+  assert.ok(h.indexOf('id="imprimir"') - h.indexOf('id="frase-resultado"') < 400, 'botão do PDF logo abaixo do semáforo');
 });
 
 const pendentes = PAGINAS.filter((f) => !fs.existsSync(path.join(RAIZ, f)) || /\{\{[A-Z_]+\}\}|FORMULARIO_PENDENTE/.test(ler(f)));
