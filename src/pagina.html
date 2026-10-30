@@ -67,34 +67,35 @@
         <fieldset>
           <label class="rotulo" for="rbt12">2. Receita bruta dos últimos 12 meses</label>
           <span class="ajuda">Soma do faturamento dos últimos 12 meses (RBT12).</span>
-          <div class="com-prefixo"><span>R$</span><input type="text" id="rbt12" name="rbt12" inputmode="decimal" autocomplete="off" placeholder="ex.: 600.000"></div>
+          <div class="campo"><span class="afixo" aria-hidden="true">R$</span><input type="text" id="rbt12" name="rbt12" inputmode="numeric" autocomplete="off" placeholder="600.000" data-formato="milhar"></div>
         </fieldset>
 
         <fieldset>
-          <legend>3 a 5. Para quem a empresa vende (% das vendas)</legend>
-          <span class="ajuda">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
+          <legend>3. Para quem a empresa vende?</legend>
+          <span class="ajuda">Distribua 100% entre os três tipos de cliente.</span>
           <div class="mix">
-            <label for="pctCredita">Empresas do Lucro Presumido ou Real <input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"></label>
-            <label for="pctSimples">Empresas do Simples Nacional <input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"></label>
-            <label for="pctConsumidor">Consumidor final (pessoa física) <input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"></label>
+            <label class="linha-mix" for="pctCredita"><span>Empresas do Lucro Presumido ou Real (aproveitam crédito)</span><span class="campo campo-curto"><input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
+            <label class="linha-mix" for="pctSimples"><span>Empresas do Simples Nacional</span><span class="campo campo-curto"><input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
+            <label class="linha-mix" for="pctConsumidor"><span>Consumidor final</span><span class="campo campo-curto"><input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
           </div>
-          <div class="soma" id="soma-mix">Soma: 100%</div>
+          <div class="linha-total"><span class="total-mix ok" id="soma-mix" aria-live="polite">Total: 100%</span></div>
+          <span class="ajuda dica">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
         </fieldset>
 
         <fieldset>
-          <label class="rotulo" for="pctCompras">6. Compras com crédito, em % da receita</label>
+          <label class="rotulo" for="pctCompras">4. Compras com crédito, em % da receita</label>
           <span class="ajuda">Mercadorias, insumos e serviços comprados de empresas do regime regular, com nota. Folha e compras do Simples não contam.</span>
-          <div class="com-prefixo"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span>%</span></div>
+          <div class="campo campo-curto"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span class="afixo" aria-hidden="true">%</span></div>
         </fieldset>
 
         <fieldset>
-          <label class="rotulo" for="reducao">7. Redução de alíquota da atividade no IBS/CBS</label>
+          <label class="rotulo" for="reducao">5. Redução de alíquota da atividade no IBS/CBS</label>
           <span class="ajuda">Sugerimos uma opção pela atividade. A redução tem requisitos: confirme com seu contador.</span>
           <select id="reducao" name="reducao"></select>
         </fieldset>
 
         <fieldset>
-          <legend>8. Preço para clientes empresa no híbrido</legend>
+          <legend>6. Preço para clientes empresa no híbrido</legend>
           <div class="opcoes">
             <label><input type="radio" name="politica" value="custo" checked> <span><b>Manter o custo líquido do cliente</b> (padrão): o preço sem IBS/CBS cai um pouco, e o cliente paga o imposto destacado e recupera o crédito.</span></label>
             <label><input type="radio" name="politica" value="preco"> <span><b>Manter o preço total</b>: o cliente paga o mesmo valor de hoje, já com IBS/CBS.</span></label>

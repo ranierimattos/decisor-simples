@@ -323,6 +323,8 @@ test('index.html: conteúdo obrigatório da página', () => {
   for (const trecho of [
     'Simples 2027: híbrido ou não?', 'id="contagem"', 'id="diagnostico"', 'id="resultado"',
     'id="lista"', 'id="exemplo"', 'Como saber se sua empresa optou', 'Perguntas frequentes',
+    '3. Para quem a empresa vende?', 'Distribua 100% entre os três tipos de cliente.',
+    '<span class="afixo" aria-hidden="true">R$</span>',
     'Fontes oficiais', 'não substitui o contador', 'Opção pelo regime regular de IBS e CBS'
   ]) assert.ok(h.includes(trecho), trecho);
   for (const proibido of [/economia garantida/i, /bras[aã]o/i, /logo(tipo)? (da|do) (receita|governo)/i]) {

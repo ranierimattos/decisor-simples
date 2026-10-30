@@ -60,16 +60,28 @@
     var r = document.querySelector('input[name="' + nome + '"]:checked');
     return r ? r.value : undefined;
   }
+  // Total do mix: avisa sem bloquear a digitação.
+  function pctTexto(v) { return D.fmtNum(v, Math.round(v) === v ? 0 : 1) + '%'; }
   function somaMix() {
     var soma = ['pctCredita', 'pctSimples', 'pctConsumidor'].reduce(function (acc, id) {
       var v = D.num($(id).value); return acc + (isNaN(v) ? 0 : v);
     }, 0);
-    var box = $('soma-mix');
-    box.textContent = 'Soma: ' + D.fmtNum(soma, Math.round(soma) === soma ? 0 : 1) + '%' + (Math.abs(soma - 100) > 0.5 ? ' (precisa dar 100%)' : '');
-    box.className = 'soma' + (Math.abs(soma - 100) > 0.5 ? ' erro' : '');
+    soma = Math.round(soma * 10) / 10;
+    var box = $('soma-mix'), fecha = Math.abs(soma - 100) <= 0.5;
+    box.textContent = fecha ? 'Total: 100%'
+      : 'Total: ' + pctTexto(soma) + ' · ' + (soma < 100 ? 'faltam ' + pctTexto(100 - soma) : 'passou ' + pctTexto(soma - 100));
+    box.className = 'total-mix ' + (fecha ? 'ok' : 'falta');
   }
   ['pctCredita', 'pctSimples', 'pctConsumidor'].forEach(function (id) { $(id).addEventListener('input', somaMix); });
   somaMix();
+
+  // Valores em reais com separador de milhar enquanto a pessoa digita (centavos são ignorados).
+  Array.prototype.forEach.call(document.querySelectorAll('input[data-formato="milhar"]'), function (inp) {
+    inp.addEventListener('input', function () {
+      var digitos = inp.value.split(',')[0].replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+      inp.value = digitos ? D.fmtNum(Number(digitos), 0) : '';
+    });
+  });
 
   $('form-diagnostico').addEventListener('submit', function (ev) {
     ev.preventDefault();

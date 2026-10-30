@@ -101,15 +101,30 @@ input[type="text"], select {
   width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--texto-suave); border-radius: 8px;
   background: var(--branco); color: var(--texto); min-height: 46px;
 }
-.com-prefixo { display: flex; align-items: center; gap: 8px; }
-.com-prefixo span { font-weight: 700; color: var(--texto-suave); }
+/* Campo com prefixo (R$) ou sufixo (%) dentro da caixa */
+.campo {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0 12px;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+.campo:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
+.campo input[type="text"] {
+  flex: 1 1 auto; min-width: 0; width: 100%; min-height: 0; padding: 11px 0; border: 0; border-radius: 0;
+  background: transparent; font-variant-numeric: tabular-nums; font-weight: 500;
+}
+.campo input[type="text"]:focus-visible { outline: none; }
+.afixo { flex-shrink: 0; white-space: nowrap; color: var(--texto-suave); font-weight: 600; }
+.campo-curto { width: 112px; }
+.campo-curto input[type="text"] { text-align: right; }
 .opcoes label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-weight: 400; cursor: pointer; }
 .opcoes input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
 .mix { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.mix label { display: grid; grid-template-columns: 1fr 92px; align-items: center; gap: 10px; font-weight: 400; }
-.mix input { text-align: right; }
-.soma { font-size: 0.92rem; margin-top: 8px; color: var(--texto-suave); }
-.soma.erro { color: var(--sem-vermelho); font-weight: 700; }
+.linha-mix { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 12px; font-weight: 400; cursor: text; }
+.linha-total { margin: 12px 0 6px; padding-top: 10px; border-top: 1px solid var(--borda); text-align: right; }
+.total-mix { display: inline-block; font-weight: 700; font-variant-numeric: tabular-nums; border-radius: 6px; padding: 2px 10px; }
+.total-mix.ok { color: var(--verde); }
+/* âmbar só como fundo, com texto Verde Decisor (guia da marca) */
+.total-mix.falta { background: var(--ambar); color: var(--verde-escuro); }
+.dica { margin: 4px 0 0; }
 .erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
 .erros ul { margin: 0; padding-left: 18px; }
 #resultado { margin-top: 18px; }
@@ -150,7 +165,6 @@ footer p { margin: 6px 0; }
 .legal header.topo h1 { color: var(--branco); }
 @media (min-width: 640px) {
   header.topo h1 { font-size: 2.4rem; }
-  .mix label { grid-template-columns: 1fr 110px; }
   .acoes { grid-template-columns: 1fr 1fr; }
   table.exemplo { font-size: 0.95rem; }
 }
@@ -205,34 +219,35 @@ footer p { margin: 6px 0; }
         <fieldset>
           <label class="rotulo" for="rbt12">2. Receita bruta dos últimos 12 meses</label>
           <span class="ajuda">Soma do faturamento dos últimos 12 meses (RBT12).</span>
-          <div class="com-prefixo"><span>R$</span><input type="text" id="rbt12" name="rbt12" inputmode="decimal" autocomplete="off" placeholder="ex.: 600.000"></div>
+          <div class="campo"><span class="afixo" aria-hidden="true">R$</span><input type="text" id="rbt12" name="rbt12" inputmode="numeric" autocomplete="off" placeholder="600.000" data-formato="milhar"></div>
         </fieldset>
 
         <fieldset>
-          <legend>3 a 5. Para quem a empresa vende (% das vendas)</legend>
-          <span class="ajuda">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
+          <legend>3. Para quem a empresa vende?</legend>
+          <span class="ajuda">Distribua 100% entre os três tipos de cliente.</span>
           <div class="mix">
-            <label for="pctCredita">Empresas do Lucro Presumido ou Real <input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"></label>
-            <label for="pctSimples">Empresas do Simples Nacional <input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"></label>
-            <label for="pctConsumidor">Consumidor final (pessoa física) <input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"></label>
+            <label class="linha-mix" for="pctCredita"><span>Empresas do Lucro Presumido ou Real (aproveitam crédito)</span><span class="campo campo-curto"><input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
+            <label class="linha-mix" for="pctSimples"><span>Empresas do Simples Nacional</span><span class="campo campo-curto"><input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
+            <label class="linha-mix" for="pctConsumidor"><span>Consumidor final</span><span class="campo campo-curto"><input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
           </div>
-          <div class="soma" id="soma-mix">Soma: 100%</div>
+          <div class="linha-total"><span class="total-mix ok" id="soma-mix" aria-live="polite">Total: 100%</span></div>
+          <span class="ajuda dica">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
         </fieldset>
 
         <fieldset>
-          <label class="rotulo" for="pctCompras">6. Compras com crédito, em % da receita</label>
+          <label class="rotulo" for="pctCompras">4. Compras com crédito, em % da receita</label>
           <span class="ajuda">Mercadorias, insumos e serviços comprados de empresas do regime regular, com nota. Folha e compras do Simples não contam.</span>
-          <div class="com-prefixo"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span>%</span></div>
+          <div class="campo campo-curto"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span class="afixo" aria-hidden="true">%</span></div>
         </fieldset>
 
         <fieldset>
-          <label class="rotulo" for="reducao">7. Redução de alíquota da atividade no IBS/CBS</label>
+          <label class="rotulo" for="reducao">5. Redução de alíquota da atividade no IBS/CBS</label>
           <span class="ajuda">Sugerimos uma opção pela atividade. A redução tem requisitos: confirme com seu contador.</span>
           <select id="reducao" name="reducao"></select>
         </fieldset>
 
         <fieldset>
-          <legend>8. Preço para clientes empresa no híbrido</legend>
+          <legend>6. Preço para clientes empresa no híbrido</legend>
           <div class="opcoes">
             <label><input type="radio" name="politica" value="custo" checked> <span><b>Manter o custo líquido do cliente</b> (padrão): o preço sem IBS/CBS cai um pouco, e o cliente paga o imposto destacado e recupera o crédito.</span></label>
             <label><input type="radio" name="politica" value="preco"> <span><b>Manter o preço total</b>: o cliente paga o mesmo valor de hoje, já com IBS/CBS.</span></label>
@@ -902,16 +917,28 @@ footer p { margin: 6px 0; }
     var r = document.querySelector('input[name="' + nome + '"]:checked');
     return r ? r.value : undefined;
   }
+  // Total do mix: avisa sem bloquear a digitação.
+  function pctTexto(v) { return D.fmtNum(v, Math.round(v) === v ? 0 : 1) + '%'; }
   function somaMix() {
     var soma = ['pctCredita', 'pctSimples', 'pctConsumidor'].reduce(function (acc, id) {
       var v = D.num($(id).value); return acc + (isNaN(v) ? 0 : v);
     }, 0);
-    var box = $('soma-mix');
-    box.textContent = 'Soma: ' + D.fmtNum(soma, Math.round(soma) === soma ? 0 : 1) + '%' + (Math.abs(soma - 100) > 0.5 ? ' (precisa dar 100%)' : '');
-    box.className = 'soma' + (Math.abs(soma - 100) > 0.5 ? ' erro' : '');
+    soma = Math.round(soma * 10) / 10;
+    var box = $('soma-mix'), fecha = Math.abs(soma - 100) <= 0.5;
+    box.textContent = fecha ? 'Total: 100%'
+      : 'Total: ' + pctTexto(soma) + ' · ' + (soma < 100 ? 'faltam ' + pctTexto(100 - soma) : 'passou ' + pctTexto(soma - 100));
+    box.className = 'total-mix ' + (fecha ? 'ok' : 'falta');
   }
   ['pctCredita', 'pctSimples', 'pctConsumidor'].forEach(function (id) { $(id).addEventListener('input', somaMix); });
   somaMix();
+
+  // Valores em reais com separador de milhar enquanto a pessoa digita (centavos são ignorados).
+  Array.prototype.forEach.call(document.querySelectorAll('input[data-formato="milhar"]'), function (inp) {
+    inp.addEventListener('input', function () {
+      var digitos = inp.value.split(',')[0].replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+      inp.value = digitos ? D.fmtNum(Number(digitos), 0) : '';
+    });
+  });
 
   $('form-diagnostico').addEventListener('submit', function (ev) {
     ev.preventDefault();

@@ -84,15 +84,30 @@ input[type="text"], select {
   width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--texto-suave); border-radius: 8px;
   background: var(--branco); color: var(--texto); min-height: 46px;
 }
-.com-prefixo { display: flex; align-items: center; gap: 8px; }
-.com-prefixo span { font-weight: 700; color: var(--texto-suave); }
+/* Campo com prefixo (R$) ou sufixo (%) dentro da caixa */
+.campo {
+  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0 12px;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+.campo:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
+.campo input[type="text"] {
+  flex: 1 1 auto; min-width: 0; width: 100%; min-height: 0; padding: 11px 0; border: 0; border-radius: 0;
+  background: transparent; font-variant-numeric: tabular-nums; font-weight: 500;
+}
+.campo input[type="text"]:focus-visible { outline: none; }
+.afixo { flex-shrink: 0; white-space: nowrap; color: var(--texto-suave); font-weight: 600; }
+.campo-curto { width: 112px; }
+.campo-curto input[type="text"] { text-align: right; }
 .opcoes label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-weight: 400; cursor: pointer; }
 .opcoes input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
 .mix { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.mix label { display: grid; grid-template-columns: 1fr 92px; align-items: center; gap: 10px; font-weight: 400; }
-.mix input { text-align: right; }
-.soma { font-size: 0.92rem; margin-top: 8px; color: var(--texto-suave); }
-.soma.erro { color: var(--sem-vermelho); font-weight: 700; }
+.linha-mix { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 12px; font-weight: 400; cursor: text; }
+.linha-total { margin: 12px 0 6px; padding-top: 10px; border-top: 1px solid var(--borda); text-align: right; }
+.total-mix { display: inline-block; font-weight: 700; font-variant-numeric: tabular-nums; border-radius: 6px; padding: 2px 10px; }
+.total-mix.ok { color: var(--verde); }
+/* âmbar só como fundo, com texto Verde Decisor (guia da marca) */
+.total-mix.falta { background: var(--ambar); color: var(--verde-escuro); }
+.dica { margin: 4px 0 0; }
 .erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
 .erros ul { margin: 0; padding-left: 18px; }
 #resultado { margin-top: 18px; }
@@ -133,7 +148,6 @@ footer p { margin: 6px 0; }
 .legal header.topo h1 { color: var(--branco); }
 @media (min-width: 640px) {
   header.topo h1 { font-size: 2.4rem; }
-  .mix label { grid-template-columns: 1fr 110px; }
   .acoes { grid-template-columns: 1fr 1fr; }
   table.exemplo { font-size: 0.95rem; }
 }
