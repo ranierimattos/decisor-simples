@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simples 2027: híbrido ou não? | Decisor do Simples 2027</title>
+<meta name="description" content="Diagnóstico grátis em 3 minutos: Simples Nacional puro ou híbrido (IBS/CBS por fora) no 1º semestre de 2027. Roda no seu navegador; os dados da empresa não são enviados.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:,">
+<!-- INCLUIR:estilos.css -->
+</head>
+<body>
+<header class="topo">
+  <div class="conteudo">
+    <div class="marca">Decisor do Simples 2027</div>
+    <h1>Simples 2027: híbrido ou não?</h1>
+    <p>Diagnóstico grátis em 3 minutos: compare o Simples puro com o regime regular de IBS e CBS ("híbrido") para a sua empresa. Roda no seu navegador; os dados da empresa não saem dele.</p>
+    <div class="contagem" id="contagem" aria-live="polite">
+      <strong id="contagem-tempo">30/10/2026, 23h59</strong>
+      <span id="contagem-rotulo">último dia para optar pelo híbrido no 1º semestre de 2027 (horário de Brasília)</span>
+    </div>
+    <a class="botao cheio" style="margin-top:14px" href="#diagnostico">Fazer o diagnóstico</a>
+  </div>
+</header>
+
+<main class="conteudo">
+  <div class="recado" id="recado-topo">
+    <p class="titulo-recado">Hoje, 30/10, é o último dia para optar pelo híbrido no 1º semestre de 2027.</p>
+    <p>Se optar hoje, dá para cancelar de 03/11 a 20/12. O cancelamento é definitivo: depois dele, não se pode optar de novo para o mesmo semestre.</p>
+  </div>
+
+  <section id="diagnostico" aria-labelledby="titulo-diagnostico">
+    <h2 id="titulo-diagnostico">Diagnóstico: puro × híbrido</h2>
+    <div class="cartao">
+      <form id="form-diagnostico" novalidate>
+        <fieldset>
+          <label class="rotulo" for="atividade">1. Atividade principal</label>
+          <select id="atividade" name="atividade" required>
+            <option value="">Escolha…</option>
+          </select>
+        </fieldset>
+
+        <fieldset id="bloco-fator-r" hidden>
+          <legend>A folha de salários (com pró-labore) é de pelo menos 28% do faturamento?</legend>
+          <span class="ajuda">É o "fator r": define se a empresa fica no Anexo III (sim) ou no Anexo V (não).</span>
+          <div class="opcoes">
+            <label><input type="radio" name="folha28" value="sim"> Sim (Anexo III)</label>
+            <label><input type="radio" name="folha28" value="nao"> Não (Anexo V)</label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <label class="rotulo" for="rbt12">2. Receita bruta dos últimos 12 meses</label>
+          <span class="ajuda">Soma do faturamento dos últimos 12 meses (RBT12).</span>
+          <div class="com-prefixo"><span>R$</span><input type="text" id="rbt12" name="rbt12" inputmode="decimal" autocomplete="off" placeholder="ex.: 600.000"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>3 a 5. Para quem a empresa vende (% das vendas)</legend>
+          <span class="ajuda">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
+          <div class="mix">
+            <label for="pctCredita">Empresas do Lucro Presumido ou Real <input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"></label>
+            <label for="pctSimples">Empresas do Simples Nacional <input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"></label>
+            <label for="pctConsumidor">Consumidor final (pessoa física) <input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"></label>
+          </div>
+          <div class="soma" id="soma-mix">Soma: 100%</div>
+        </fieldset>
+
+        <fieldset>
+          <label class="rotulo" for="pctCompras">6. Compras com crédito, em % da receita</label>
+          <span class="ajuda">Mercadorias, insumos e serviços comprados de empresas do regime regular, com nota. Folha e compras do Simples não contam.</span>
+          <div class="com-prefixo"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span>%</span></div>
+        </fieldset>
+
+        <fieldset>
+          <label class="rotulo" for="reducao">7. Redução de alíquota da atividade no IBS/CBS</label>
+          <span class="ajuda">Sugerimos uma opção pela atividade. A redução tem requisitos: confirme com seu contador.</span>
+          <select id="reducao" name="reducao"></select>
+        </fieldset>
+
+        <fieldset>
+          <legend>8. Preço para clientes empresa no híbrido</legend>
+          <div class="opcoes">
+            <label><input type="radio" name="politica" value="custo" checked> <span><b>Manter o custo líquido do cliente</b> (padrão): o preço sem IBS/CBS cai um pouco, e o cliente paga o imposto destacado e recupera o crédito.</span></label>
+            <label><input type="radio" name="politica" value="preco"> <span><b>Manter o preço total</b>: o cliente paga o mesmo valor de hoje, já com IBS/CBS.</span></label>
+          </div>
+        </fieldset>
+
+        <div id="erros" class="erros" hidden role="alert"></div>
+        <button type="submit" class="botao cheio">Ver diagnóstico</button>
+      </form>
+
+      <div id="resultado" hidden aria-live="polite">
+        <div id="imprimir-cabecalho" hidden><b>Decisor do Simples 2027: diagnóstico</b> · <span id="data-impressao"></span></div>
+        <div class="semaforo">
+          <div class="luz" id="luz" aria-hidden="true"></div>
+          <div><strong id="rotulo-semaforo"></strong><span id="texto-semaforo"></span></div>
+        </div>
+        <p id="frase-resultado"></p>
+        <div class="numeros">
+          <div class="numero"><small>Diferença por mês</small><b id="dif-mes"></b></div>
+          <div class="numero"><small>Diferença por ano</small><b id="dif-ano"></b></div>
+          <div class="numero"><small>Simples puro</small><b id="fica-puro"></b><small>fica na empresa por mês</small></div>
+          <div class="numero"><small>Híbrido</small><b id="fica-hibrido"></b><small>fica na empresa por mês</small></div>
+        </div>
+        <p id="frase-faixa"></p>
+        <div class="recado" id="recado-resultado"></div>
+        <div class="detalhes">
+          <b>Premissas deste cálculo</b>
+          <ul id="lista-premissas"></ul>
+        </div>
+        <div class="alertas detalhes" id="bloco-alertas" hidden>
+          <b>Atenção</b>
+          <ul id="lista-alertas"></ul>
+        </div>
+        <p class="aviso"><b>Estimativa educativa; não substitui o contador.</b> Leve este resultado ao seu contador antes de decidir.</p>
+        <div class="acoes">
+          <a class="botao" href="#lista">Receber o relatório e o aviso de 15/12</a>
+          <button type="button" class="botao secundario" id="imprimir">Salvar este resultado (PDF)</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lista" aria-labelledby="titulo-lista">
+    <h2 id="titulo-lista">Lista prioritária</h2>
+    <div class="cartao">
+      <p>Receba o relatório em PDF e o aviso quando sair a alíquota oficial (até 15/12). Grátis; nada é cobrado.</p>
+      <div class="lista-form">
+<!-- FORMULARIO:INICIO -->
+<!-- INCLUIR:formulario -->
+<!-- FORMULARIO:FIM -->
+      </div>
+      <p class="aviso">Ao se inscrever, você autoriza o envio de e-mails e mensagens de WhatsApp sobre o Decisor do Simples 2027. Você pode se descadastrar a qualquer momento. Veja a <a href="privacidade.html">Política de Privacidade</a>. O resultado do diagnóstico não é enviado.</p>
+    </div>
+  </section>
+
+  <section id="exemplo" aria-labelledby="titulo-exemplo">
+    <h2 id="titulo-exemplo">Mesmo serviço, resultado oposto: B2B × B2C</h2>
+    <p>Consultoria de TI no Anexo III (fator r ≥ 28%), receita de R$ 600 mil em 12 meses (R$ 50 mil por mês), R$ 5 mil por mês de compras com crédito e CBS + IBS de 11,3%. Valores por mês, em reais.</p>
+    <div class="tabela-rolagem">
+      <table class="exemplo" id="tabela-exemplo">
+        <thead><tr><th>Por mês</th><th>Puro</th><th>Híbrido, empresa*</th><th>Híbrido, consumidor**</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="aviso">* Cliente do Lucro Presumido ou Real, com o mesmo custo líquido de hoje. ** Mesmo preço final de hoje. No Simples puro, o cliente empresa só aproveita o crédito da fatia de CBS/IBS que está dentro do DAS. Números ilustrativos, calculados pelo mesmo motor do diagnóstico.</p>
+    <p id="conclusao-exemplo"></p>
+  </section>
+
+  <section id="como-saber" aria-labelledby="titulo-como-saber">
+    <h2 id="titulo-como-saber">Como saber se sua empresa optou</h2>
+    <div class="cartao">
+      <p>Muitas empresas foram inscritas pelo contador, com procuração. Para conferir:</p>
+      <ul>
+        <li>No <a href="https://www8.receita.fazenda.gov.br/SimplesNacional/" rel="noopener">Portal do Simples Nacional</a>, entre em "Opção pelo regime regular de IBS e CBS" e consulte o histórico (com certificado digital ou código de acesso); ou</li>
+        <li>pergunte ao seu contador se a opção foi feita para o 1º semestre de 2027.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="faq" aria-labelledby="titulo-faq">
+    <h2 id="titulo-faq">Perguntas frequentes</h2>
+    <details><summary>O que é o "Simples híbrido"?</summary>
+      <p>É a opção, criada pela reforma tributária, de pagar IBS e CBS fora do DAS, pelo regime regular. O restante (IRPJ, CSLL, CPP, ICMS/ISS) continua no DAS. Em troca, a empresa destaca o imposto na nota, o cliente empresa aproveita o crédito integral e a própria empresa passa a ter crédito nas compras.</p></details>
+    <details><summary>Quem tende a ganhar com o híbrido?</summary>
+      <p>Quem vende principalmente para empresas do Lucro Presumido ou Real, que aproveitam o crédito, e quem tem compras com crédito relevantes. Quem vende para consumidor final ou para empresas do Simples tende a perder, porque o IBS/CBS por fora pesa mais do que a fatia que está dentro do DAS.</p></details>
+    <details><summary>Optei e me arrependi. E agora?</summary>
+      <p>Quem optou pode cancelar de 03/11 a 20/12/2026. O cancelamento é definitivo: depois dele, não se pode optar de novo para o 1º semestre de 2027.</p></details>
+    <details><summary>Não optei. Perdi a chance?</summary>
+      <p>Para o 1º semestre de 2027, o prazo termina em 30/10/2026, às 23h59. Segundo o manual do Comitê Gestor do Simples Nacional, a próxima janela é em março de 2027, para o 2º semestre.</p></details>
+    <details><summary>A alíquota de 11,3% é definitiva?</summary>
+      <p>Não. É o valor de referência da CBS de 2027 calculado pelo TCU em 28/10/2026. O Senado pode fixar outro até 15/12/2026. Por isso o diagnóstico testa alíquotas de 9% a 12%.</p></details>
+    <details><summary>Meus dados são enviados para algum lugar?</summary>
+      <p>Não. O diagnóstico roda no seu navegador e não envia os dados da empresa. Só o formulário da lista prioritária, se você quiser preenchê-lo, envia nome e contato.</p></details>
+    <details><summary>MEI pode optar pelo híbrido?</summary>
+      <p>Não. O MEI continua no SIMEI, com valores fixos de CBS e IBS no DAS-MEI.</p></details>
+    <details><summary>Isto é consultoria?</summary>
+      <p>Não. É um software educativo que faz uma estimativa com premissas simplificadas. A decisão deve ser validada com o seu contador.</p></details>
+  </section>
+
+  <section id="fontes" aria-labelledby="titulo-fontes">
+    <h2 id="titulo-fontes">Fontes oficiais</h2>
+    <ul class="fontes" id="lista-fontes">
+      <li><a href="https://www8.receita.fazenda.gov.br/SimplesNacional/Arquivos/manual/Manual%20op%C3%A7%C3%A3o%20regime%20regular%20IBS%20e%20CBS%20no%20Simples%20Nacional.pdf" rel="noopener">Manual da Opção pelo Regime Regular do IBS e da CBS no Simples Nacional (CGSN)</a>: prazos de opção e de cancelamento.</li>
+      <li><a href="https://www.cgibs.gov.br/embora-os-periodos-sejam-parecidos-tratam-de-escolhas-diferentes-por-isso-e-importante-entender-cada-situacao" rel="noopener">Comitê Gestor do IBS: prazos de 2027</a>.</li>
+      <li><a href="https://www12.senado.leg.br/noticias/materias/2026/10/28/reforma-tributaria-tcu-calcula-aliquota-da-cbs-em-11-3-para-2027" rel="noopener">Agência Senado, 28/10/2026: TCU calcula a CBS de 2027 em 11,3%</a>.</li>
+      <li><a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp227.htm" rel="noopener">Lei Complementar nº 227/2026</a>: Anexo XX, partilha de CBS e IBS no DAS.</li>
+      <li><a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp214.htm" rel="noopener">Lei Complementar nº 214/2025</a>: IBS, CBS, crédito e reduções de alíquota.</li>
+      <li><a href="https://www.planalto.gov.br/ccivil_03/leis/lcp/lcp123.htm" rel="noopener">Lei Complementar nº 123/2006</a>: Simples Nacional, anexos e faixas.</li>
+    </ul>
+    <p class="aviso">Parâmetros consultados em <span id="data-parametros">30/10/2026</span>. Pendências de conferência: <span id="pendencias"></span></p>
+  </section>
+
+  <p class="aviso"><b>Estimativa; não substitui o contador.</b> O Decisor do Simples 2027 é um software educativo independente, sem vínculo com a Receita Federal, o Comitê Gestor do Simples Nacional ou qualquer órgão público.</p>
+</main>
+
+<footer>
+  <div class="conteudo">
+    <p><b>Decisor do Simples 2027</b> · software educativo independente</p>
+    <p>Contato: <a href="mailto:{{CONTATO_EMAIL}}">{{CONTATO_EMAIL}}</a></p>
+    <p><a href="privacidade.html">Política de Privacidade</a> · <a href="termos.html">Termos de Uso</a> · <a href="https://github.com/ranierimattos/decisor-simples" rel="noopener">Metodologia e código</a></p>
+  </div>
+</footer>
+
+<!-- INCLUIR:parametros-2027.js -->
+<!-- INCLUIR:diagnostico.js -->
+<!-- INCLUIR:pagina.js -->
+</body>
+</html>

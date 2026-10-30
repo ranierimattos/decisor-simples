@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termos de Uso | Decisor do Simples 2027</title>
+<link rel="icon" href="data:,">
+<style>
+:root {
+  --verde-escuro: #0B3D2E;
+  --verde: #0F7B5A;
+  --menta: #EEF5F1;
+  --ambar: #F2A900;
+  --sem-verde: #1E8E3E;
+  --sem-ambar: #F2A900;
+  --sem-vermelho: #C62828;
+  --texto: #1B2B25;
+  --texto-suave: #4A5A54;
+  --borda: #CFE0D7;
+  --branco: #FFFFFF;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--menta); color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px; line-height: 1.5; overflow-wrap: anywhere;
+}
+a { color: var(--verde); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--ambar); outline-offset: 2px;
+}
+.conteudo { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header.topo { background: var(--verde-escuro); color: var(--branco); padding: 28px 0 24px; }
+header.topo h1 { margin: 0 0 8px; font-size: 1.9rem; line-height: 1.15; }
+header.topo p { margin: 0 0 12px; color: #D6E8DF; }
+.marca { font-size: 0.85rem; letter-spacing: 0.04em; text-transform: uppercase; color: #A9D3C0; margin-bottom: 6px; }
+.contagem {
+  display: block; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px; padding: 12px 14px; margin-top: 12px;
+}
+.contagem strong { font-size: 1.5rem; font-variant-numeric: tabular-nums; color: var(--ambar); display: block; }
+.contagem span { font-size: 0.92rem; color: #D6E8DF; }
+.recado {
+  background: #FFF6DB; border-left: 5px solid var(--ambar); border-radius: 8px;
+  padding: 12px 14px; margin: 16px 0;
+}
+.recado p { margin: 4px 0; }
+.recado .titulo-recado { font-weight: 700; }
+main section { margin: 28px 0; }
+h2 { color: var(--verde-escuro); font-size: 1.4rem; line-height: 1.2; margin: 0 0 12px; }
+h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
+.cartao { background: var(--branco); border: 1px solid var(--borda); border-radius: 12px; padding: 18px 16px; }
+.botao {
+  display: inline-block; background: var(--verde); color: var(--branco); border: 0; border-radius: 10px;
+  padding: 14px 20px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; text-align: center;
+}
+.botao:hover { background: var(--verde-escuro); }
+.botao.secundario { background: var(--branco); color: var(--verde); border: 2px solid var(--verde); }
+.botao.cheio { width: 100%; }
+fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+legend, label.rotulo { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
+.ajuda { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: -2px 0 8px; font-weight: 400; }
+input[type="text"], select {
+  width: 100%; font: inherit; padding: 11px 12px; border: 1px solid #9DB8AB; border-radius: 8px;
+  background: var(--branco); color: var(--texto); min-height: 46px;
+}
+.com-prefixo { display: flex; align-items: center; gap: 8px; }
+.com-prefixo span { font-weight: 700; color: var(--texto-suave); }
+.opcoes label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-weight: 400; cursor: pointer; }
+.opcoes input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
+.mix { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.mix label { display: grid; grid-template-columns: 1fr 92px; align-items: center; gap: 10px; font-weight: 400; }
+.mix input { text-align: right; }
+.soma { font-size: 0.92rem; margin-top: 8px; color: var(--texto-suave); }
+.soma.erro { color: var(--sem-vermelho); font-weight: 700; }
+.erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+.erros ul { margin: 0; padding-left: 18px; }
+#resultado { margin-top: 18px; }
+.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.luz { width: 54px; height: 54px; border-radius: 50%; flex: none; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15); }
+.luz.verde { background: var(--sem-verde); }
+.luz.amarelo { background: var(--sem-ambar); }
+.luz.vermelho { background: var(--sem-vermelho); }
+.semaforo strong { font-size: 1.35rem; color: var(--verde-escuro); display: block; line-height: 1.2; }
+.numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+.numero { background: var(--menta); border-radius: 10px; padding: 10px 12px; }
+.numero b { display: block; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.numero small { color: var(--texto-suave); }
+.positivo { color: var(--sem-verde); }
+.negativo { color: var(--sem-vermelho); }
+.detalhes { font-size: 0.92rem; color: var(--texto-suave); }
+.detalhes ul, .alertas ul { padding-left: 18px; margin: 6px 0; }
+.acoes { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
+.tabela-rolagem { overflow-x: auto; }
+table.exemplo { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-variant-numeric: tabular-nums; background: var(--branco); }
+table.exemplo th, table.exemplo td { padding: 7px 6px; border-bottom: 1px solid var(--borda); text-align: right; vertical-align: top; overflow-wrap: normal; }
+table.exemplo td:not(:first-child) { white-space: nowrap; }
+table.exemplo th:first-child, table.exemplo td:first-child { text-align: left; }
+table.exemplo thead th { background: var(--verde-escuro); color: var(--branco); font-weight: 600; }
+table.exemplo tr.destaque td { font-weight: 700; background: var(--menta); }
+details { background: var(--branco); border: 1px solid var(--borda); border-radius: 10px; padding: 0 14px; margin: 8px 0; }
+summary { cursor: pointer; font-weight: 700; padding: 12px 0; }
+details p { margin: 0 0 12px; }
+.aviso { font-size: 0.92rem; color: var(--texto-suave); }
+.fontes li { margin: 6px 0; }
+.lista-form { min-height: 120px; }
+footer { background: var(--verde-escuro); color: #D6E8DF; padding: 24px 0 32px; margin-top: 36px; font-size: 0.92rem; }
+footer a { color: var(--branco); }
+footer p { margin: 6px 0; }
+.legal main { padding: 8px 0 24px; }
+.legal h1 { color: var(--verde-escuro); font-size: 1.7rem; line-height: 1.2; }
+.legal header.topo h1 { color: var(--branco); }
+@media (min-width: 640px) {
+  header.topo h1 { font-size: 2.4rem; }
+  .mix label { grid-template-columns: 1fr 110px; }
+  .acoes { grid-template-columns: 1fr 1fr; }
+  table.exemplo { font-size: 0.95rem; }
+}
+@media print {
+  header.topo, #recado-topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, form, .acoes, .contagem { display: none !important; }
+  body { background: #fff; font-size: 12pt; }
+  .cartao { border: 0; padding: 0; }
+  #imprimir-cabecalho { display: block !important; }
+}
+</style>
+</head>
+<body class="legal">
+<header class="topo">
+  <div class="conteudo">
+    <div class="marca"><a href="index.html" style="color:inherit">Decisor do Simples 2027</a></div>
+    <h1>Termos de Uso</h1>
+    <p>Vigentes desde 30/10/2026.</p>
+  </div>
+</header>
+<main class="conteudo">
+  <section>
+    <h2>1. O que é</h2>
+    <p>O Decisor do Simples 2027 é um software e conteúdo educativo, gratuito, que estima com premissas simplificadas a diferença entre o Simples Nacional "puro" e o regime regular de IBS e CBS ("híbrido") no 1º semestre de 2027. É mantido por {{RESPONSAVEL}}, sem vínculo com a Receita Federal, o Comitê Gestor do Simples Nacional ou qualquer órgão público.</p>
+  </section>
+
+  <section>
+    <h2>2. Não é consultoria</h2>
+    <p>O resultado não é consultoria, parecer, serviço contábil ou jurídico, nem recomendação individual. Usar a ferramenta não cria relação profissional entre você e o mantenedor.</p>
+  </section>
+
+  <section>
+    <h2>3. Estimativas e premissas</h2>
+    <ul>
+      <li>Os cálculos usam parâmetros legais com fonte e data de consulta, listados na página do diagnóstico. Itens ainda não conferidos no texto oficial estão indicados.</li>
+      <li>A alíquota de referência da CBS de 2027 (11,3%, calculada pelo TCU) pode mudar: o Senado pode fixar outra até 15/12/2026. Por isso o diagnóstico mostra uma faixa de 9% a 12%.</li>
+      <li>O diagnóstico não considera, entre outros: sublimite de receita, ICMS/ISS fora do DAS, substituição tributária, exportação, saldo credor acumulado, custo de contabilidade e a reação dos clientes a mudanças de preço.</li>
+      <li>O resultado depende dos dados que você informa. Dados diferentes geram resultados diferentes.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>4. Valide com seu contador</h2>
+    <p>Antes de optar, manter ou cancelar a opção pelo híbrido, valide a decisão com o seu contador, que conhece a situação completa da empresa.</p>
+  </section>
+
+  <section>
+    <h2>5. Responsabilidade</h2>
+    <p>A decisão tributária é sua, com o seu contador. Na medida permitida pela lei, o mantenedor não responde por decisões tomadas apenas com base nesta estimativa. Estes termos não afastam direitos garantidos pelo Código de Defesa do Consumidor.</p>
+  </section>
+
+  <section>
+    <h2>6. Dados</h2>
+    <p>O diagnóstico roda no seu navegador e não envia os dados da empresa. Os dados da lista prioritária seguem a <a href="privacidade.html">Política de Privacidade</a>.</p>
+  </section>
+
+  <section>
+    <h2>7. Produtos pagos</h2>
+    <p>O diagnóstico é gratuito. Produtos pagos, se oferecidos, terão condições próprias, com preço, data de entrega, reembolso e direito de arrependimento de 7 dias informados antes da compra.</p>
+  </section>
+
+  <section>
+    <h2>8. Propriedade intelectual</h2>
+    <p>O código-fonte está publicado para quem quiser auditar a metodologia. A publicação não concede licença de uso comercial do código, dos textos ou do nome "Decisor do Simples 2027".</p>
+  </section>
+
+  <section>
+    <h2>9. Alterações e lei aplicável</h2>
+    <p>Estes termos podem mudar; a versão vigente fica nesta página, com a data. Aplica-se a lei brasileira. Contato: <a href="mailto:{{CONTATO_EMAIL}}">{{CONTATO_EMAIL}}</a>.</p>
+  </section>
+  <p><a href="index.html">Voltar ao diagnóstico</a> · <a href="privacidade.html">Política de Privacidade</a> · <a href="termos.html">Termos de Uso</a></p>
+</main>
+<footer>
+  <div class="conteudo">
+    <p><b>Decisor do Simples 2027</b> · software educativo independente · Contato: <a href="mailto:{{CONTATO_EMAIL}}">{{CONTATO_EMAIL}}</a></p>
+  </div>
+</footer>
+</body>
+</html>
