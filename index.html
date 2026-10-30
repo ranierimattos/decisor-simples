@@ -156,6 +156,70 @@ details p { margin: 0 0 12px; }
 .aviso { font-size: 0.92rem; color: var(--texto-suave); }
 .fontes li { margin: 6px 0; }
 .lista-form { min-height: 120px; }
+.confirmado { background: var(--verde); color: var(--branco); font-weight: 700; padding: 12px 0; }
+.confirmado .conteudo::before { content: "✓ "; }
+
+/* Formulário do Brevo (sibforms.com) com a marca: sobrepõe sib-styles.css */
+#lista .sib-form, #lista .sib-form-container, #lista #sib-container {
+  padding: 0; margin: 0; max-width: none; background: transparent; border: 0; text-align: left;
+  font-family: "Manrope", "Segoe UI", Roboto, Arial, sans-serif; color: var(--texto); font-size: 1rem;
+}
+#lista .sib-form input, #lista .sib-form select, #lista .sib-form button { font-family: inherit; }
+#lista .sib-bloco { padding: 0 0 16px; }
+#lista .sib-form-block { padding: 0; }
+#lista .sib-form .form__entry:not(:first-child) { margin-top: 0; }
+#lista .sib-form .entry__label { display: block; font-weight: 700; color: var(--texto); margin: 0 0 6px; font-size: 1rem; }
+#lista .sib-form .entry__label::after { color: var(--texto-suave); margin-left: 2px; }
+#lista .sib-form .entry__field {
+  display: flex; width: 100%; max-width: none; min-height: 46px; margin: 0;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-form .entry__field:focus-within { box-shadow: none; outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form .input { width: 100%; flex: 1 1 auto; font-size: 17px; color: var(--texto); padding: 0 12px; box-sizing: border-box; height: 44px; }
+#lista .sib-form select.input { padding-right: 2rem; }
+#lista .sib-form ::placeholder { color: var(--texto-suave); opacity: 0.75; }
+#lista .sib-form .entry__specification { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: 6px 0 0; max-width: none; }
+#lista .sib-form .entry__error { color: var(--sem-vermelho); font-size: 0.9rem; line-height: 1.3; margin: 6px 0 0; }
+#lista .sib-form .sib-entry_errored:before { background: var(--sem-vermelho); }
+/* WhatsApp: componente do Brevo (bandeira, +55 e número) */
+#lista .sib-sms-input-wrapper, #lista .sib-sms-input { display: block; width: 100%; }
+#lista .sib-sms-select { display: flex; gap: 8px; align-items: stretch; font-size: 17px; }
+#lista .sib-sms-select__title {
+  flex: none; display: flex; align-items: center; width: auto; max-width: none; height: 46px; margin: 0; padding: 8px 28px 8px 10px;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-sms-select__title > .sib-sms-select__label-text { display: none; }
+#lista .sib-sms-select__title > .sib-flag { margin: 0; bottom: 0; float: none; }
+#lista .sib-sms-select__title::after { right: 10px; top: calc(50% - 2px); }
+#lista .sib-sms-select__number-input { flex: 1 1 auto; min-width: 0; height: 46px; border: 1px solid var(--texto-suave); border-radius: 8px; overflow: hidden; }
+#lista .sib-sms-select__number-input:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-sms-select__calling-code {
+  max-width: 56px; height: 100%; padding: 0 6px; border: 0; border-right: 1px solid var(--borda); border-radius: 0;
+  box-shadow: none; color: var(--texto-suave); font-weight: 600; background: var(--menta);
+}
+#lista .sib-sms-select__phone-number { width: auto; flex: 1 1 auto; min-width: 0; padding: 0 12px; font-size: 17px; color: var(--texto); }
+#lista .sib-sms-select__list { border-color: var(--borda); border-radius: 8px; }
+#lista .sib-sms-select__list li:hover, #lista .sib-sms-select__list li.sib-is-selected { background-color: var(--menta); }
+/* Consentimento */
+#lista .sib-form .entry__choice { padding-left: 1.6em; text-indent: -1.6em; }
+#lista .sib-form .entry__choice label { cursor: pointer; }
+#lista .sib-form .texto-optin p { display: inline; font-size: 0.95rem; line-height: 1.5; color: var(--texto); }
+#lista .sib-form .checkbox { width: 1.15em; height: 1.15em; border: 2px solid var(--texto-suave); border-radius: 4px; vertical-align: -0.2em; }
+#lista .sib-form .input_replaced:checked + .checkbox_tick_positive { background: var(--verde); border-color: var(--verde); }
+#lista .sib-form .input_replaced:focus-visible + .checkbox { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form-container a { color: var(--verde); text-decoration: underline; }
+/* Botão e mensagens */
+#lista .sib-form-block__button {
+  width: 100%; min-height: 50px; padding: 14px 20px; border: 0; border-radius: 10px; text-align: center;
+  background: var(--verde); color: var(--branco); font-size: 17px; font-weight: 700; line-height: 1.3;
+}
+#lista .sib-form-block__button:hover { background: var(--verde-escuro); }
+#lista .sib-form .progress-indicator__icon { fill: var(--branco); }
+#lista .sib-form-message-panel { max-width: none; margin: 0 0 16px; border-radius: 8px; font-size: 1rem; border-width: 1px; }
+#lista #error-message { background: #FBEAEA; border-color: var(--sem-vermelho); color: var(--texto); }
+#lista #success-message { background: var(--menta); border-color: var(--verde); color: var(--verde-escuro); font-weight: 600; }
+#lista .sib-form-message-panel__text { padding: 8px; }
+
 footer { background: var(--verde-escuro); color: var(--salvia); padding: 24px 0 32px; margin-top: 36px; font-size: 0.92rem; }
 footer a { color: var(--branco); }
 footer p { margin: 6px 0; }
@@ -177,6 +241,9 @@ footer p { margin: 6px 0; }
 </style>
 </head>
 <body>
+<div class="confirmado" id="inscricao-confirmada" role="status" hidden>
+  <div class="conteudo">Inscrição confirmada. Você está na lista prioritária.</div>
+</div>
 <header class="topo">
   <div class="conteudo">
     <a class="logo" href="index.html"><img src="img/logo-campanha-negativo.svg" alt="Decisor do Simples 2027" width="196" height="60"></a>
@@ -296,10 +363,174 @@ footer p { margin: 6px 0; }
       <p>Receba o relatório em PDF e o aviso quando sair a alíquota oficial (até 15/12). Grátis; nada é cobrado.</p>
       <div class="lista-form">
 <!-- FORMULARIO:INICIO -->
-<!-- FORMULARIO_PENDENTE --><p><b>Formulário em configuração.</b> Volte em alguns minutos.</p>
+<!--
+  Formulário do Brevo: "Lista prioritária – site Decisor" → lista "Lista prioritária – Decisor 2027" (ID 3).
+  Código de incorporação copiado do Brevo em 30/10/2026, com o visual da marca (estilos em src/estilos.css, seção "Formulário do Brevo").
+  Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN), email_address_check,
+  locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
+  Confirmação dupla: depois do clique no e-mail, o Brevo volta para ?inscricao=confirmada.
+  Requisições externas deste bloco: sibforms.com (CSS, JS e envio) e static.brevo.com (países e bandeiras do campo WhatsApp).
+-->
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+<style>
+  :where(.sib-form-message-panel) { display: none; }
+  :where(.sib-form-message-panel .sib-notification__icon) { width: 20px; height: 20px; }
+</style>
+<div class="sib-form">
+  <div id="sib-form-container" class="sib-form-container">
+    <div id="error-message" class="sib-form-message-panel">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" /></svg>
+        <span class="sib-form-message-panel__inner-text">Não foi possível registrar sua inscrição agora. Tente de novo em alguns minutos.</span>
+      </div>
+    </div>
+    <div></div>
+    <div id="success-message" class="sib-form-message-panel">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon"><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" /></svg>
+        <span class="sib-form-message-panel__inner-text">Pronto! Enviamos um e-mail para você: clique no link de confirmação para entrar na lista (confira também o spam).</span>
+      </div>
+    </div>
+    <div></div>
+    <div id="sib-container" class="sib-container--large sib-container--vertical">
+      <form id="sib-form" method="POST" action="https://bb70b053.sibforms.com/serve/MUIFAOPk_ruT-aeCcNEKbui3BNOdUebBsQm9TP8JWlPWEYcdwcDK0FSjRqrOUtQF_3FwXnLvf8IvSXI7a4zHShjXo3JqtY1Zow9fgXlzZ_bTZAx4vk7Hd8y0VDLXKcJAF-pawzglnxBs1aJDZ9fJpxCwiNJWV2YS8pBoLNmqTf6dWyM_sfZj_zoFA0_GaFCpHzfm4d19OLBBY9edIA==" data-type="subscription">
+
+        <div class="sib-bloco">
+          <div class="sib-input sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <label class="entry__label" for="EMAIL" data-required="*">E-mail</label>
+                <div class="entry__field">
+                  <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="email" inputmode="email" value="" placeholder="voce@empresa.com.br" data-required="true" required />
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sib-bloco">
+          <div class="sib-input sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <label class="entry__label" for="NOME">Nome</label>
+                <div class="entry__field">
+                  <input class="input " maxlength="200" type="text" id="NOME" name="NOME" autocomplete="name" placeholder="Seu nome" />
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sib-bloco">
+          <div class="sib-sms-field sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <label class="entry__label" for="SMS">WhatsApp com DDD (opcional)</label>
+                <div class="sib-sms-input-wrapper">
+                  <div class="sib-sms-input" data-placeholder="DDD + número" data-country-code="BR" data-value="" data-attributename="SMS">
+                    <div class="entry__field">
+                      <select class="input" name="SMS__COUNTRY_CODE">
+                        <option value="+55">+55 BR</option>
+                      </select>
+                    </div>
+                    <div class="entry__field" style="width: 100%">
+                      <input type="tel" class="input" id="SMS" name="SMS" autocomplete="tel-national" inputmode="numeric" placeholder="DDD + número" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+              <label class="entry__error entry__error--secondary"></label>
+              <span class="entry__specification">Digite DDD + número, só números (ex.: 11987654321)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sib-bloco">
+          <div class="sib-select sib-form-block" data-required="true">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <label class="entry__label" for="RAMO" data-required="*">Ramo da empresa</label>
+                <div class="entry__field">
+                  <select class="input" id="RAMO" name="RAMO" data-required="true">
+                    <option value="" disabled selected hidden>Escolha um valor</option>
+                    <option class="sib-menu__item" value="1">Comércio</option>
+                    <option class="sib-menu__item" value="2">Indústria</option>
+                    <option class="sib-menu__item" value="3">Serviços</option>
+                    <option class="sib-menu__item" value="4">Profissional liberal</option>
+                    <option class="sib-menu__item" value="5">Saúde</option>
+                    <option class="sib-menu__item" value="6">Contador</option>
+                    <option class="sib-menu__item" value="7">Outro</option>
+                  </select>
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="sib-bloco">
+          <div class="sib-optin sib-form-block" data-required="true">
+            <div class="form__entry entry_mcq">
+              <div class="form__label-row ">
+                <label class="entry__label" for="OPT_IN" data-required="*">Consentimento (LGPD)</label>
+                <div class="entry__choice">
+                  <label>
+                    <input type="checkbox" class="input_replaced" value="1" id="OPT_IN" name="OPT_IN" required />
+                    <span class="checkbox checkbox_tick_positive"></span><span class="texto-optin"><p>Concordo em receber e-mails do Decisor do Simples 2027 com o relatório e os avisos sobre a reforma, e li <a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a> do site.</p></span>
+                  </label>
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+              <label class="entry__specification">Você pode se descadastrar a qualquer momento pelo link no fim de cada e-mail.</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECAPTCHA: o bloco do Google reCAPTCHA v2 gerado pelo Brevo entra aqui, e o script
+             https://www.google.com/recaptcha/api.js entra no fim deste arquivo, antes do main.js. -->
+
+        <div class="sib-bloco">
+          <div class="sib-form-block">
+            <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+              <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" /></svg>
+              Quero entrar na lista
+            </button>
+          </div>
+        </div>
+
+        <input type="text" name="email_address_check" value="" class="input--hidden">
+        <input type="hidden" name="locale" value="pt">
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  window.REQUIRED_CODE_ERROR_MESSAGE = 'Escolha um código de país';
+  window.LOCALE = 'pt';
+  window.EMAIL_INVALID_MESSAGE = "Confira o e-mail: ele precisa ter o formato voce@empresa.com.br.";
+  window.SMS_INVALID_MESSAGE = "Digite só números, com DDD (ex.: 11987654321).";
+  window.REQUIRED_ERROR_MESSAGE = "Este campo não pode ficar em branco.";
+  window.GENERIC_INVALID_MESSAGE = "A informação não é válida. Confira o formato do campo e tente de novo.";
+  window.INVALID_NUMBER = "A informação não é válida. Confira o formato do campo e tente de novo.";
+  window.INVALID_DATE = "Insira uma data válida";
+  window.REQUIRED_MULTISELECT_MESSAGE = 'Selecione pelo menos 1 opção';
+  window.translation = {
+    common: {
+      selectedList: '{quantity} lista selecionada',
+      selectedLists: '{quantity} listas selecionadas',
+      selectedOption: '{quantity} selecionado',
+      selectedOptions: '{quantity} selecionados',
+    }
+  };
+  var AUTOHIDE = Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 <!-- FORMULARIO:FIM -->
       </div>
-      <p class="aviso">Ao se inscrever, você autoriza o envio de e-mails e mensagens de WhatsApp sobre o Decisor do Simples 2027. Você pode se descadastrar a qualquer momento. Veja a <a href="privacidade.html">Política de Privacidade</a>. O resultado do diagnóstico não é enviado.</p>
+      <p class="aviso">O resultado do diagnóstico não é enviado: ele fica só no seu navegador. O formulário é do Brevo, que guarda os contatos e envia os e-mails; veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
     </div>
   </section>
 
@@ -875,6 +1106,9 @@ footer p { margin: 6px 0; }
     itens.forEach(function (t) { ul.appendChild(el('li', t)); });
   }
   function classeSinal(v) { return Math.round(v) > 0 ? 'positivo' : (Math.round(v) < 0 ? 'negativo' : ''); }
+
+  // ------------------------------------------------ volta da confirmação dupla do Brevo
+  if (/(?:^|[?&])inscricao=confirmada(?:&|$)/.test(window.location.search)) $('inscricao-confirmada').hidden = false;
 
   // ------------------------------------------------ contagem e recado do topo
   function duasCasas(n) { return (n < 10 ? '0' : '') + n; }

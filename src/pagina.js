@@ -19,6 +19,9 @@
   }
   function classeSinal(v) { return Math.round(v) > 0 ? 'positivo' : (Math.round(v) < 0 ? 'negativo' : ''); }
 
+  // ------------------------------------------------ volta da confirmação dupla do Brevo
+  if (/(?:^|[?&])inscricao=confirmada(?:&|$)/.test(window.location.search)) $('inscricao-confirmada').hidden = false;
+
   // ------------------------------------------------ contagem e recado do topo
   function duasCasas(n) { return (n < 10 ? '0' : '') + n; }
   function atualizarContagem() {

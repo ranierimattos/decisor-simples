@@ -139,6 +139,70 @@ details p { margin: 0 0 12px; }
 .aviso { font-size: 0.92rem; color: var(--texto-suave); }
 .fontes li { margin: 6px 0; }
 .lista-form { min-height: 120px; }
+.confirmado { background: var(--verde); color: var(--branco); font-weight: 700; padding: 12px 0; }
+.confirmado .conteudo::before { content: "✓ "; }
+
+/* Formulário do Brevo (sibforms.com) com a marca: sobrepõe sib-styles.css */
+#lista .sib-form, #lista .sib-form-container, #lista #sib-container {
+  padding: 0; margin: 0; max-width: none; background: transparent; border: 0; text-align: left;
+  font-family: "Manrope", "Segoe UI", Roboto, Arial, sans-serif; color: var(--texto); font-size: 1rem;
+}
+#lista .sib-form input, #lista .sib-form select, #lista .sib-form button { font-family: inherit; }
+#lista .sib-bloco { padding: 0 0 16px; }
+#lista .sib-form-block { padding: 0; }
+#lista .sib-form .form__entry:not(:first-child) { margin-top: 0; }
+#lista .sib-form .entry__label { display: block; font-weight: 700; color: var(--texto); margin: 0 0 6px; font-size: 1rem; }
+#lista .sib-form .entry__label::after { color: var(--texto-suave); margin-left: 2px; }
+#lista .sib-form .entry__field {
+  display: flex; width: 100%; max-width: none; min-height: 46px; margin: 0;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-form .entry__field:focus-within { box-shadow: none; outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form .input { width: 100%; flex: 1 1 auto; font-size: 17px; color: var(--texto); padding: 0 12px; box-sizing: border-box; height: 44px; }
+#lista .sib-form select.input { padding-right: 2rem; }
+#lista .sib-form ::placeholder { color: var(--texto-suave); opacity: 0.75; }
+#lista .sib-form .entry__specification { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: 6px 0 0; max-width: none; }
+#lista .sib-form .entry__error { color: var(--sem-vermelho); font-size: 0.9rem; line-height: 1.3; margin: 6px 0 0; }
+#lista .sib-form .sib-entry_errored:before { background: var(--sem-vermelho); }
+/* WhatsApp: componente do Brevo (bandeira, +55 e número) */
+#lista .sib-sms-input-wrapper, #lista .sib-sms-input { display: block; width: 100%; }
+#lista .sib-sms-select { display: flex; gap: 8px; align-items: stretch; font-size: 17px; }
+#lista .sib-sms-select__title {
+  flex: none; display: flex; align-items: center; width: auto; max-width: none; height: 46px; margin: 0; padding: 8px 28px 8px 10px;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-sms-select__title > .sib-sms-select__label-text { display: none; }
+#lista .sib-sms-select__title > .sib-flag { margin: 0; bottom: 0; float: none; }
+#lista .sib-sms-select__title::after { right: 10px; top: calc(50% - 2px); }
+#lista .sib-sms-select__number-input { flex: 1 1 auto; min-width: 0; height: 46px; border: 1px solid var(--texto-suave); border-radius: 8px; overflow: hidden; }
+#lista .sib-sms-select__number-input:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-sms-select__calling-code {
+  max-width: 56px; height: 100%; padding: 0 6px; border: 0; border-right: 1px solid var(--borda); border-radius: 0;
+  box-shadow: none; color: var(--texto-suave); font-weight: 600; background: var(--menta);
+}
+#lista .sib-sms-select__phone-number { width: auto; flex: 1 1 auto; min-width: 0; padding: 0 12px; font-size: 17px; color: var(--texto); }
+#lista .sib-sms-select__list { border-color: var(--borda); border-radius: 8px; }
+#lista .sib-sms-select__list li:hover, #lista .sib-sms-select__list li.sib-is-selected { background-color: var(--menta); }
+/* Consentimento */
+#lista .sib-form .entry__choice { padding-left: 1.6em; text-indent: -1.6em; }
+#lista .sib-form .entry__choice label { cursor: pointer; }
+#lista .sib-form .texto-optin p { display: inline; font-size: 0.95rem; line-height: 1.5; color: var(--texto); }
+#lista .sib-form .checkbox { width: 1.15em; height: 1.15em; border: 2px solid var(--texto-suave); border-radius: 4px; vertical-align: -0.2em; }
+#lista .sib-form .input_replaced:checked + .checkbox_tick_positive { background: var(--verde); border-color: var(--verde); }
+#lista .sib-form .input_replaced:focus-visible + .checkbox { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form-container a { color: var(--verde); text-decoration: underline; }
+/* Botão e mensagens */
+#lista .sib-form-block__button {
+  width: 100%; min-height: 50px; padding: 14px 20px; border: 0; border-radius: 10px; text-align: center;
+  background: var(--verde); color: var(--branco); font-size: 17px; font-weight: 700; line-height: 1.3;
+}
+#lista .sib-form-block__button:hover { background: var(--verde-escuro); }
+#lista .sib-form .progress-indicator__icon { fill: var(--branco); }
+#lista .sib-form-message-panel { max-width: none; margin: 0 0 16px; border-radius: 8px; font-size: 1rem; border-width: 1px; }
+#lista #error-message { background: #FBEAEA; border-color: var(--sem-vermelho); color: var(--texto); }
+#lista #success-message { background: var(--menta); border-color: var(--verde); color: var(--verde-escuro); font-weight: 600; }
+#lista .sib-form-message-panel__text { padding: 8px; }
+
 footer { background: var(--verde-escuro); color: var(--salvia); padding: 24px 0 32px; margin-top: 36px; font-size: 0.92rem; }
 footer a { color: var(--branco); }
 footer p { margin: 6px 0; }

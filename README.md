@@ -1,6 +1,6 @@
 # Decisor do Simples 2027: diagnóstico grátis
 
-Página pública que compara, para o 1º semestre de 2027, o Simples Nacional "puro" com o regime regular de IBS e CBS ("híbrido"). O diagnóstico roda no navegador e não envia os dados da empresa. Só o formulário da lista prioritária faz requisição externa.
+Página pública que compara, para o 1º semestre de 2027, o Simples Nacional "puro" com o regime regular de IBS e CBS ("híbrido"). O diagnóstico roda no navegador e não envia os dados da empresa. Só o formulário da lista prioritária faz requisição externa: Brevo (`sibforms.com` para CSS, JS e envio; `static.brevo.com` para países e bandeiras do campo WhatsApp) e, quando a verificação "Não sou um robô" entrar, Google reCAPTCHA (`www.google.com/recaptcha`, `www.gstatic.com/recaptcha`). Os testes conferem essa lista.
 
 > Estimativa educativa; não substitui o contador.
 
@@ -36,4 +36,4 @@ node scripts/montar.js
 node --test
 ```
 
-Para trocar o formulário, cole o código do provedor em `src/formulario.html` (ou um link em `formularioLink` no `src/config.json`) e rode `node scripts/montar.js`.
+O formulário do Brevo fica em `src/formulario.html`, com o visual da marca em `src/estilos.css`. Para o reCAPTCHA, cole o bloco gerado pelo Brevo no ponto marcado `RECAPTCHA` e o script `https://www.google.com/recaptcha/api.js` antes do `main.js`; depois, `node scripts/montar.js` e `node --test`.

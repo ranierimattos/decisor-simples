@@ -277,6 +277,36 @@ test('páginas: só o formulário faz requisição externa', () => {
   }
 });
 
+// Únicos destinos externos permitidos, todos dentro do bloco do formulário.
+const DESTINOS_DO_FORMULARIO = [
+  /^https:\/\/([a-z0-9-]+\.)?sibforms\.com\//, // CSS, JS e envio do Brevo
+  /^https:\/\/www\.google\.com\/recaptcha\//,  // reCAPTCHA v2, quando entrar
+  /^https:\/\/www\.gstatic\.com\/recaptcha\//
+];
+
+test('formulário: requisições externas só para o Brevo e o reCAPTCHA', () => {
+  const h = ler('index.html');
+  const blocos = h.match(/<!-- FORMULARIO:INICIO -->[\s\S]*?<!-- FORMULARIO:FIM -->/g) || [];
+  assert.equal(blocos.length, 1);
+  const urls = [...blocos[0].matchAll(/(?:src|href|action)\s*=\s*"(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
+  for (const u of urls) assert.ok(DESTINOS_DO_FORMULARIO.some((re) => re.test(u)), `destino não permitido: ${u}`);
+  assert.doesNotMatch(blocos[0], /assets\.brevo\.com|@font-face|Helvetica/);
+});
+
+test('formulário do Brevo: campos, ids e envio preservados', () => {
+  const h = ler('index.html');
+  assert.match(h, /<form id="sib-form" method="POST" action="https:\/\/bb70b053\.sibforms\.com\/serve\/[^"]+" data-type="subscription">/);
+  for (const trecho of [
+    'name="EMAIL"', 'name="NOME"', 'name="SMS"', 'name="SMS__COUNTRY_CODE"', 'value="+55"', 'name="RAMO"', 'name="OPT_IN"',
+    'name="email_address_check"', 'name="locale" value="pt"', 'id="sib-container"', 'id="error-message"', 'id="success-message"',
+    'src="https://sibforms.com/forms/end-form/build/main.js"',
+    'placeholder="voce@empresa.com.br"', 'placeholder="Seu nome"', 'data-placeholder="DDD + número"',
+    'Digite DDD + número, só números (ex.: 11987654321)',
+    '<a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>',
+    'id="inscricao-confirmada"', 'Inscrição confirmada. Você está na lista prioritária.'
+  ]) assert.ok(h.includes(trecho), trecho);
+});
+
 test('páginas: viewport móvel, idioma, título, links de privacidade e termos', () => {
   for (const f of PAGINAS) {
     const h = ler(f);
