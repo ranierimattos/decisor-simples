@@ -4,7 +4,8 @@
   Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN), email_address_check,
   locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
   Confirmação dupla: depois do clique no e-mail, o Brevo volta para ?inscricao=confirmada.
-  Requisições externas deste bloco: sibforms.com (CSS, JS e envio) e static.brevo.com (países e bandeiras do campo WhatsApp).
+  Requisições externas deste bloco: sibforms.com (CSS, JS e envio), static.brevo.com (países e bandeiras do campo WhatsApp)
+  e Google reCAPTCHA (www.google.com/recaptcha e www.gstatic.com/recaptcha).
 -->
 <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <style>
@@ -124,8 +125,24 @@
           </div>
         </div>
 
-        <!-- RECAPTCHA: o bloco do Google reCAPTCHA v2 gerado pelo Brevo entra aqui, e o script
-             https://www.google.com/recaptcha/api.js entra no fim deste arquivo, antes do main.js. -->
+        <!-- Google reCAPTCHA v2 ("Não sou um robô"): bloco do Brevo, chave do site pública.
+             Domínios cadastrados no Google: ranierimattos.github.io e sibforms.com. -->
+        <div class="sib-bloco">
+          <div class="sib-captcha sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <script>
+                  function handleCaptchaResponse() {
+                    var event = new Event('captchaChange');
+                    document.getElementById('sib-captcha').dispatchEvent(event);
+                  }
+                </script>
+                <div class="g-recaptcha sib-visible-recaptcha" id="sib-captcha" data-sitekey="6LetXQguAAAAAKx7X_TZJf9AVGP3c9rpJDYkRBy1" data-callback="handleCaptchaResponse" style="direction:ltr"></div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+            </div>
+          </div>
+        </div>
 
         <div class="sib-bloco">
           <div class="sib-form-block">
@@ -163,3 +180,4 @@
   var AUTOHIDE = Boolean(0);
 </script>
 <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=pt"></script>

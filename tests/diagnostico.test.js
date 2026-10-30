@@ -280,7 +280,7 @@ test('páginas: só o formulário faz requisição externa', () => {
 // Únicos destinos externos permitidos, todos dentro do bloco do formulário.
 const DESTINOS_DO_FORMULARIO = [
   /^https:\/\/([a-z0-9-]+\.)?sibforms\.com\//, // CSS, JS e envio do Brevo
-  /^https:\/\/www\.google\.com\/recaptcha\//,  // reCAPTCHA v2, quando entrar
+  /^https:\/\/www\.google\.com\/recaptcha\//,  // reCAPTCHA v2 ("Não sou um robô")
   /^https:\/\/www\.gstatic\.com\/recaptcha\//
 ];
 
@@ -303,8 +303,13 @@ test('formulário do Brevo: campos, ids e envio preservados', () => {
     'placeholder="voce@empresa.com.br"', 'placeholder="Seu nome"', 'data-placeholder="DDD + número"',
     'Digite DDD + número, só números (ex.: 11987654321)',
     'Concordo em receber e-mails e mensagens de WhatsApp do Decisor do Simples 2027, com o relatório, os avisos sobre a reforma e ofertas dos produtos, e li <a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>.',
-    'id="inscricao-confirmada"', 'Inscrição confirmada. Você está na lista prioritária.'
+    'id="inscricao-confirmada"', 'Inscrição confirmada. Você está na lista prioritária.',
+    '<div class="g-recaptcha sib-visible-recaptcha" id="sib-captcha" data-sitekey="6LetXQguAAAAAKx7X_TZJf9AVGP3c9rpJDYkRBy1" data-callback="handleCaptchaResponse"',
+    'function handleCaptchaResponse()', 'src="https://www.google.com/recaptcha/api.js?hl=pt"'
   ]) assert.ok(h.includes(trecho), trecho);
+  // reCAPTCHA antes do botão; api.js do Google depois do main.js
+  assert.ok(h.indexOf('id="sib-captcha"') < h.indexOf('Quero entrar na lista'));
+  assert.ok(h.indexOf('build/main.js') < h.indexOf('recaptcha/api.js'));
 });
 
 test('páginas: viewport móvel, idioma, título, links de privacidade e termos', () => {

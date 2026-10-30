@@ -208,6 +208,9 @@ details p { margin: 0 0 12px; }
 #lista .sib-form .input_replaced:checked + .checkbox_tick_positive { background: var(--verde); border-color: var(--verde); }
 #lista .sib-form .input_replaced:focus-visible + .checkbox { outline: 3px solid var(--verde); outline-offset: 2px; }
 #lista .sib-form-container a { color: var(--verde); text-decoration: underline; }
+/* reCAPTCHA: o widget do Google tem 304 px fixos; abaixo de 360 px de tela, reduz a escala */
+#lista .g-recaptcha { transform-origin: 0 0; }
+@media (max-width: 359px) { #lista .g-recaptcha { transform: scale(0.82); height: 64px; } }
 /* Botão e mensagens */
 #lista .sib-form-block__button {
   width: 100%; min-height: 50px; padding: 14px 20px; border: 0; border-radius: 10px; text-align: center;
@@ -369,7 +372,8 @@ footer p { margin: 6px 0; }
   Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN), email_address_check,
   locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
   Confirmação dupla: depois do clique no e-mail, o Brevo volta para ?inscricao=confirmada.
-  Requisições externas deste bloco: sibforms.com (CSS, JS e envio) e static.brevo.com (países e bandeiras do campo WhatsApp).
+  Requisições externas deste bloco: sibforms.com (CSS, JS e envio), static.brevo.com (países e bandeiras do campo WhatsApp)
+  e Google reCAPTCHA (www.google.com/recaptcha e www.gstatic.com/recaptcha).
 -->
 <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <style>
@@ -489,8 +493,24 @@ footer p { margin: 6px 0; }
           </div>
         </div>
 
-        <!-- RECAPTCHA: o bloco do Google reCAPTCHA v2 gerado pelo Brevo entra aqui, e o script
-             https://www.google.com/recaptcha/api.js entra no fim deste arquivo, antes do main.js. -->
+        <!-- Google reCAPTCHA v2 ("Não sou um robô"): bloco do Brevo, chave do site pública.
+             Domínios cadastrados no Google: ranierimattos.github.io e sibforms.com. -->
+        <div class="sib-bloco">
+          <div class="sib-captcha sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row ">
+                <script>
+                  function handleCaptchaResponse() {
+                    var event = new Event('captchaChange');
+                    document.getElementById('sib-captcha').dispatchEvent(event);
+                  }
+                </script>
+                <div class="g-recaptcha sib-visible-recaptcha" id="sib-captcha" data-sitekey="6LetXQguAAAAAKx7X_TZJf9AVGP3c9rpJDYkRBy1" data-callback="handleCaptchaResponse" style="direction:ltr"></div>
+              </div>
+              <label class="entry__error entry__error--primary"></label>
+            </div>
+          </div>
+        </div>
 
         <div class="sib-bloco">
           <div class="sib-form-block">
@@ -528,6 +548,7 @@ footer p { margin: 6px 0; }
   var AUTOHIDE = Boolean(0);
 </script>
 <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=pt"></script>
 <!-- FORMULARIO:FIM -->
       </div>
       <p class="aviso">O resultado do diagnóstico não é enviado: ele fica só no seu navegador. O formulário é do Brevo, que guarda os contatos e envia os e-mails; veja a <a href="privacidade.html">Política de Privacidade</a>.</p>

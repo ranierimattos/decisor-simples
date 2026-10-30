@@ -191,6 +191,9 @@ details p { margin: 0 0 12px; }
 #lista .sib-form .input_replaced:checked + .checkbox_tick_positive { background: var(--verde); border-color: var(--verde); }
 #lista .sib-form .input_replaced:focus-visible + .checkbox { outline: 3px solid var(--verde); outline-offset: 2px; }
 #lista .sib-form-container a { color: var(--verde); text-decoration: underline; }
+/* reCAPTCHA: o widget do Google tem 304 px fixos; abaixo de 360 px de tela, reduz a escala */
+#lista .g-recaptcha { transform-origin: 0 0; }
+@media (max-width: 359px) { #lista .g-recaptcha { transform: scale(0.82); height: 64px; } }
 /* Botão e mensagens */
 #lista .sib-form-block__button {
   width: 100%; min-height: 50px; padding: 14px 20px; border: 0; border-radius: 10px; text-align: center;
