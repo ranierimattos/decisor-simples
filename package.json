@@ -1,0 +1,10 @@
+{
+  "name": "decisor-simples",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Diagnóstico grátis Simples puro × híbrido (IBS/CBS) para o 1º semestre de 2027. Roda no navegador.",
+  "scripts": {
+    "montar": "node scripts/montar.js",
+    "test": "node --test"
+  }
+}
