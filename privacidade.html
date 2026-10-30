@@ -59,13 +59,6 @@ header.topo p { margin: 0 0 12px; color: var(--salvia); }
 }
 .contagem strong { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ambar); display: block; }
 .contagem span { font-size: 0.92rem; color: var(--salvia); }
-.recado {
-  background: var(--branco); border-left: 5px solid var(--verde); border-radius: 8px;
-  padding: 12px 14px; margin: 16px 0;
-}
-.cartao .recado { background: var(--menta); }
-.recado p { margin: 4px 0; }
-.recado .titulo-recado { font-weight: 700; }
 main section { margin: 28px 0; }
 h2 { color: var(--verde-escuro); font-size: 1.4rem; line-height: 1.2; margin: 0 0 12px; }
 h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
@@ -77,57 +70,58 @@ h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
 .botao:hover { background: var(--verde-escuro); }
 .botao.secundario { background: var(--branco); color: var(--verde); border: 2px solid var(--verde); }
 .botao.cheio { width: 100%; }
-fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+main section > .botao { margin-top: 10px; }
 legend, label.rotulo { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
 .ajuda { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: -2px 0 8px; font-weight: 400; }
 input[type="text"], select {
   width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--texto-suave); border-radius: 8px;
   background: var(--branco); color: var(--texto); min-height: 46px;
 }
-/* Campo com prefixo (R$) ou sufixo (%) dentro da caixa */
-.campo {
-  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0 12px;
-  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+/* Diagnóstico em quatro cliques: uma pergunta por vez */
+.progresso { margin: 0 0 14px; }
+.passo { display: block; font-size: 0.85rem; font-weight: 700; color: var(--texto-suave); margin-bottom: 6px; }
+.trilho { height: 8px; border-radius: 4px; background: var(--menta); overflow: hidden; }
+.barra { height: 100%; width: 25%; background: var(--verde); border-radius: 4px; transition: width 0.25s ease; }
+.pergunta h3 { margin: 0 0 12px; font-size: 1.2rem; line-height: 1.3; outline: none; }
+.opcoes-botoes { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0 0 12px; }
+.opcoes-botoes.lado-a-lado { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.opcao {
+  display: block; width: 100%; min-height: 50px; padding: 11px 14px; text-align: left; cursor: pointer;
+  font: inherit; color: var(--texto); background: var(--branco); border: 1.5px solid var(--borda); border-radius: 10px;
 }
-.campo:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
-.campo input[type="text"] {
-  flex: 1 1 auto; min-width: 0; width: 100%; min-height: 0; padding: 11px 0; border: 0; border-radius: 0;
-  background: transparent; font-variant-numeric: tabular-nums; font-weight: 500;
+.lado-a-lado .opcao { text-align: center; }
+.opcao:hover { border-color: var(--verde); background: var(--menta); }
+.opcao[aria-pressed="true"] { border-color: var(--verde); background: var(--menta); box-shadow: inset 0 0 0 1.5px var(--verde); }
+.opcao-rotulo { display: block; font-weight: 700; }
+.opcao-detalhe { display: block; font-size: 0.88rem; color: var(--texto-suave); }
+.dica { margin: 0 0 14px; }
+.voltar {
+  background: none; border: 0; padding: 10px 0 0; font: inherit; font-weight: 600; color: var(--verde);
+  cursor: pointer; text-decoration: underline;
 }
-.campo input[type="text"]:focus-visible { outline: none; }
-.afixo { flex-shrink: 0; white-space: nowrap; color: var(--texto-suave); font-weight: 600; }
-.campo-curto { width: 112px; }
-.campo-curto input[type="text"] { text-align: right; }
-.opcoes label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-weight: 400; cursor: pointer; }
-.opcoes input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
-.mix { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.linha-mix { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 12px; font-weight: 400; cursor: text; }
-.linha-total { margin: 12px 0 6px; padding-top: 10px; border-top: 1px solid var(--borda); text-align: right; }
-.total-mix { display: inline-block; font-weight: 700; font-variant-numeric: tabular-nums; border-radius: 6px; padding: 2px 10px; }
-.total-mix.ok { color: var(--verde); }
-/* âmbar só como fundo, com texto Verde Decisor (guia da marca) */
-.total-mix.falta { background: var(--ambar); color: var(--verde-escuro); }
-.dica { margin: 4px 0 0; }
 .erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
 .erros ul { margin: 0; padding-left: 18px; }
-#resultado { margin-top: 18px; }
-.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+/* Resultado */
+.titulo-resultado { margin: 0 0 12px; outline: none; }
+.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
 .luz { width: 54px; height: 54px; border-radius: 50%; flex: none; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15); }
 .luz.verde { background: var(--sem-verde); }
 .luz.amarelo { background: var(--sem-ambar); }
 .luz.vermelho { background: var(--sem-vermelho); }
-.semaforo strong { font-size: 1.35rem; font-weight: 800; color: var(--verde-escuro); display: block; line-height: 1.2; }
-.numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-.numero { background: var(--menta); border-radius: 10px; padding: 10px 12px; }
-.numero b { display: block; font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.numero small { color: var(--texto-suave); }
+.semaforo strong { font-size: 1.45rem; font-weight: 800; color: var(--verde-escuro); display: block; line-height: 1.2; }
+.frase-resultado { margin: 0 0 12px; }
+.valor-ano { background: var(--menta); border-radius: 10px; padding: 12px 14px; margin: 0 0 12px; }
+.valor-ano small { display: block; color: var(--texto-suave); font-size: 0.88rem; }
+.valor-ano b { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .positivo { color: var(--verde); }
 .negativo { color: var(--sem-vermelho); }
-.detalhes { font-size: 0.92rem; color: var(--texto-suave); }
-.detalhes ul, .alertas ul { padding-left: 18px; margin: 6px 0; }
-.acoes { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
-.salvar-pdf { margin: 4px 0 16px; }
-.salvar-pdf .aviso { margin-top: 6px; }
+details.detalhes { font-size: 0.85rem; color: var(--texto-suave); background: transparent; border-color: var(--borda); }
+details.detalhes summary { font-size: 0.9rem; padding: 9px 0; color: var(--verde-escuro); }
+.detalhes ul { padding-left: 18px; margin: 0 0 10px; }
+.detalhes li { margin: 3px 0; }
+.pos-inscricao { background: var(--menta); border-left: 5px solid var(--verde); border-radius: 8px; padding: 12px 14px; margin: 0 0 12px; }
+.pos-inscricao p { margin: 0 0 10px; color: var(--verde-escuro); }
+#falta-lista:empty { display: none; }
 .tabela-rolagem { overflow-x: auto; }
 table.exemplo { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-variant-numeric: tabular-nums; font-weight: 500; background: var(--branco); }
 table.exemplo th, table.exemplo td { padding: 7px 6px; border-bottom: 1px solid var(--borda); text-align: right; vertical-align: top; overflow-wrap: normal; }
@@ -202,6 +196,7 @@ details p { margin: 0 0 12px; }
   background: var(--verde); color: var(--branco); font-size: 17px; font-weight: 700; line-height: 1.3;
 }
 #lista .sib-form-block__button:hover { background: var(--verde-escuro); }
+#lista .sib-form-block__button[disabled] { background: var(--salvia); color: var(--verde-escuro); cursor: not-allowed; }
 #lista .sib-form .progress-indicator__icon { fill: var(--branco); }
 #lista .sib-form-message-panel { max-width: none; margin: 0 0 16px; border-radius: 8px; font-size: 1rem; border-width: 1px; }
 #lista #error-message { background: #FBEAEA; border-color: var(--sem-vermelho); color: var(--texto); }
@@ -217,14 +212,17 @@ footer p { margin: 6px 0; }
 .legal header.topo h1 { color: var(--branco); }
 @media (min-width: 640px) {
   header.topo h1 { font-size: 2.4rem; }
-  .salvar-pdf .botao { width: auto; min-width: 320px; }
+  #ver-diagnostico { width: auto; min-width: 320px; }
   table.exemplo { font-size: 0.95rem; }
 }
 @media print {
-  header.topo, #recado-topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, form, .acoes, .salvar-pdf, .contagem { display: none !important; }
-  body { background: #fff; font-size: 12pt; }
+  header.topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, #perguntas, .voltar, .contagem, .confirmado { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  main > .aviso { display: none; }
   .cartao { border: 0; padding: 0; }
-  #imprimir-cabecalho { display: block !important; }
+  #imprimir-cabecalho { display: block !important; margin-bottom: 10px; }
+  details.detalhes { border: 0; padding: 0; font-size: 9.5pt; color: var(--texto); }
+  details.detalhes summary { list-style: none; padding: 6px 0 2px; }
 }
 </style>
 </head>
@@ -233,15 +231,15 @@ footer p { margin: 6px 0; }
   <div class="conteudo">
     <a class="logo" href="index.html"><img src="img/logo-campanha-negativo.svg" alt="Decisor do Simples 2027" width="196" height="60"></a>
     <h1>Política de Privacidade</h1>
-    <p>Vigente desde 30/10/2026.</p>
+    <p>Vigente desde 30/10/2026, com o registro anônimo do diagnóstico.</p>
   </div>
 </header>
 <main class="conteudo">
   <section>
     <h2>Resumo</h2>
     <ul>
-      <li><b>O diagnóstico roda no seu navegador e não envia os dados da empresa.</b> Receita, atividade, mix de clientes e compras não são gravados nem transmitidos.</li>
-      <li>Só coletamos dados pessoais se você preencher o formulário da lista prioritária, com o seu consentimento.</li>
+      <li><b>Cada diagnóstico gera um registro anônimo</b> das respostas e do resultado, sem nome, e-mail, telefone ou valor exato de faturamento, para um panorama estatístico de quem usa a ferramenta.</li>
+      <li>Se você entrar na lista, com o seu consentimento, guardamos o seu contato junto com o resumo do diagnóstico, para enviar os avisos e as ofertas do Decisor.</li>
       <li>Você pode se descadastrar quando quiser.</li>
     </ul>
   </section>
@@ -253,33 +251,39 @@ footer p { margin: 6px 0; }
 
   <section>
     <h2>Dados coletados</h2>
-    <p><b>No formulário da lista prioritária:</b> e-mail, nome, WhatsApp (opcional), ramo da empresa e a data e a hora do consentimento. O Brevo, provedor do formulário, também registra dados técnicos do envio, como endereço IP e navegador, conforme a política dele.</p>
-    <p><b>No diagnóstico:</b> nenhum. Os cálculos são feitos no seu navegador e somem quando você fecha a página.</p>
-    <p><b>Na navegação:</b> esta página não usa cookies próprios, ferramentas de análise de audiência nem pixels de anúncios. Ao abrir a página, o navegador carrega o formulário a partir dos servidores do Brevo (sibforms.com e static.brevo.com), que recebem dados técnicos como endereço IP e navegador, mesmo que você não preencha nada. O serviço de hospedagem (GitHub Pages, da GitHub, Inc.) pode registrar dados técnicos de acesso, como o endereço IP, para segurança e operação, conforme a política dele.</p>
+    <p><b>No diagnóstico, de todos que clicam em "Ver meu diagnóstico" (registro anônimo):</b> data, atividade da empresa, anexo do Simples, resposta sobre o fator r, faixa de faturamento dos últimos 12 meses (uma das 6 faixas do Simples, nunca o valor), perfil de clientes escolhido, faixa de compras, redução de alíquota da atividade, resultado (híbrido, analisar ou puro), diferença anual arredondada ao milhar e versão do cálculo. O registro não tem nome, e-mail, telefone, endereço IP, cookie nem identificador do aparelho, e não é ligado à inscrição na lista.</p>
+    <p><b>Na inscrição na lista:</b> e-mail, nome, WhatsApp (opcional), ramo da empresa, a data e a hora do consentimento e o resumo do diagnóstico feito antes da inscrição (os mesmos dados do registro anônimo, sem valores exatos). O Brevo, provedor do formulário, também registra dados técnicos do envio, como endereço IP e navegador, conforme a política dele.</p>
+    <p><b>Na navegação:</b> esta página não usa cookies próprios, ferramentas de análise de audiência nem pixels de anúncios. Ao abrir a página, o navegador carrega o formulário a partir dos servidores do Brevo (sibforms.com e static.brevo.com), que recebem dados técnicos como endereço IP e navegador, mesmo que você não preencha nada. O registro anônimo do diagnóstico é enviado, sem cookies, a um serviço do Google (Google Apps Script, script.google.com), que o grava numa planilha do Google; como em qualquer acesso à internet, o Google recebe o endereço IP da conexão, que não é gravado na planilha. O serviço de hospedagem (GitHub Pages, da GitHub, Inc.) pode registrar dados técnicos de acesso, como o endereço IP, para segurança e operação, conforme a política dele.</p>
     <p><b>Verificação "Não sou um robô":</b> o formulário usa o Google reCAPTCHA, carregado dos servidores do Google (google.com e gstatic.com) ao abrir a página. Ele coleta dados técnicos do dispositivo e da navegação, podendo usar cookies, para distinguir pessoas de robôs, conforme a <a href="https://policies.google.com/privacy?hl=pt-BR" rel="noopener">Política de Privacidade</a> e os <a href="https://policies.google.com/terms?hl=pt-BR" rel="noopener">Termos de Serviço</a> do Google.</p>
   </section>
 
   <section>
     <h2>Para que usamos</h2>
-    <p>Com o seu consentimento, por e-mail e, se você informar o número, por mensagens de WhatsApp:</p>
+    <p><b>Registro anônimo:</b> montar um panorama estatístico (quantos diagnósticos, de quais atividades e perfis, com qual resultado), medir quantas pessoas entram na lista depois do diagnóstico e melhorar a ferramenta. Ele não é usado para contatar ninguém.</p>
+    <p><b>Lista, com o seu consentimento,</b> por e-mail e, se você informar o número, por mensagens de WhatsApp:</p>
     <ul>
-      <li>enviar o aviso quando sair a alíquota oficial da CBS de 2027 (até 15/12/2026);</li>
-      <li>enviar avisos sobre a reforma tributária no Simples Nacional;</li>
-      <li>avisar a abertura do Decisor completo e enviar ofertas dos produtos do Decisor do Simples 2027, inclusive o preço de lançamento.</li>
+      <li>avisar a abertura do prazo de cancelamento do híbrido, em 03/11/2026, e outros prazos do 1º semestre de 2027;</li>
+      <li>enviar avisos sobre a reforma tributária no Simples Nacional, como a alíquota oficial da CBS de 2027 (até 15/12/2026);</li>
+      <li>avisar a abertura do Decisor completo e enviar ofertas dos produtos do Decisor do Simples 2027, inclusive o preço de lançamento para a lista;</li>
+      <li>usar o resumo do diagnóstico para escolher quais avisos e ofertas fazem sentido para o seu caso.</li>
     </ul>
     <p>Não vendemos nem alugamos seus dados.</p>
   </section>
 
   <section>
     <h2>Base legal</h2>
-    <p>Consentimento (Lei nº 13.709/2018, LGPD, art. 7º, I), dado ao marcar a caixa do formulário. Você pode revogá-lo a qualquer momento, sem custo (art. 8º, § 5º).</p>
+    <ul>
+      <li><b>Lista:</b> consentimento (Lei nº 13.709/2018, LGPD, art. 7º, I), dado ao marcar a caixa do formulário. Você pode revogá-lo a qualquer momento, sem custo (art. 8º, § 5º).</li>
+      <li><b>Registro anônimo:</b> legítimo interesse (art. 7º, IX), para conhecer o uso da ferramenta e melhorá-la. O registro foi desenhado para não identificar ninguém: dado anonimizado não é dado pessoal (art. 12).</li>
+    </ul>
   </section>
 
   <section>
     <h2>Com quem compartilhamos</h2>
+    <p>Os operadores abaixo tratam os dados em nosso nome, só para as finalidades desta política:</p>
     <ul>
-      <li><b>Brevo (Sendinblue SAS, França):</b> operador que armazena os contatos da lista e envia os e-mails. Por ser uma empresa francesa, os dados são tratados fora do Brasil, o que configura transferência internacional de dados, feita com as garantias previstas no art. 33 da LGPD.</li>
-      <li><b>Google (reCAPTCHA):</b> recebe os dados técnicos descritos acima para a verificação "Não sou um robô"; eles também podem ser tratados fora do Brasil.</li>
+      <li><b>Brevo (Sendinblue SAS, França):</b> armazena os contatos da lista, com o resumo do diagnóstico, e envia os e-mails. Por ser uma empresa francesa, os dados são tratados fora do Brasil, o que configura transferência internacional de dados, feita com as garantias previstas no art. 33 da LGPD.</li>
+      <li><b>Google:</b> recebe e grava o registro anônimo do diagnóstico (Google Apps Script e Planilhas Google) e faz a verificação "Não sou um robô" (reCAPTCHA), com os dados técnicos descritos acima; os dados podem ser tratados fora do Brasil.</li>
       <li><b>WhatsApp (Meta):</b> as mensagens de WhatsApp passam pelo serviço da Meta, conforme a política dele.</li>
     </ul>
     <p>Não há outro compartilhamento, salvo obrigação legal ou ordem de autoridade.</p>
@@ -287,7 +291,10 @@ footer p { margin: 6px 0; }
 
   <section>
     <h2>Por quanto tempo</h2>
-    <p>Enquanto o consentimento estiver valendo. Depois do descadastro, apagamos os dados em até 30 dias, mantendo apenas o registro do próprio descadastro, para não voltar a enviar mensagens.</p>
+    <ul>
+      <li><b>Lista:</b> enquanto o consentimento estiver valendo. Depois do descadastro, apagamos os dados, com o resumo do diagnóstico, em até 30 dias, mantendo apenas o registro do próprio descadastro, para não voltar a enviar mensagens.</li>
+      <li><b>Registro anônimo:</b> até 31/12/2028, para comparar os semestres da transição; depois, a planilha é apagada.</li>
+    </ul>
   </section>
 
   <section>

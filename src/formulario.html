@@ -1,8 +1,9 @@
 <!--
   Formulário do Brevo: "Lista prioritária – site Decisor" → lista "Lista prioritária – Decisor 2027" (ID 3).
   Código de incorporação copiado do Brevo em 30/10/2026, com o visual da marca (estilos em src/estilos.css, seção "Formulário do Brevo").
-  Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN), email_address_check,
-  locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
+  Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN, DIAG_RESULTADO, DIAG_RESUMO),
+  email_address_check, locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
+  O botão começa inativo: src/pagina.js o libera com e-mail, ramo, consentimento e reCAPTCHA, e abre o PDF depois do sucesso.
   Confirmação dupla: depois do clique no e-mail, o Brevo volta para ?inscricao=confirmada.
   Requisições externas deste bloco: sibforms.com (CSS, JS e envio), static.brevo.com (países e bandeiras do campo WhatsApp)
   e Google reCAPTCHA (www.google.com/recaptcha e www.gstatic.com/recaptcha).
@@ -146,13 +147,16 @@
 
         <div class="sib-bloco">
           <div class="sib-form-block">
-            <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+            <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit" disabled>
               <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" /></svg>
-              Quero entrar na lista
+              <span id="rotulo-botao-lista">Entrar na lista</span>
             </button>
           </div>
         </div>
 
+        <!-- Resumo do diagnóstico (atributos DIAG_RESULTADO e DIAG_RESUMO do Brevo), preenchido por src/pagina.js. -->
+        <input type="hidden" id="DIAG_RESULTADO" name="DIAG_RESULTADO" value="">
+        <input type="hidden" id="DIAG_RESUMO" name="DIAG_RESUMO" value="">
         <input type="text" name="email_address_check" value="" class="input--hidden">
         <input type="hidden" name="locale" value="pt">
       </form>
