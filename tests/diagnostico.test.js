@@ -302,7 +302,7 @@ test('formulário do Brevo: campos, ids e envio preservados', () => {
     'src="https://sibforms.com/forms/end-form/build/main.js"',
     'placeholder="voce@empresa.com.br"', 'placeholder="Seu nome"', 'data-placeholder="DDD + número"',
     'Digite DDD + número, só números (ex.: 11987654321)',
-    '<a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>',
+    'Concordo em receber e-mails e mensagens de WhatsApp do Decisor do Simples 2027, com o relatório, os avisos sobre a reforma e ofertas dos produtos, e li <a href="privacidade.html" target="_blank" rel="noopener">a Política de Privacidade</a>.',
     'id="inscricao-confirmada"', 'Inscrição confirmada. Você está na lista prioritária.'
   ]) assert.ok(h.includes(trecho), trecho);
 });
