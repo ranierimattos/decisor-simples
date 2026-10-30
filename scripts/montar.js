@@ -5,7 +5,8 @@
  * - <!-- INCLUIR:arquivo --> vira o conteúdo do arquivo, em linha (página única);
  * - <!-- INCLUIR:formulario --> vira src/formulario.html (código do provedor),
  *   ou o link de src/config.json (formularioLink), ou um aviso de pendência;
- * - {{CHAVE}} vira o valor de src/config.json; vazio fica como está (o teste acusa).
+ * - {{CHAVE}} vira o valor de src/config.json; vazio fica como está (o teste acusa),
+ *   menos {{COLETA_ENDPOINT}} (coletaEndpoint), que pode ficar vazio: coleta desligada.
  */
 'use strict';
 const fs = require('node:fs');
@@ -38,11 +39,18 @@ const INCLUSOES = {
   formulario: formulario
 };
 
+// Coleta anônima: URL do app da Web do Google Apps Script (ferramentas/coleta/); vazio = desligada.
+const COLETA = String(cfg.coletaEndpoint || '').trim();
+if (COLETA && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(COLETA)) {
+  throw new Error('coletaEndpoint inválido em src/config.json: use https://script.google.com/macros/s/…/exec ou deixe vazio.');
+}
+
 const VALORES = {
   CONTATO_EMAIL: cfg.contatoEmail,
   RESPONSAVEL: cfg.responsavel,
   PROVEDOR_FORMULARIO: cfg.provedorFormulario
 };
+const OPCIONAIS = { COLETA_ENDPOINT: COLETA }; // vazio é válido
 
 function montar(origem, destino) {
   let h = ler(path.join(SRC, origem));
@@ -50,7 +58,10 @@ function montar(origem, destino) {
     if (!INCLUSOES[nome]) throw new Error('Inclusão desconhecida: ' + nome);
     return INCLUSOES[nome]();
   });
-  h = h.replace(/\{\{([A-Z_]+)\}\}/g, (m, chave) => (VALORES[chave] ? esc(VALORES[chave]) : m));
+  h = h.replace(/\{\{([A-Z_]+)\}\}/g, (m, chave) => {
+    if (Object.prototype.hasOwnProperty.call(OPCIONAIS, chave)) return esc(OPCIONAIS[chave]);
+    return VALORES[chave] ? esc(VALORES[chave]) : m;
+  });
   fs.writeFileSync(path.join(RAIZ, destino), h);
   const pend = h.match(/\{\{[A-Z_]+\}\}|FORMULARIO_PENDENTE/g);
   console.log(destino + (pend ? '  (pendente: ' + [...new Set(pend)].join(', ') + ')' : ''));

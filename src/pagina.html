@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simples 2027: híbrido ou não? | Decisor do Simples 2027</title>
-<meta name="description" content="Diagnóstico grátis em 3 minutos: Simples Nacional puro ou híbrido (IBS/CBS por fora) no 1º semestre de 2027. Roda no seu navegador; os dados da empresa não são enviados.">
+<meta name="description" content="Diagnóstico grátis em 4 cliques: Simples Nacional puro ou híbrido (IBS/CBS por fora) no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Decisor do Simples 2027">
 <meta property="og:title" content="Simples 2027: híbrido ou não?">
-<meta property="og:description" content="Diagnóstico grátis em 3 minutos: Simples puro ou híbrido no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
+<meta property="og:description" content="Diagnóstico grátis em 4 cliques: Simples puro ou híbrido no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta property="og:url" content="https://ranierimattos.github.io/decisor-simples/">
 <meta property="og:image" content="https://ranierimattos.github.io/decisor-simples/img/og-imagem-1200x630.png">
 <meta property="og:image:type" content="image/png">
@@ -19,8 +19,9 @@
 <meta property="og:image:alt" content="Decisor: Simples 2027, híbrido ou não? Diagnóstico grátis em 3 minutos.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Simples 2027: híbrido ou não?">
-<meta name="twitter:description" content="Diagnóstico grátis em 3 minutos. Quem optou pode cancelar de 03/11 a 20/12.">
+<meta name="twitter:description" content="Diagnóstico grátis em 4 cliques. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta name="twitter:image" content="https://ranierimattos.github.io/decisor-simples/img/og-imagem-1200x630.png">
+<meta name="decisor-coleta" content="{{COLETA_ENDPOINT}}">
 <!-- INCLUIR:cabeca.html -->
 <!-- INCLUIR:estilos.css -->
 </head>
@@ -32,128 +33,98 @@
   <div class="conteudo">
     <a class="logo" href="index.html"><img src="img/logo-campanha-negativo.svg" alt="Decisor do Simples 2027" width="196" height="60"></a>
     <h1>Simples 2027: híbrido ou não?</h1>
-    <p>Diagnóstico grátis em 3 minutos: compare o Simples puro com o regime regular de IBS e CBS ("híbrido") para a sua empresa. Roda no seu navegador; os dados da empresa não saem dele.</p>
-    <div class="contagem" id="contagem" aria-live="polite">
+    <p>Descubra em 4 cliques se o Simples puro ou o híbrido (IBS e CBS por fora) deixa mais dinheiro na sua empresa.</p>
+    <div class="contagem" id="contagem">
       <strong id="contagem-tempo">30/10/2026, 23h59</strong>
-      <span id="contagem-rotulo">último dia para optar pelo híbrido no 1º semestre de 2027 (horário de Brasília)</span>
+      <span id="contagem-rotulo">Último dia para optar pelo híbrido no 1º semestre de 2027 (até 30/10, 23h59, Brasília).</span>
     </div>
-    <a class="botao cheio" style="margin-top:14px" href="#diagnostico">Fazer o diagnóstico</a>
   </div>
 </header>
 
 <main class="conteudo">
-  <div class="recado" id="recado-topo">
-    <p class="titulo-recado">Hoje, 30/10, é o último dia para optar pelo híbrido no 1º semestre de 2027.</p>
-    <p>Se optar hoje, dá para cancelar de 03/11 a 20/12. O cancelamento é definitivo: depois dele, não se pode optar de novo para o mesmo semestre.</p>
-  </div>
-
   <section id="diagnostico" aria-labelledby="titulo-diagnostico">
-    <h2 id="titulo-diagnostico">Diagnóstico: puro × híbrido</h2>
+    <h2 id="titulo-diagnostico">Diagnóstico grátis: puro × híbrido</h2>
     <div class="cartao">
-      <form id="form-diagnostico" novalidate>
-        <fieldset>
-          <label class="rotulo" for="atividade">1. Atividade principal</label>
-          <select id="atividade" name="atividade" required>
-            <option value="">Escolha…</option>
-          </select>
-        </fieldset>
+      <div id="perguntas">
+        <div class="progresso">
+          <span class="passo" id="passo-rotulo">Pergunta 1 de 4</span>
+          <div class="trilho" role="progressbar" id="barra-progresso" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><div class="barra" id="barra"></div></div>
+        </div>
 
-        <fieldset id="bloco-fator-r" hidden>
-          <legend>A folha de salários (com pró-labore) é de pelo menos 28% do faturamento?</legend>
-          <span class="ajuda">É o "fator r": define se a empresa fica no Anexo III (sim) ou no Anexo V (não).</span>
-          <div class="opcoes">
-            <label><input type="radio" name="folha28" value="sim"> Sim (Anexo III)</label>
-            <label><input type="radio" name="folha28" value="nao"> Não (Anexo V)</label>
-          </div>
-        </fieldset>
+        <div class="pergunta" id="p-atividade">
+          <h3 tabindex="-1">O que sua empresa faz?</h3>
+          <div class="opcoes-botoes" id="opcoes-atividade"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="rbt12">2. Receita bruta dos últimos 12 meses</label>
-          <span class="ajuda">Soma do faturamento dos últimos 12 meses (RBT12).</span>
-          <div class="campo"><span class="afixo" aria-hidden="true">R$</span><input type="text" id="rbt12" name="rbt12" inputmode="numeric" autocomplete="off" placeholder="600.000" data-formato="milhar"></div>
-        </fieldset>
+        <div class="pergunta" id="p-fator-r" hidden>
+          <h3 tabindex="-1">Salários + pró-labore passam de 28% do faturamento?</h3>
+          <span class="ajuda">É o "fator r": com 28% ou mais, a empresa fica no Anexo III; abaixo, no Anexo V.</span>
+          <div class="opcoes-botoes lado-a-lado" id="opcoes-fator-r"></div>
+        </div>
 
-        <fieldset>
-          <legend>3. Para quem a empresa vende?</legend>
-          <span class="ajuda">Distribua 100% entre os três tipos de cliente.</span>
-          <div class="mix">
-            <label class="linha-mix" for="pctCredita"><span>Empresas do Lucro Presumido ou Real (aproveitam crédito)</span><span class="campo campo-curto"><input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-            <label class="linha-mix" for="pctSimples"><span>Empresas do Simples Nacional</span><span class="campo campo-curto"><input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-            <label class="linha-mix" for="pctConsumidor"><span>Consumidor final</span><span class="campo campo-curto"><input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-          </div>
-          <div class="linha-total"><span class="total-mix ok" id="soma-mix" aria-live="polite">Total: 100%</span></div>
-          <span class="ajuda dica">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
-        </fieldset>
+        <div class="pergunta" id="p-faixa" hidden>
+          <h3 tabindex="-1">Quanto a empresa faturou nos últimos 12 meses?</h3>
+          <div class="opcoes-botoes" id="opcoes-faixa"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="pctCompras">4. Compras com crédito, em % da receita</label>
-          <span class="ajuda">Mercadorias, insumos e serviços comprados de empresas do regime regular, com nota. Folha e compras do Simples não contam.</span>
-          <div class="campo campo-curto"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span class="afixo" aria-hidden="true">%</span></div>
-        </fieldset>
+        <div class="pergunta" id="p-mix" hidden>
+          <h3 tabindex="-1">Para quem você mais vende?</h3>
+          <div class="opcoes-botoes" id="opcoes-mix"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="reducao">5. Redução de alíquota da atividade no IBS/CBS</label>
-          <span class="ajuda">Sugerimos uma opção pela atividade. A redução tem requisitos: confirme com seu contador.</span>
-          <select id="reducao" name="reducao"></select>
-        </fieldset>
-
-        <fieldset>
-          <legend>6. Preço para clientes empresa no híbrido</legend>
-          <div class="opcoes">
-            <label><input type="radio" name="politica" value="custo" checked> <span><b>Manter o custo líquido do cliente</b> (padrão): o preço sem IBS/CBS cai um pouco, e o cliente paga o imposto destacado e recupera o crédito.</span></label>
-            <label><input type="radio" name="politica" value="preco"> <span><b>Manter o preço total</b>: o cliente paga o mesmo valor de hoje, já com IBS/CBS.</span></label>
-          </div>
-        </fieldset>
+        <div class="pergunta" id="p-compras" hidden>
+          <h3 tabindex="-1">Quanto do faturamento vai para compras de outras empresas (mercadorias, matéria-prima, serviços)?</h3>
+          <div class="opcoes-botoes lado-a-lado" id="opcoes-compras"></div>
+          <span class="ajuda dica">No híbrido, você desconta o imposto que veio nessas compras.</span>
+          <button type="button" class="botao cheio" id="ver-diagnostico">Ver meu diagnóstico</button>
+        </div>
 
         <div id="erros" class="erros" hidden role="alert"></div>
-        <button type="submit" class="botao cheio">Ver diagnóstico</button>
-      </form>
+        <button type="button" class="voltar" id="voltar" hidden>← Voltar</button>
+      </div>
 
-      <div id="resultado" hidden aria-live="polite">
+      <div id="resultado" hidden>
         <div id="imprimir-cabecalho" hidden><b>Decisor do Simples 2027: diagnóstico</b> · <span id="data-impressao"></span></div>
+        <h3 class="titulo-resultado" id="titulo-resultado" tabindex="-1">Seu diagnóstico</h3>
         <div class="semaforo">
           <div class="luz" id="luz" aria-hidden="true"></div>
-          <div><strong id="rotulo-semaforo"></strong><span id="texto-semaforo"></span></div>
+          <strong id="rotulo-semaforo"></strong>
         </div>
-        <p id="frase-resultado"></p>
-        <div class="salvar-pdf">
-          <button type="button" class="botao cheio" id="imprimir">Salvar este resultado (PDF)</button>
-          <p class="aviso">O PDF é gerado agora, no seu navegador. Guarde e leve ao seu contador: o resultado não é enviado nem fica salvo no site.</p>
+        <p class="frase-resultado" id="frase-resultado"></p>
+        <div class="valor-ano">
+          <small>Diferença por ano, híbrido − Simples puro</small>
+          <b id="valor-ano"></b>
         </div>
-        <div class="numeros">
-          <div class="numero"><small>Diferença por mês</small><b id="dif-mes"></b></div>
-          <div class="numero"><small>Diferença por ano</small><b id="dif-ano"></b></div>
-          <div class="numero"><small>Simples puro</small><b id="fica-puro"></b><small>fica na empresa por mês</small></div>
-          <div class="numero"><small>Híbrido</small><b id="fica-hibrido"></b><small>fica na empresa por mês</small></div>
-        </div>
-        <p id="frase-faixa"></p>
-        <div class="recado" id="recado-resultado"></div>
-        <div class="detalhes">
-          <b>Premissas deste cálculo</b>
+        <p class="aviso" id="nota-fator-r" hidden></p>
+        <details class="detalhes" id="bloco-premissas">
+          <summary>Premissas de cálculo</summary>
           <ul id="lista-premissas"></ul>
-        </div>
-        <div class="alertas detalhes" id="bloco-alertas" hidden>
-          <b>Atenção</b>
+        </details>
+        <details class="detalhes alertas" id="bloco-alertas">
+          <summary>Atenção</summary>
           <ul id="lista-alertas"></ul>
-        </div>
+        </details>
         <p class="aviso"><b>Estimativa educativa; não substitui o contador.</b> Leve este resultado ao seu contador antes de decidir.</p>
-        <div class="acoes">
-          <a class="botao secundario" href="#lista">Entrar na lista prioritária (aviso de 15/12)</a>
-        </div>
+        <button type="button" class="voltar" id="refazer">Refazer o diagnóstico</button>
       </div>
     </div>
   </section>
 
   <section id="lista" aria-labelledby="titulo-lista">
-    <h2 id="titulo-lista">Lista prioritária</h2>
+    <h2 id="titulo-lista">Receba seu PDF e o aviso de 03/11</h2>
     <div class="cartao">
-      <p>Salve seu resultado agora no botão "Salvar este resultado (PDF)". Na lista prioritária, você recebe o aviso quando sair a alíquota oficial da CBS (até 15/12) e a abertura do Decisor completo, com preço de lançamento.</p>
+      <p id="lista-intro">Em 03/11 abre o prazo para cancelar o híbrido, e o Decisor completo abre com preço de lançamento para a lista. Deixe seu contato para baixar o PDF do diagnóstico e receber o aviso.</p>
       <div class="lista-form">
 <!-- FORMULARIO:INICIO -->
 <!-- INCLUIR:formulario -->
 <!-- FORMULARIO:FIM -->
       </div>
-      <p class="aviso">O resultado do diagnóstico não é enviado: ele fica só no seu navegador. O formulário é do Brevo, que guarda os contatos e envia os e-mails; veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+      <p class="aviso" id="falta-lista" aria-live="polite"></p>
+      <div class="pos-inscricao" id="pos-inscricao" hidden>
+        <p><b>O Decisor completo abre em 03/11, com preço de lançamento para a lista.</b></p>
+        <button type="button" class="botao secundario" id="abrir-pdf">Abrir o PDF de novo</button>
+      </div>
+      <p class="aviso">Com a inscrição, o resumo do diagnóstico (atividade, faixa de faturamento, perfil de clientes e compras, resultado) vai junto com o seu contato para o Brevo, que guarda a lista e envia os e-mails. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
     </div>
   </section>
 
@@ -168,6 +139,7 @@
     </div>
     <p class="aviso">* Cliente do Lucro Presumido ou Real, com o mesmo custo líquido de hoje. ** Mesmo preço final de hoje. No Simples puro, o cliente empresa só aproveita o crédito da fatia de CBS/IBS que está dentro do DAS. Números ilustrativos, calculados pelo mesmo motor do diagnóstico.</p>
     <p id="conclusao-exemplo"></p>
+    <a class="botao secundario cheio" href="#lista">Entrar na lista (aviso de 03/11)</a>
   </section>
 
   <section id="como-saber" aria-labelledby="titulo-como-saber">
@@ -189,12 +161,13 @@
       <p>Quem vende principalmente para empresas do Lucro Presumido ou Real, que aproveitam o crédito, e quem tem compras com crédito relevantes. Quem vende para consumidor final ou para empresas do Simples tende a perder, porque o IBS/CBS por fora pesa mais do que a fatia que está dentro do DAS.</p></details>
     <details><summary>Optei e me arrependi. E agora?</summary>
       <p>Quem optou pode cancelar de 03/11 a 20/12/2026. O cancelamento é definitivo: depois dele, não se pode optar de novo para o 1º semestre de 2027.</p></details>
+    <a class="botao secundario cheio" href="#lista">Entrar na lista: aviso quando abrir o prazo, em 03/11</a>
     <details><summary>Não optei. Perdi a chance?</summary>
       <p>Para o 1º semestre de 2027, o prazo termina em 30/10/2026, às 23h59. Segundo o manual do Comitê Gestor do Simples Nacional, a próxima janela é em março de 2027, para o 2º semestre.</p></details>
     <details><summary>A alíquota de 11,3% é definitiva?</summary>
       <p>Não. É o valor de referência da CBS de 2027 calculado pelo TCU em 28/10/2026. O Senado pode fixar outro até 15/12/2026. Por isso o diagnóstico testa alíquotas de 9% a 12%.</p></details>
-    <details><summary>Meus dados são enviados para algum lugar?</summary>
-      <p>Não. O diagnóstico roda no seu navegador e não envia os dados da empresa. Só o formulário da lista prioritária, se você quiser preenchê-lo, envia nome e contato.</p></details>
+    <details><summary>O que acontece com as minhas respostas?</summary>
+      <p>Cada diagnóstico gera um registro anônimo, sem nome, e-mail ou valor exato de faturamento: atividade, faixa de faturamento, perfil de clientes e compras e o resultado. Ele serve para um panorama estatístico de quem usa a ferramenta. Se você entrar na lista, o resumo do diagnóstico vai junto com o seu contato. Detalhes na <a href="privacidade.html">Política de Privacidade</a>.</p></details>
     <details><summary>MEI pode optar pelo híbrido?</summary>
       <p>Não. O MEI continua no SIMEI, com valores fixos de CBS e IBS no DAS-MEI.</p></details>
     <details><summary>Isto é consultoria?</summary>

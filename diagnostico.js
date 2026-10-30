@@ -1,8 +1,9 @@
 /*
  * DIAGNÓSTICO RÁPIDO: SIMPLES PURO × HÍBRIDO (1º semestre de 2027)
  * ---------------------------------------------------------------------------
- * Roda no navegador e no Node (node --test). Não faz requisições: os dados da
- * empresa ficam no navegador. Parâmetros legais em parametros-2027.js.
+ * Roda no navegador e no Node (node --test). O motor não faz requisições (o
+ * envio do evento anônimo fica em src/pagina.js). Parâmetros legais em
+ * parametros-2027.js.
  *
  * Notação: P = receita do mês; e = alíquota efetiva do Simples; s = fatia de
  * CBS + IBS no DAS; t = CBS + IBS × (1 − redução); c = alíquota cheia sobre as
@@ -20,24 +21,55 @@
 
   var LIMIAR_PADRAO = 0.005; // 0,5% da receita
   var ISS_MAXIMO = 0.05;
+  var VERSAO_MOTOR = '2.0.0';
 
+  // compras: resposta pré-marcada na pergunta 4 (ids de COMPRAS).
   var ATIVIDADES = [
-    { id: 'comercio', rotulo: 'Comércio (revenda de mercadorias)', anexo: 'I', reducao: 'nenhuma' },
-    { id: 'industria', rotulo: 'Indústria', anexo: 'II', reducao: 'nenhuma' },
-    { id: 'servicos', rotulo: 'Serviços em geral (salão, academia, manutenção, agência, transporte municipal)', anexo: 'III', reducao: 'nenhuma' },
-    { id: 'contabilidade', rotulo: 'Contabilidade', anexo: 'III', reducao: 'trinta' },
-    { id: 'educacao', rotulo: 'Educação (escola, curso)', anexo: 'III', reducao: 'sessenta' },
-    { id: 'intelectual', rotulo: 'TI, consultoria, publicidade, design', fatorR: true, reducao: 'nenhuma' },
-    { id: 'engenharia', rotulo: 'Engenharia, arquitetura', fatorR: true, reducao: 'trinta' },
-    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta' },
-    { id: 'advocacia', rotulo: 'Advocacia', anexo: 'IV', reducao: 'trinta' },
-    { id: 'construcao', rotulo: 'Construção civil, vigilância, limpeza', anexo: 'IV', reducao: 'nenhuma' }
+    { id: 'comercio', rotulo: 'Comércio (revenda de mercadorias)', anexo: 'I', reducao: 'nenhuma', compras: 'muito' },
+    { id: 'industria', rotulo: 'Indústria', anexo: 'II', reducao: 'nenhuma', compras: 'muito' },
+    { id: 'servicos', rotulo: 'Serviços em geral (salão, academia, manutenção, agência, transporte municipal)', anexo: 'III', reducao: 'nenhuma', compras: 'pouco' },
+    { id: 'contabilidade', rotulo: 'Contabilidade', anexo: 'III', reducao: 'trinta', compras: 'quase-nada' },
+    { id: 'educacao', rotulo: 'Educação (escola, curso)', anexo: 'III', reducao: 'sessenta', compras: 'quase-nada' },
+    { id: 'intelectual', rotulo: 'TI, consultoria, publicidade, design', fatorR: true, reducao: 'nenhuma', compras: 'quase-nada' },
+    { id: 'engenharia', rotulo: 'Engenharia, arquitetura', fatorR: true, reducao: 'trinta', compras: 'pouco' },
+    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta', compras: 'pouco' },
+    { id: 'advocacia', rotulo: 'Advocacia', anexo: 'IV', reducao: 'trinta', compras: 'quase-nada' },
+    { id: 'construcao', rotulo: 'Construção civil, vigilância, limpeza', anexo: 'IV', reducao: 'nenhuma', compras: 'bastante' }
   ];
 
-  function atividade(id) {
-    for (var i = 0; i < ATIVIDADES.length; i++) if (ATIVIDADES[i].id === id) return ATIVIDADES[i];
+  // Pergunta 2: as 6 faixas de receita bruta em 12 meses do Simples (limites da LC 123).
+  var ROTULOS_FAIXA = [
+    'Até R$ 180 mil', 'De R$ 180 mil a R$ 360 mil', 'De R$ 360 mil a R$ 720 mil',
+    'De R$ 720 mil a R$ 1,8 milhão', 'De R$ 1,8 milhão a R$ 3,6 milhões', 'De R$ 3,6 milhões a R$ 4,8 milhões'
+  ];
+  var FAIXAS_RECEITA = PL.anexos.I.faixas.map(function (f, i, todas) {
+    var de = i ? todas[i - 1].ate : 0;
+    return { id: i + 1, de: de, ate: f.ate, meio: (de + f.ate) / 2, rotulo: ROTULOS_FAIXA[i] };
+  });
+
+  // Pergunta 3: mix de clientes pronto, em % (Lucro Presumido/Real, Simples, consumidor final).
+  var MIXES = [
+    { id: 'empresas', rotulo: 'Empresas maiores (fora do Simples)', detalhe: 'Lucro Presumido ou Real', credita: 70, simples: 15, consumidor: 15 },
+    { id: 'simples', rotulo: 'Empresas do Simples', detalhe: 'outras pequenas empresas', credita: 15, simples: 70, consumidor: 15 },
+    { id: 'consumidor', rotulo: 'Consumidor final', detalhe: 'pessoas físicas', credita: 10, simples: 10, consumidor: 80 },
+    { id: 'dividido', rotulo: 'Bem dividido', detalhe: 'um pouco de cada', credita: 34, simples: 33, consumidor: 33 }
+  ];
+
+  // Pergunta 4: compras de outras empresas, em % do faturamento.
+  var COMPRAS = [
+    { id: 'quase-nada', rotulo: 'Quase nada', pct: 5 },
+    { id: 'pouco', rotulo: 'Pouco', pct: 10 },
+    { id: 'bastante', rotulo: 'Bastante', pct: 25 },
+    { id: 'muito', rotulo: 'Muito', pct: 40 }
+  ];
+
+  var RESULTADO_POR_COR = { verde: 'hibrido', amarelo: 'analisar', vermelho: 'puro' };
+
+  function porId(lista, id) {
+    for (var i = 0; i < lista.length; i++) if (String(lista[i].id) === String(id)) return lista[i];
     return null;
   }
+  function atividade(id) { return porId(ATIVIDADES, id); }
 
   function anexoDaAtividade(id, folha28) {
     var a = atividade(id);
@@ -243,6 +275,124 @@
     };
   }
 
+  /*
+   * Diagnóstico em quatro cliques. Respostas: atividade, fatorR ('sim' | 'nao' |
+   * 'naosei', só nas atividades com fator r), faixa (1–6), mix (id de MIXES) e
+   * compras (id de COMPRAS; sem resposta, vale a sugestão da atividade).
+   * Redução: a da atividade. Preço: mantém o custo do cliente empresa.
+   * O cálculo usa o meio da faixa; o intervalo por ano cobre a faixa inteira e
+   * CBS + IBS de 9% a 12%. Com fator r "não sei", vale o pior entre III e V.
+   */
+  function diagnosticarRapido(resp) {
+    var erros = [];
+    var at = atividade(resp.atividade);
+    if (!at) erros.push('Escolha a atividade.');
+    var fr = resp.fatorR;
+    if (at && at.fatorR && ['sim', 'nao', 'naosei'].indexOf(fr) < 0) erros.push('Responda se salários + pró-labore passam de 28% do faturamento.');
+    var fx = porId(FAIXAS_RECEITA, resp.faixa);
+    if (!fx) erros.push('Escolha a faixa de faturamento.');
+    var mx = porId(MIXES, resp.mix);
+    if (!mx) erros.push('Escolha para quem você mais vende.');
+    var cp = porId(COMPRAS, resp.compras || (at && at.compras));
+    if (!cp) erros.push('Escolha quanto vai para compras.');
+    if (erros.length) return { ok: false, erros: erros };
+
+    function rodar(folha28, rbt12) {
+      return diagnosticar({
+        atividade: at.id, folha28: folha28, rbt12: rbt12,
+        pctCredita: mx.credita, pctSimples: mx.simples, pctConsumidor: mx.consumidor,
+        pctCompras: cp.pct, reducao: at.reducao, politica: 'custo'
+      });
+    }
+    function cenario(folha28) {
+      var meio = rodar(folha28, fx.meio);
+      var pontos = [meio.faixaAliquota.minAno, meio.faixaAliquota.maxAno];
+      [fx.de, fx.ate].forEach(function (rb) {
+        if (!(rb > 0)) { pontos.push(0); return; }
+        var r = rodar(folha28, rb);
+        pontos.push(r.faixaAliquota.minAno, r.faixaAliquota.maxAno);
+      });
+      return { r: meio, intervaloAno: { min: Math.min.apply(null, pontos), max: Math.max.apply(null, pontos) } };
+    }
+
+    var incerto = !!at.fatorR && fr === 'naosei';
+    var escolhido, outro = null;
+    if (incerto) {
+      var c3 = cenario(true), c5 = cenario(false);
+      escolhido = c3.r.diferencaAno <= c5.r.diferencaAno ? c3 : c5;
+      outro = escolhido === c3 ? c5 : c3;
+    } else {
+      escolhido = cenario(at.fatorR ? fr === 'sim' : false);
+    }
+    var r = escolhido.r;
+    return {
+      ok: true, erros: [],
+      respostas: { atividade: at.id, fatorR: at.fatorR ? fr : '', faixa: fx.id, mix: mx.id, compras: cp.id },
+      atividade: at, faixa: fx, mix: mx, compras: cp, reducao: r.reducao,
+      anexo: r.anexo, diagnostico: r, semaforo: r.semaforo, resultado: RESULTADO_POR_COR[r.semaforo.cor],
+      diferencaAno: r.diferencaAno, intervaloAno: escolhido.intervaloAno,
+      fatorRIncerto: incerto,
+      outroAnexo: outro && { anexo: outro.r.anexo, diferencaAno: outro.r.diferencaAno, intervaloAno: outro.intervaloAno, semaforo: outro.r.semaforo }
+    };
+  }
+
+  // Data no fuso de Brasília (UTC−3), AAAA-MM-DD.
+  function dataBrasilia(agora) {
+    return new Date(agora.getTime() - 3 * 3600 * 1000).toISOString().slice(0, 10);
+  }
+
+  // Diferença por ano arredondada ao milhar (sem −0).
+  function milhar(v) { return Math.round(v / 1000) * 1000 || 0; }
+
+  /*
+   * Evento anônimo de cada diagnóstico: só respostas em categorias e o resultado.
+   * Sem nome, e-mail, telefone, receita exata ou identificador do aparelho.
+   */
+  var CAMPOS_EVENTO = ['data', 'motor', 'resultado', 'atividade', 'fatorr', 'anexo', 'faixa', 'mix', 'compras', 'reducao', 'dif'];
+  function eventoAnonimo(rr, agora) {
+    return {
+      data: dataBrasilia(agora), motor: VERSAO_MOTOR, resultado: rr.resultado,
+      atividade: rr.atividade.id, fatorr: rr.respostas.fatorR, anexo: rr.anexo,
+      faixa: rr.faixa.id, mix: rr.mix.id, compras: rr.compras.pct,
+      reducao: Math.round(rr.reducao * 100), dif: milhar(rr.diferencaAno)
+    };
+  }
+
+  // Campo DIAG_RESUMO do Brevo: chave=valor;… (a faixa, nunca a receita).
+  function resumoDiagnostico(rr, agora) {
+    var ev = eventoAnonimo(rr, agora);
+    var pares = [['atividade', ev.atividade], ['anexo', ev.anexo]];
+    if (ev.fatorr) pares.push(['fatorr', ev.fatorr]);
+    pares.push(['faixa', ev.faixa], ['mix', ev.mix], ['compras', ev.compras], ['reducao', ev.reducao],
+      ['dif', ev.dif], ['motor', ev.motor], ['data', ev.data]);
+    return pares.map(function (p) { return p[0] + '=' + p[1]; }).join(';');
+  }
+
+  // Contagem regressiva do topo, conforme a data (Brasília).
+  function contagemPorData(agora) {
+    var pz = PL.prazos, t = agora.getTime();
+    if (t <= Date.parse(pz.opcao1sem2027.fim)) {
+      return { fase: 'opcao', alvo: pz.opcao1sem2027.fim, mensagem: 'Último dia para optar pelo híbrido no 1º semestre de 2027 (até 30/10, 23h59, Brasília).' };
+    }
+    if (t < Date.parse(pz.cancelamento.inicio)) {
+      return { fase: 'antes-cancelamento', alvo: pz.cancelamento.inicio, mensagem: 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12). Entre na lista: o Decisor completo abre nesse dia.' };
+    }
+    if (t <= Date.parse(pz.cancelamento.fim)) {
+      return { fase: 'cancelamento', alvo: pz.cancelamento.fim, mensagem: 'Último prazo para cancelar o híbrido do 1º semestre de 2027 (até 20/12, 23h59, Brasília).' };
+    }
+    return { fase: 'encerrado', alvo: null, mensagem: 'O prazo para cancelar o híbrido terminou em 20/12/2026. A próxima opção é em ' + pz.opcao2sem2027.rotulo + ', para o 2º semestre.' };
+  }
+
+  // Inscrição na lista: o que falta para liberar o botão (vazio = pronto).
+  function camposFaltando(c) {
+    var falta = [];
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(c.email || '').trim())) falta.push('e-mail');
+    if (!c.ramo) falta.push('ramo da empresa');
+    if (!c.optin) falta.push('consentimento');
+    if (!c.captcha) falta.push('"Não sou um robô"');
+    return falta;
+  }
+
   // Exemplo da página: consultoria de TI, Anexo III, RBT12 de R$ 600 mil, compras de R$ 5 mil.
   function exemploPagina() {
     var al = aliquotaEfetiva('III', 600000);
@@ -262,10 +412,13 @@
   function pct(v, casas) { return fmtNum(v * 100, casas === undefined ? 2 : casas) + '%'; }
 
   var Diagnostico = {
-    ATIVIDADES: ATIVIDADES, LIMIAR_PADRAO: LIMIAR_PADRAO,
-    atividade: atividade, anexoDaAtividade: anexoDaAtividade, partilhaCbsIbs: partilhaCbsIbs,
+    ATIVIDADES: ATIVIDADES, FAIXAS_RECEITA: FAIXAS_RECEITA, MIXES: MIXES, COMPRAS: COMPRAS,
+    LIMIAR_PADRAO: LIMIAR_PADRAO, VERSAO_MOTOR: VERSAO_MOTOR, CAMPOS_EVENTO: CAMPOS_EVENTO,
+    atividade: atividade, porId: porId, anexoDaAtividade: anexoDaAtividade, partilhaCbsIbs: partilhaCbsIbs,
     aliquotaEfetiva: aliquotaEfetiva, detalharCenarios: detalharCenarios, compararMes: compararMes,
-    semaforo: semaforo, diagnosticar: diagnosticar, recadoPorData: recadoPorData,
+    semaforo: semaforo, diagnosticar: diagnosticar, diagnosticarRapido: diagnosticarRapido,
+    eventoAnonimo: eventoAnonimo, resumoDiagnostico: resumoDiagnostico, dataBrasilia: dataBrasilia,
+    contagemPorData: contagemPorData, camposFaltando: camposFaltando, recadoPorData: recadoPorData,
     exemploPagina: exemploPagina, num: num, fmtNum: fmtNum, moeda: moeda, moedaSinal: moedaSinal, pct: pct,
     parametros: PL
   };

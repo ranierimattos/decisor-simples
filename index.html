@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simples 2027: híbrido ou não? | Decisor do Simples 2027</title>
-<meta name="description" content="Diagnóstico grátis em 3 minutos: Simples Nacional puro ou híbrido (IBS/CBS por fora) no 1º semestre de 2027. Roda no seu navegador; os dados da empresa não são enviados.">
+<meta name="description" content="Diagnóstico grátis em 4 cliques: Simples Nacional puro ou híbrido (IBS/CBS por fora) no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta name="robots" content="index, follow">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:site_name" content="Decisor do Simples 2027">
 <meta property="og:title" content="Simples 2027: híbrido ou não?">
-<meta property="og:description" content="Diagnóstico grátis em 3 minutos: Simples puro ou híbrido no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
+<meta property="og:description" content="Diagnóstico grátis em 4 cliques: Simples puro ou híbrido no 1º semestre de 2027. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta property="og:url" content="https://ranierimattos.github.io/decisor-simples/">
 <meta property="og:image" content="https://ranierimattos.github.io/decisor-simples/img/og-imagem-1200x630.png">
 <meta property="og:image:type" content="image/png">
@@ -19,8 +19,9 @@
 <meta property="og:image:alt" content="Decisor: Simples 2027, híbrido ou não? Diagnóstico grátis em 3 minutos.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Simples 2027: híbrido ou não?">
-<meta name="twitter:description" content="Diagnóstico grátis em 3 minutos. Quem optou pode cancelar de 03/11 a 20/12.">
+<meta name="twitter:description" content="Diagnóstico grátis em 4 cliques. Quem optou pode cancelar de 03/11 a 20/12.">
 <meta name="twitter:image" content="https://ranierimattos.github.io/decisor-simples/img/og-imagem-1200x630.png">
+<meta name="decisor-coleta" content="">
 <meta name="theme-color" content="#0B3D2E">
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
@@ -76,13 +77,6 @@ header.topo p { margin: 0 0 12px; color: var(--salvia); }
 }
 .contagem strong { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ambar); display: block; }
 .contagem span { font-size: 0.92rem; color: var(--salvia); }
-.recado {
-  background: var(--branco); border-left: 5px solid var(--verde); border-radius: 8px;
-  padding: 12px 14px; margin: 16px 0;
-}
-.cartao .recado { background: var(--menta); }
-.recado p { margin: 4px 0; }
-.recado .titulo-recado { font-weight: 700; }
 main section { margin: 28px 0; }
 h2 { color: var(--verde-escuro); font-size: 1.4rem; line-height: 1.2; margin: 0 0 12px; }
 h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
@@ -94,57 +88,58 @@ h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
 .botao:hover { background: var(--verde-escuro); }
 .botao.secundario { background: var(--branco); color: var(--verde); border: 2px solid var(--verde); }
 .botao.cheio { width: 100%; }
-fieldset { border: 0; padding: 0; margin: 0 0 18px; min-width: 0; }
+main section > .botao { margin-top: 10px; }
 legend, label.rotulo { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
 .ajuda { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: -2px 0 8px; font-weight: 400; }
 input[type="text"], select {
   width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--texto-suave); border-radius: 8px;
   background: var(--branco); color: var(--texto); min-height: 46px;
 }
-/* Campo com prefixo (R$) ou sufixo (%) dentro da caixa */
-.campo {
-  display: flex; align-items: center; gap: 6px; width: 100%; min-height: 46px; padding: 0 12px;
-  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+/* Diagnóstico em quatro cliques: uma pergunta por vez */
+.progresso { margin: 0 0 14px; }
+.passo { display: block; font-size: 0.85rem; font-weight: 700; color: var(--texto-suave); margin-bottom: 6px; }
+.trilho { height: 8px; border-radius: 4px; background: var(--menta); overflow: hidden; }
+.barra { height: 100%; width: 25%; background: var(--verde); border-radius: 4px; transition: width 0.25s ease; }
+.pergunta h3 { margin: 0 0 12px; font-size: 1.2rem; line-height: 1.3; outline: none; }
+.opcoes-botoes { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0 0 12px; }
+.opcoes-botoes.lado-a-lado { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.opcao {
+  display: block; width: 100%; min-height: 50px; padding: 11px 14px; text-align: left; cursor: pointer;
+  font: inherit; color: var(--texto); background: var(--branco); border: 1.5px solid var(--borda); border-radius: 10px;
 }
-.campo:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
-.campo input[type="text"] {
-  flex: 1 1 auto; min-width: 0; width: 100%; min-height: 0; padding: 11px 0; border: 0; border-radius: 0;
-  background: transparent; font-variant-numeric: tabular-nums; font-weight: 500;
+.lado-a-lado .opcao { text-align: center; }
+.opcao:hover { border-color: var(--verde); background: var(--menta); }
+.opcao[aria-pressed="true"] { border-color: var(--verde); background: var(--menta); box-shadow: inset 0 0 0 1.5px var(--verde); }
+.opcao-rotulo { display: block; font-weight: 700; }
+.opcao-detalhe { display: block; font-size: 0.88rem; color: var(--texto-suave); }
+.dica { margin: 0 0 14px; }
+.voltar {
+  background: none; border: 0; padding: 10px 0 0; font: inherit; font-weight: 600; color: var(--verde);
+  cursor: pointer; text-decoration: underline;
 }
-.campo input[type="text"]:focus-visible { outline: none; }
-.afixo { flex-shrink: 0; white-space: nowrap; color: var(--texto-suave); font-weight: 600; }
-.campo-curto { width: 112px; }
-.campo-curto input[type="text"] { text-align: right; }
-.opcoes label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; font-weight: 400; cursor: pointer; }
-.opcoes input { width: 20px; height: 20px; margin-top: 3px; flex: none; accent-color: var(--verde); }
-.mix { display: grid; grid-template-columns: 1fr; gap: 10px; }
-.linha-mix { display: grid; grid-template-columns: 1fr 112px; align-items: center; gap: 12px; font-weight: 400; cursor: text; }
-.linha-total { margin: 12px 0 6px; padding-top: 10px; border-top: 1px solid var(--borda); text-align: right; }
-.total-mix { display: inline-block; font-weight: 700; font-variant-numeric: tabular-nums; border-radius: 6px; padding: 2px 10px; }
-.total-mix.ok { color: var(--verde); }
-/* âmbar só como fundo, com texto Verde Decisor (guia da marca) */
-.total-mix.falta { background: var(--ambar); color: var(--verde-escuro); }
-.dica { margin: 4px 0 0; }
 .erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
 .erros ul { margin: 0; padding-left: 18px; }
-#resultado { margin-top: 18px; }
-.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+/* Resultado */
+.titulo-resultado { margin: 0 0 12px; outline: none; }
+.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
 .luz { width: 54px; height: 54px; border-radius: 50%; flex: none; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15); }
 .luz.verde { background: var(--sem-verde); }
 .luz.amarelo { background: var(--sem-ambar); }
 .luz.vermelho { background: var(--sem-vermelho); }
-.semaforo strong { font-size: 1.35rem; font-weight: 800; color: var(--verde-escuro); display: block; line-height: 1.2; }
-.numeros { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-.numero { background: var(--menta); border-radius: 10px; padding: 10px 12px; }
-.numero b { display: block; font-size: 1.2rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-.numero small { color: var(--texto-suave); }
+.semaforo strong { font-size: 1.45rem; font-weight: 800; color: var(--verde-escuro); display: block; line-height: 1.2; }
+.frase-resultado { margin: 0 0 12px; }
+.valor-ano { background: var(--menta); border-radius: 10px; padding: 12px 14px; margin: 0 0 12px; }
+.valor-ano small { display: block; color: var(--texto-suave); font-size: 0.88rem; }
+.valor-ano b { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.25; }
 .positivo { color: var(--verde); }
 .negativo { color: var(--sem-vermelho); }
-.detalhes { font-size: 0.92rem; color: var(--texto-suave); }
-.detalhes ul, .alertas ul { padding-left: 18px; margin: 6px 0; }
-.acoes { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
-.salvar-pdf { margin: 4px 0 16px; }
-.salvar-pdf .aviso { margin-top: 6px; }
+details.detalhes { font-size: 0.85rem; color: var(--texto-suave); background: transparent; border-color: var(--borda); }
+details.detalhes summary { font-size: 0.9rem; padding: 9px 0; color: var(--verde-escuro); }
+.detalhes ul { padding-left: 18px; margin: 0 0 10px; }
+.detalhes li { margin: 3px 0; }
+.pos-inscricao { background: var(--menta); border-left: 5px solid var(--verde); border-radius: 8px; padding: 12px 14px; margin: 0 0 12px; }
+.pos-inscricao p { margin: 0 0 10px; color: var(--verde-escuro); }
+#falta-lista:empty { display: none; }
 .tabela-rolagem { overflow-x: auto; }
 table.exemplo { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-variant-numeric: tabular-nums; font-weight: 500; background: var(--branco); }
 table.exemplo th, table.exemplo td { padding: 7px 6px; border-bottom: 1px solid var(--borda); text-align: right; vertical-align: top; overflow-wrap: normal; }
@@ -219,6 +214,7 @@ details p { margin: 0 0 12px; }
   background: var(--verde); color: var(--branco); font-size: 17px; font-weight: 700; line-height: 1.3;
 }
 #lista .sib-form-block__button:hover { background: var(--verde-escuro); }
+#lista .sib-form-block__button[disabled] { background: var(--salvia); color: var(--verde-escuro); cursor: not-allowed; }
 #lista .sib-form .progress-indicator__icon { fill: var(--branco); }
 #lista .sib-form-message-panel { max-width: none; margin: 0 0 16px; border-radius: 8px; font-size: 1rem; border-width: 1px; }
 #lista #error-message { background: #FBEAEA; border-color: var(--sem-vermelho); color: var(--texto); }
@@ -234,14 +230,17 @@ footer p { margin: 6px 0; }
 .legal header.topo h1 { color: var(--branco); }
 @media (min-width: 640px) {
   header.topo h1 { font-size: 2.4rem; }
-  .salvar-pdf .botao { width: auto; min-width: 320px; }
+  #ver-diagnostico { width: auto; min-width: 320px; }
   table.exemplo { font-size: 0.95rem; }
 }
 @media print {
-  header.topo, #recado-topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, form, .acoes, .salvar-pdf, .contagem { display: none !important; }
-  body { background: #fff; font-size: 12pt; }
+  header.topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, #perguntas, .voltar, .contagem, .confirmado { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  main > .aviso { display: none; }
   .cartao { border: 0; padding: 0; }
-  #imprimir-cabecalho { display: block !important; }
+  #imprimir-cabecalho { display: block !important; margin-bottom: 10px; }
+  details.detalhes { border: 0; padding: 0; font-size: 9.5pt; color: var(--texto); }
+  details.detalhes summary { list-style: none; padding: 6px 0 2px; }
 }
 </style>
 </head>
@@ -253,129 +252,95 @@ footer p { margin: 6px 0; }
   <div class="conteudo">
     <a class="logo" href="index.html"><img src="img/logo-campanha-negativo.svg" alt="Decisor do Simples 2027" width="196" height="60"></a>
     <h1>Simples 2027: híbrido ou não?</h1>
-    <p>Diagnóstico grátis em 3 minutos: compare o Simples puro com o regime regular de IBS e CBS ("híbrido") para a sua empresa. Roda no seu navegador; os dados da empresa não saem dele.</p>
-    <div class="contagem" id="contagem" aria-live="polite">
+    <p>Descubra em 4 cliques se o Simples puro ou o híbrido (IBS e CBS por fora) deixa mais dinheiro na sua empresa.</p>
+    <div class="contagem" id="contagem">
       <strong id="contagem-tempo">30/10/2026, 23h59</strong>
-      <span id="contagem-rotulo">último dia para optar pelo híbrido no 1º semestre de 2027 (horário de Brasília)</span>
+      <span id="contagem-rotulo">Último dia para optar pelo híbrido no 1º semestre de 2027 (até 30/10, 23h59, Brasília).</span>
     </div>
-    <a class="botao cheio" style="margin-top:14px" href="#diagnostico">Fazer o diagnóstico</a>
   </div>
 </header>
 
 <main class="conteudo">
-  <div class="recado" id="recado-topo">
-    <p class="titulo-recado">Hoje, 30/10, é o último dia para optar pelo híbrido no 1º semestre de 2027.</p>
-    <p>Se optar hoje, dá para cancelar de 03/11 a 20/12. O cancelamento é definitivo: depois dele, não se pode optar de novo para o mesmo semestre.</p>
-  </div>
-
   <section id="diagnostico" aria-labelledby="titulo-diagnostico">
-    <h2 id="titulo-diagnostico">Diagnóstico: puro × híbrido</h2>
+    <h2 id="titulo-diagnostico">Diagnóstico grátis: puro × híbrido</h2>
     <div class="cartao">
-      <form id="form-diagnostico" novalidate>
-        <fieldset>
-          <label class="rotulo" for="atividade">1. Atividade principal</label>
-          <select id="atividade" name="atividade" required>
-            <option value="">Escolha…</option>
-          </select>
-        </fieldset>
+      <div id="perguntas">
+        <div class="progresso">
+          <span class="passo" id="passo-rotulo">Pergunta 1 de 4</span>
+          <div class="trilho" role="progressbar" id="barra-progresso" aria-label="Progresso do diagnóstico" aria-valuemin="0" aria-valuemax="4" aria-valuenow="1"><div class="barra" id="barra"></div></div>
+        </div>
 
-        <fieldset id="bloco-fator-r" hidden>
-          <legend>A folha de salários (com pró-labore) é de pelo menos 28% do faturamento?</legend>
-          <span class="ajuda">É o "fator r": define se a empresa fica no Anexo III (sim) ou no Anexo V (não).</span>
-          <div class="opcoes">
-            <label><input type="radio" name="folha28" value="sim"> Sim (Anexo III)</label>
-            <label><input type="radio" name="folha28" value="nao"> Não (Anexo V)</label>
-          </div>
-        </fieldset>
+        <div class="pergunta" id="p-atividade">
+          <h3 tabindex="-1">O que sua empresa faz?</h3>
+          <div class="opcoes-botoes" id="opcoes-atividade"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="rbt12">2. Receita bruta dos últimos 12 meses</label>
-          <span class="ajuda">Soma do faturamento dos últimos 12 meses (RBT12).</span>
-          <div class="campo"><span class="afixo" aria-hidden="true">R$</span><input type="text" id="rbt12" name="rbt12" inputmode="numeric" autocomplete="off" placeholder="600.000" data-formato="milhar"></div>
-        </fieldset>
+        <div class="pergunta" id="p-fator-r" hidden>
+          <h3 tabindex="-1">Salários + pró-labore passam de 28% do faturamento?</h3>
+          <span class="ajuda">É o "fator r": com 28% ou mais, a empresa fica no Anexo III; abaixo, no Anexo V.</span>
+          <div class="opcoes-botoes lado-a-lado" id="opcoes-fator-r"></div>
+        </div>
 
-        <fieldset>
-          <legend>3. Para quem a empresa vende?</legend>
-          <span class="ajuda">Distribua 100% entre os três tipos de cliente.</span>
-          <div class="mix">
-            <label class="linha-mix" for="pctCredita"><span>Empresas do Lucro Presumido ou Real (aproveitam crédito)</span><span class="campo campo-curto"><input type="text" id="pctCredita" name="pctCredita" inputmode="decimal" value="50" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-            <label class="linha-mix" for="pctSimples"><span>Empresas do Simples Nacional</span><span class="campo campo-curto"><input type="text" id="pctSimples" name="pctSimples" inputmode="decimal" value="20" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-            <label class="linha-mix" for="pctConsumidor"><span>Consumidor final</span><span class="campo campo-curto"><input type="text" id="pctConsumidor" name="pctConsumidor" inputmode="decimal" value="30" aria-describedby="soma-mix"><span class="afixo" aria-hidden="true">%</span></span></label>
-          </div>
-          <div class="linha-total"><span class="total-mix ok" id="soma-mix" aria-live="polite">Total: 100%</span></div>
-          <span class="ajuda dica">Empresas do Simples e consumidores finais não aproveitam o crédito de IBS/CBS.</span>
-        </fieldset>
+        <div class="pergunta" id="p-faixa" hidden>
+          <h3 tabindex="-1">Quanto a empresa faturou nos últimos 12 meses?</h3>
+          <div class="opcoes-botoes" id="opcoes-faixa"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="pctCompras">4. Compras com crédito, em % da receita</label>
-          <span class="ajuda">Mercadorias, insumos e serviços comprados de empresas do regime regular, com nota. Folha e compras do Simples não contam.</span>
-          <div class="campo campo-curto"><input type="text" id="pctCompras" name="pctCompras" inputmode="decimal" value="10"><span class="afixo" aria-hidden="true">%</span></div>
-        </fieldset>
+        <div class="pergunta" id="p-mix" hidden>
+          <h3 tabindex="-1">Para quem você mais vende?</h3>
+          <div class="opcoes-botoes" id="opcoes-mix"></div>
+        </div>
 
-        <fieldset>
-          <label class="rotulo" for="reducao">5. Redução de alíquota da atividade no IBS/CBS</label>
-          <span class="ajuda">Sugerimos uma opção pela atividade. A redução tem requisitos: confirme com seu contador.</span>
-          <select id="reducao" name="reducao"></select>
-        </fieldset>
-
-        <fieldset>
-          <legend>6. Preço para clientes empresa no híbrido</legend>
-          <div class="opcoes">
-            <label><input type="radio" name="politica" value="custo" checked> <span><b>Manter o custo líquido do cliente</b> (padrão): o preço sem IBS/CBS cai um pouco, e o cliente paga o imposto destacado e recupera o crédito.</span></label>
-            <label><input type="radio" name="politica" value="preco"> <span><b>Manter o preço total</b>: o cliente paga o mesmo valor de hoje, já com IBS/CBS.</span></label>
-          </div>
-        </fieldset>
+        <div class="pergunta" id="p-compras" hidden>
+          <h3 tabindex="-1">Quanto do faturamento vai para compras de outras empresas (mercadorias, matéria-prima, serviços)?</h3>
+          <div class="opcoes-botoes lado-a-lado" id="opcoes-compras"></div>
+          <span class="ajuda dica">No híbrido, você desconta o imposto que veio nessas compras.</span>
+          <button type="button" class="botao cheio" id="ver-diagnostico">Ver meu diagnóstico</button>
+        </div>
 
         <div id="erros" class="erros" hidden role="alert"></div>
-        <button type="submit" class="botao cheio">Ver diagnóstico</button>
-      </form>
+        <button type="button" class="voltar" id="voltar" hidden>← Voltar</button>
+      </div>
 
-      <div id="resultado" hidden aria-live="polite">
+      <div id="resultado" hidden>
         <div id="imprimir-cabecalho" hidden><b>Decisor do Simples 2027: diagnóstico</b> · <span id="data-impressao"></span></div>
+        <h3 class="titulo-resultado" id="titulo-resultado" tabindex="-1">Seu diagnóstico</h3>
         <div class="semaforo">
           <div class="luz" id="luz" aria-hidden="true"></div>
-          <div><strong id="rotulo-semaforo"></strong><span id="texto-semaforo"></span></div>
+          <strong id="rotulo-semaforo"></strong>
         </div>
-        <p id="frase-resultado"></p>
-        <div class="salvar-pdf">
-          <button type="button" class="botao cheio" id="imprimir">Salvar este resultado (PDF)</button>
-          <p class="aviso">O PDF é gerado agora, no seu navegador. Guarde e leve ao seu contador: o resultado não é enviado nem fica salvo no site.</p>
+        <p class="frase-resultado" id="frase-resultado"></p>
+        <div class="valor-ano">
+          <small>Diferença por ano, híbrido − Simples puro</small>
+          <b id="valor-ano"></b>
         </div>
-        <div class="numeros">
-          <div class="numero"><small>Diferença por mês</small><b id="dif-mes"></b></div>
-          <div class="numero"><small>Diferença por ano</small><b id="dif-ano"></b></div>
-          <div class="numero"><small>Simples puro</small><b id="fica-puro"></b><small>fica na empresa por mês</small></div>
-          <div class="numero"><small>Híbrido</small><b id="fica-hibrido"></b><small>fica na empresa por mês</small></div>
-        </div>
-        <p id="frase-faixa"></p>
-        <div class="recado" id="recado-resultado"></div>
-        <div class="detalhes">
-          <b>Premissas deste cálculo</b>
+        <p class="aviso" id="nota-fator-r" hidden></p>
+        <details class="detalhes" id="bloco-premissas">
+          <summary>Premissas de cálculo</summary>
           <ul id="lista-premissas"></ul>
-        </div>
-        <div class="alertas detalhes" id="bloco-alertas" hidden>
-          <b>Atenção</b>
+        </details>
+        <details class="detalhes alertas" id="bloco-alertas">
+          <summary>Atenção</summary>
           <ul id="lista-alertas"></ul>
-        </div>
+        </details>
         <p class="aviso"><b>Estimativa educativa; não substitui o contador.</b> Leve este resultado ao seu contador antes de decidir.</p>
-        <div class="acoes">
-          <a class="botao secundario" href="#lista">Entrar na lista prioritária (aviso de 15/12)</a>
-        </div>
+        <button type="button" class="voltar" id="refazer">Refazer o diagnóstico</button>
       </div>
     </div>
   </section>
 
   <section id="lista" aria-labelledby="titulo-lista">
-    <h2 id="titulo-lista">Lista prioritária</h2>
+    <h2 id="titulo-lista">Receba seu PDF e o aviso de 03/11</h2>
     <div class="cartao">
-      <p>Salve seu resultado agora no botão "Salvar este resultado (PDF)". Na lista prioritária, você recebe o aviso quando sair a alíquota oficial da CBS (até 15/12) e a abertura do Decisor completo, com preço de lançamento.</p>
+      <p id="lista-intro">Em 03/11 abre o prazo para cancelar o híbrido, e o Decisor completo abre com preço de lançamento para a lista. Deixe seu contato para baixar o PDF do diagnóstico e receber o aviso.</p>
       <div class="lista-form">
 <!-- FORMULARIO:INICIO -->
 <!--
   Formulário do Brevo: "Lista prioritária – site Decisor" → lista "Lista prioritária – Decisor 2027" (ID 3).
   Código de incorporação copiado do Brevo em 30/10/2026, com o visual da marca (estilos em src/estilos.css, seção "Formulário do Brevo").
-  Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN), email_address_check,
-  locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
+  Não mudar: action do form, name/id dos campos (EMAIL, NOME, SMS, SMS__COUNTRY_CODE, RAMO, OPT_IN, DIAG_RESULTADO, DIAG_RESUMO),
+  email_address_check, locale, ids sib-form, sib-container, error-message e success-message, e o main.js do sibforms.
+  O botão começa inativo: src/pagina.js o libera com e-mail, ramo, consentimento e reCAPTCHA, e abre o PDF depois do sucesso.
   Confirmação dupla: depois do clique no e-mail, o Brevo volta para ?inscricao=confirmada.
   Requisições externas deste bloco: sibforms.com (CSS, JS e envio), static.brevo.com (países e bandeiras do campo WhatsApp)
   e Google reCAPTCHA (www.google.com/recaptcha e www.gstatic.com/recaptcha).
@@ -519,13 +484,16 @@ footer p { margin: 6px 0; }
 
         <div class="sib-bloco">
           <div class="sib-form-block">
-            <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+            <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit" disabled>
               <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512"><path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" /></svg>
-              Quero entrar na lista
+              <span id="rotulo-botao-lista">Entrar na lista</span>
             </button>
           </div>
         </div>
 
+        <!-- Resumo do diagnóstico (atributos DIAG_RESULTADO e DIAG_RESUMO do Brevo), preenchido por src/pagina.js. -->
+        <input type="hidden" id="DIAG_RESULTADO" name="DIAG_RESULTADO" value="">
+        <input type="hidden" id="DIAG_RESUMO" name="DIAG_RESUMO" value="">
         <input type="text" name="email_address_check" value="" class="input--hidden">
         <input type="hidden" name="locale" value="pt">
       </form>
@@ -556,7 +524,12 @@ footer p { margin: 6px 0; }
 <script src="https://www.google.com/recaptcha/api.js?hl=pt"></script>
 <!-- FORMULARIO:FIM -->
       </div>
-      <p class="aviso">O resultado do diagnóstico não é enviado: ele fica só no seu navegador. O formulário é do Brevo, que guarda os contatos e envia os e-mails; veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+      <p class="aviso" id="falta-lista" aria-live="polite"></p>
+      <div class="pos-inscricao" id="pos-inscricao" hidden>
+        <p><b>O Decisor completo abre em 03/11, com preço de lançamento para a lista.</b></p>
+        <button type="button" class="botao secundario" id="abrir-pdf">Abrir o PDF de novo</button>
+      </div>
+      <p class="aviso">Com a inscrição, o resumo do diagnóstico (atividade, faixa de faturamento, perfil de clientes e compras, resultado) vai junto com o seu contato para o Brevo, que guarda a lista e envia os e-mails. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
     </div>
   </section>
 
@@ -571,6 +544,7 @@ footer p { margin: 6px 0; }
     </div>
     <p class="aviso">* Cliente do Lucro Presumido ou Real, com o mesmo custo líquido de hoje. ** Mesmo preço final de hoje. No Simples puro, o cliente empresa só aproveita o crédito da fatia de CBS/IBS que está dentro do DAS. Números ilustrativos, calculados pelo mesmo motor do diagnóstico.</p>
     <p id="conclusao-exemplo"></p>
+    <a class="botao secundario cheio" href="#lista">Entrar na lista (aviso de 03/11)</a>
   </section>
 
   <section id="como-saber" aria-labelledby="titulo-como-saber">
@@ -592,12 +566,13 @@ footer p { margin: 6px 0; }
       <p>Quem vende principalmente para empresas do Lucro Presumido ou Real, que aproveitam o crédito, e quem tem compras com crédito relevantes. Quem vende para consumidor final ou para empresas do Simples tende a perder, porque o IBS/CBS por fora pesa mais do que a fatia que está dentro do DAS.</p></details>
     <details><summary>Optei e me arrependi. E agora?</summary>
       <p>Quem optou pode cancelar de 03/11 a 20/12/2026. O cancelamento é definitivo: depois dele, não se pode optar de novo para o 1º semestre de 2027.</p></details>
+    <a class="botao secundario cheio" href="#lista">Entrar na lista: aviso quando abrir o prazo, em 03/11</a>
     <details><summary>Não optei. Perdi a chance?</summary>
       <p>Para o 1º semestre de 2027, o prazo termina em 30/10/2026, às 23h59. Segundo o manual do Comitê Gestor do Simples Nacional, a próxima janela é em março de 2027, para o 2º semestre.</p></details>
     <details><summary>A alíquota de 11,3% é definitiva?</summary>
       <p>Não. É o valor de referência da CBS de 2027 calculado pelo TCU em 28/10/2026. O Senado pode fixar outro até 15/12/2026. Por isso o diagnóstico testa alíquotas de 9% a 12%.</p></details>
-    <details><summary>Meus dados são enviados para algum lugar?</summary>
-      <p>Não. O diagnóstico roda no seu navegador e não envia os dados da empresa. Só o formulário da lista prioritária, se você quiser preenchê-lo, envia nome e contato.</p></details>
+    <details><summary>O que acontece com as minhas respostas?</summary>
+      <p>Cada diagnóstico gera um registro anônimo, sem nome, e-mail ou valor exato de faturamento: atividade, faixa de faturamento, perfil de clientes e compras e o resultado. Ele serve para um panorama estatístico de quem usa a ferramenta. Se você entrar na lista, o resumo do diagnóstico vai junto com o seu contato. Detalhes na <a href="privacidade.html">Política de Privacidade</a>.</p></details>
     <details><summary>MEI pode optar pelo híbrido?</summary>
       <p>Não. O MEI continua no SIMEI, com valores fixos de CBS e IBS no DAS-MEI.</p></details>
     <details><summary>Isto é consultoria?</summary>
@@ -838,8 +813,9 @@ footer p { margin: 6px 0; }
 /*
  * DIAGNÓSTICO RÁPIDO: SIMPLES PURO × HÍBRIDO (1º semestre de 2027)
  * ---------------------------------------------------------------------------
- * Roda no navegador e no Node (node --test). Não faz requisições: os dados da
- * empresa ficam no navegador. Parâmetros legais em parametros-2027.js.
+ * Roda no navegador e no Node (node --test). O motor não faz requisições (o
+ * envio do evento anônimo fica em src/pagina.js). Parâmetros legais em
+ * parametros-2027.js.
  *
  * Notação: P = receita do mês; e = alíquota efetiva do Simples; s = fatia de
  * CBS + IBS no DAS; t = CBS + IBS × (1 − redução); c = alíquota cheia sobre as
@@ -857,24 +833,55 @@ footer p { margin: 6px 0; }
 
   var LIMIAR_PADRAO = 0.005; // 0,5% da receita
   var ISS_MAXIMO = 0.05;
+  var VERSAO_MOTOR = '2.0.0';
 
+  // compras: resposta pré-marcada na pergunta 4 (ids de COMPRAS).
   var ATIVIDADES = [
-    { id: 'comercio', rotulo: 'Comércio (revenda de mercadorias)', anexo: 'I', reducao: 'nenhuma' },
-    { id: 'industria', rotulo: 'Indústria', anexo: 'II', reducao: 'nenhuma' },
-    { id: 'servicos', rotulo: 'Serviços em geral (salão, academia, manutenção, agência, transporte municipal)', anexo: 'III', reducao: 'nenhuma' },
-    { id: 'contabilidade', rotulo: 'Contabilidade', anexo: 'III', reducao: 'trinta' },
-    { id: 'educacao', rotulo: 'Educação (escola, curso)', anexo: 'III', reducao: 'sessenta' },
-    { id: 'intelectual', rotulo: 'TI, consultoria, publicidade, design', fatorR: true, reducao: 'nenhuma' },
-    { id: 'engenharia', rotulo: 'Engenharia, arquitetura', fatorR: true, reducao: 'trinta' },
-    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta' },
-    { id: 'advocacia', rotulo: 'Advocacia', anexo: 'IV', reducao: 'trinta' },
-    { id: 'construcao', rotulo: 'Construção civil, vigilância, limpeza', anexo: 'IV', reducao: 'nenhuma' }
+    { id: 'comercio', rotulo: 'Comércio (revenda de mercadorias)', anexo: 'I', reducao: 'nenhuma', compras: 'muito' },
+    { id: 'industria', rotulo: 'Indústria', anexo: 'II', reducao: 'nenhuma', compras: 'muito' },
+    { id: 'servicos', rotulo: 'Serviços em geral (salão, academia, manutenção, agência, transporte municipal)', anexo: 'III', reducao: 'nenhuma', compras: 'pouco' },
+    { id: 'contabilidade', rotulo: 'Contabilidade', anexo: 'III', reducao: 'trinta', compras: 'quase-nada' },
+    { id: 'educacao', rotulo: 'Educação (escola, curso)', anexo: 'III', reducao: 'sessenta', compras: 'quase-nada' },
+    { id: 'intelectual', rotulo: 'TI, consultoria, publicidade, design', fatorR: true, reducao: 'nenhuma', compras: 'quase-nada' },
+    { id: 'engenharia', rotulo: 'Engenharia, arquitetura', fatorR: true, reducao: 'trinta', compras: 'pouco' },
+    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta', compras: 'pouco' },
+    { id: 'advocacia', rotulo: 'Advocacia', anexo: 'IV', reducao: 'trinta', compras: 'quase-nada' },
+    { id: 'construcao', rotulo: 'Construção civil, vigilância, limpeza', anexo: 'IV', reducao: 'nenhuma', compras: 'bastante' }
   ];
 
-  function atividade(id) {
-    for (var i = 0; i < ATIVIDADES.length; i++) if (ATIVIDADES[i].id === id) return ATIVIDADES[i];
+  // Pergunta 2: as 6 faixas de receita bruta em 12 meses do Simples (limites da LC 123).
+  var ROTULOS_FAIXA = [
+    'Até R$ 180 mil', 'De R$ 180 mil a R$ 360 mil', 'De R$ 360 mil a R$ 720 mil',
+    'De R$ 720 mil a R$ 1,8 milhão', 'De R$ 1,8 milhão a R$ 3,6 milhões', 'De R$ 3,6 milhões a R$ 4,8 milhões'
+  ];
+  var FAIXAS_RECEITA = PL.anexos.I.faixas.map(function (f, i, todas) {
+    var de = i ? todas[i - 1].ate : 0;
+    return { id: i + 1, de: de, ate: f.ate, meio: (de + f.ate) / 2, rotulo: ROTULOS_FAIXA[i] };
+  });
+
+  // Pergunta 3: mix de clientes pronto, em % (Lucro Presumido/Real, Simples, consumidor final).
+  var MIXES = [
+    { id: 'empresas', rotulo: 'Empresas maiores (fora do Simples)', detalhe: 'Lucro Presumido ou Real', credita: 70, simples: 15, consumidor: 15 },
+    { id: 'simples', rotulo: 'Empresas do Simples', detalhe: 'outras pequenas empresas', credita: 15, simples: 70, consumidor: 15 },
+    { id: 'consumidor', rotulo: 'Consumidor final', detalhe: 'pessoas físicas', credita: 10, simples: 10, consumidor: 80 },
+    { id: 'dividido', rotulo: 'Bem dividido', detalhe: 'um pouco de cada', credita: 34, simples: 33, consumidor: 33 }
+  ];
+
+  // Pergunta 4: compras de outras empresas, em % do faturamento.
+  var COMPRAS = [
+    { id: 'quase-nada', rotulo: 'Quase nada', pct: 5 },
+    { id: 'pouco', rotulo: 'Pouco', pct: 10 },
+    { id: 'bastante', rotulo: 'Bastante', pct: 25 },
+    { id: 'muito', rotulo: 'Muito', pct: 40 }
+  ];
+
+  var RESULTADO_POR_COR = { verde: 'hibrido', amarelo: 'analisar', vermelho: 'puro' };
+
+  function porId(lista, id) {
+    for (var i = 0; i < lista.length; i++) if (String(lista[i].id) === String(id)) return lista[i];
     return null;
   }
+  function atividade(id) { return porId(ATIVIDADES, id); }
 
   function anexoDaAtividade(id, folha28) {
     var a = atividade(id);
@@ -1080,6 +1087,124 @@ footer p { margin: 6px 0; }
     };
   }
 
+  /*
+   * Diagnóstico em quatro cliques. Respostas: atividade, fatorR ('sim' | 'nao' |
+   * 'naosei', só nas atividades com fator r), faixa (1–6), mix (id de MIXES) e
+   * compras (id de COMPRAS; sem resposta, vale a sugestão da atividade).
+   * Redução: a da atividade. Preço: mantém o custo do cliente empresa.
+   * O cálculo usa o meio da faixa; o intervalo por ano cobre a faixa inteira e
+   * CBS + IBS de 9% a 12%. Com fator r "não sei", vale o pior entre III e V.
+   */
+  function diagnosticarRapido(resp) {
+    var erros = [];
+    var at = atividade(resp.atividade);
+    if (!at) erros.push('Escolha a atividade.');
+    var fr = resp.fatorR;
+    if (at && at.fatorR && ['sim', 'nao', 'naosei'].indexOf(fr) < 0) erros.push('Responda se salários + pró-labore passam de 28% do faturamento.');
+    var fx = porId(FAIXAS_RECEITA, resp.faixa);
+    if (!fx) erros.push('Escolha a faixa de faturamento.');
+    var mx = porId(MIXES, resp.mix);
+    if (!mx) erros.push('Escolha para quem você mais vende.');
+    var cp = porId(COMPRAS, resp.compras || (at && at.compras));
+    if (!cp) erros.push('Escolha quanto vai para compras.');
+    if (erros.length) return { ok: false, erros: erros };
+
+    function rodar(folha28, rbt12) {
+      return diagnosticar({
+        atividade: at.id, folha28: folha28, rbt12: rbt12,
+        pctCredita: mx.credita, pctSimples: mx.simples, pctConsumidor: mx.consumidor,
+        pctCompras: cp.pct, reducao: at.reducao, politica: 'custo'
+      });
+    }
+    function cenario(folha28) {
+      var meio = rodar(folha28, fx.meio);
+      var pontos = [meio.faixaAliquota.minAno, meio.faixaAliquota.maxAno];
+      [fx.de, fx.ate].forEach(function (rb) {
+        if (!(rb > 0)) { pontos.push(0); return; }
+        var r = rodar(folha28, rb);
+        pontos.push(r.faixaAliquota.minAno, r.faixaAliquota.maxAno);
+      });
+      return { r: meio, intervaloAno: { min: Math.min.apply(null, pontos), max: Math.max.apply(null, pontos) } };
+    }
+
+    var incerto = !!at.fatorR && fr === 'naosei';
+    var escolhido, outro = null;
+    if (incerto) {
+      var c3 = cenario(true), c5 = cenario(false);
+      escolhido = c3.r.diferencaAno <= c5.r.diferencaAno ? c3 : c5;
+      outro = escolhido === c3 ? c5 : c3;
+    } else {
+      escolhido = cenario(at.fatorR ? fr === 'sim' : false);
+    }
+    var r = escolhido.r;
+    return {
+      ok: true, erros: [],
+      respostas: { atividade: at.id, fatorR: at.fatorR ? fr : '', faixa: fx.id, mix: mx.id, compras: cp.id },
+      atividade: at, faixa: fx, mix: mx, compras: cp, reducao: r.reducao,
+      anexo: r.anexo, diagnostico: r, semaforo: r.semaforo, resultado: RESULTADO_POR_COR[r.semaforo.cor],
+      diferencaAno: r.diferencaAno, intervaloAno: escolhido.intervaloAno,
+      fatorRIncerto: incerto,
+      outroAnexo: outro && { anexo: outro.r.anexo, diferencaAno: outro.r.diferencaAno, intervaloAno: outro.intervaloAno, semaforo: outro.r.semaforo }
+    };
+  }
+
+  // Data no fuso de Brasília (UTC−3), AAAA-MM-DD.
+  function dataBrasilia(agora) {
+    return new Date(agora.getTime() - 3 * 3600 * 1000).toISOString().slice(0, 10);
+  }
+
+  // Diferença por ano arredondada ao milhar (sem −0).
+  function milhar(v) { return Math.round(v / 1000) * 1000 || 0; }
+
+  /*
+   * Evento anônimo de cada diagnóstico: só respostas em categorias e o resultado.
+   * Sem nome, e-mail, telefone, receita exata ou identificador do aparelho.
+   */
+  var CAMPOS_EVENTO = ['data', 'motor', 'resultado', 'atividade', 'fatorr', 'anexo', 'faixa', 'mix', 'compras', 'reducao', 'dif'];
+  function eventoAnonimo(rr, agora) {
+    return {
+      data: dataBrasilia(agora), motor: VERSAO_MOTOR, resultado: rr.resultado,
+      atividade: rr.atividade.id, fatorr: rr.respostas.fatorR, anexo: rr.anexo,
+      faixa: rr.faixa.id, mix: rr.mix.id, compras: rr.compras.pct,
+      reducao: Math.round(rr.reducao * 100), dif: milhar(rr.diferencaAno)
+    };
+  }
+
+  // Campo DIAG_RESUMO do Brevo: chave=valor;… (a faixa, nunca a receita).
+  function resumoDiagnostico(rr, agora) {
+    var ev = eventoAnonimo(rr, agora);
+    var pares = [['atividade', ev.atividade], ['anexo', ev.anexo]];
+    if (ev.fatorr) pares.push(['fatorr', ev.fatorr]);
+    pares.push(['faixa', ev.faixa], ['mix', ev.mix], ['compras', ev.compras], ['reducao', ev.reducao],
+      ['dif', ev.dif], ['motor', ev.motor], ['data', ev.data]);
+    return pares.map(function (p) { return p[0] + '=' + p[1]; }).join(';');
+  }
+
+  // Contagem regressiva do topo, conforme a data (Brasília).
+  function contagemPorData(agora) {
+    var pz = PL.prazos, t = agora.getTime();
+    if (t <= Date.parse(pz.opcao1sem2027.fim)) {
+      return { fase: 'opcao', alvo: pz.opcao1sem2027.fim, mensagem: 'Último dia para optar pelo híbrido no 1º semestre de 2027 (até 30/10, 23h59, Brasília).' };
+    }
+    if (t < Date.parse(pz.cancelamento.inicio)) {
+      return { fase: 'antes-cancelamento', alvo: pz.cancelamento.inicio, mensagem: 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12). Entre na lista: o Decisor completo abre nesse dia.' };
+    }
+    if (t <= Date.parse(pz.cancelamento.fim)) {
+      return { fase: 'cancelamento', alvo: pz.cancelamento.fim, mensagem: 'Último prazo para cancelar o híbrido do 1º semestre de 2027 (até 20/12, 23h59, Brasília).' };
+    }
+    return { fase: 'encerrado', alvo: null, mensagem: 'O prazo para cancelar o híbrido terminou em 20/12/2026. A próxima opção é em ' + pz.opcao2sem2027.rotulo + ', para o 2º semestre.' };
+  }
+
+  // Inscrição na lista: o que falta para liberar o botão (vazio = pronto).
+  function camposFaltando(c) {
+    var falta = [];
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(c.email || '').trim())) falta.push('e-mail');
+    if (!c.ramo) falta.push('ramo da empresa');
+    if (!c.optin) falta.push('consentimento');
+    if (!c.captcha) falta.push('"Não sou um robô"');
+    return falta;
+  }
+
   // Exemplo da página: consultoria de TI, Anexo III, RBT12 de R$ 600 mil, compras de R$ 5 mil.
   function exemploPagina() {
     var al = aliquotaEfetiva('III', 600000);
@@ -1099,10 +1224,13 @@ footer p { margin: 6px 0; }
   function pct(v, casas) { return fmtNum(v * 100, casas === undefined ? 2 : casas) + '%'; }
 
   var Diagnostico = {
-    ATIVIDADES: ATIVIDADES, LIMIAR_PADRAO: LIMIAR_PADRAO,
-    atividade: atividade, anexoDaAtividade: anexoDaAtividade, partilhaCbsIbs: partilhaCbsIbs,
+    ATIVIDADES: ATIVIDADES, FAIXAS_RECEITA: FAIXAS_RECEITA, MIXES: MIXES, COMPRAS: COMPRAS,
+    LIMIAR_PADRAO: LIMIAR_PADRAO, VERSAO_MOTOR: VERSAO_MOTOR, CAMPOS_EVENTO: CAMPOS_EVENTO,
+    atividade: atividade, porId: porId, anexoDaAtividade: anexoDaAtividade, partilhaCbsIbs: partilhaCbsIbs,
     aliquotaEfetiva: aliquotaEfetiva, detalharCenarios: detalharCenarios, compararMes: compararMes,
-    semaforo: semaforo, diagnosticar: diagnosticar, recadoPorData: recadoPorData,
+    semaforo: semaforo, diagnosticar: diagnosticar, diagnosticarRapido: diagnosticarRapido,
+    eventoAnonimo: eventoAnonimo, resumoDiagnostico: resumoDiagnostico, dataBrasilia: dataBrasilia,
+    contagemPorData: contagemPorData, camposFaltando: camposFaltando, recadoPorData: recadoPorData,
     exemploPagina: exemploPagina, num: num, fmtNum: fmtNum, moeda: moeda, moedaSinal: moedaSinal, pct: pct,
     parametros: PL
   };
@@ -1113,8 +1241,10 @@ footer p { margin: 6px 0; }
 </script>
 <script>
 /*
- * Interface da página: contagem, formulário do diagnóstico, resultado e
- * exemplo. Tudo roda no navegador; nada é enviado.
+ * Interface da página: contagem, diagnóstico em quatro cliques, resultado,
+ * inscrição na lista (Brevo) com o resumo do diagnóstico, PDF e exemplo.
+ * A cada diagnóstico, envia um evento anônimo (sem dado pessoal) ao endpoint de
+ * coleta de src/config.json (meta decisor-coleta; vazio = desligado).
  */
 (function () {
   'use strict';
@@ -1131,144 +1261,264 @@ footer p { margin: 6px 0; }
     ul.textContent = '';
     itens.forEach(function (t) { ul.appendChild(el('li', t)); });
   }
-  function classeSinal(v) { return Math.round(v) > 0 ? 'positivo' : (Math.round(v) < 0 ? 'negativo' : ''); }
+
+  // Endpoint de coleta (Google Apps Script); qualquer outro valor desliga o envio.
+  var meta = document.querySelector('meta[name="decisor-coleta"]');
+  var COLETA = meta && /^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(meta.content) ? meta.content : '';
 
   // ------------------------------------------------ volta da confirmação dupla do Brevo
   if (/(?:^|[?&])inscricao=confirmada(?:&|$)/.test(window.location.search)) $('inscricao-confirmada').hidden = false;
 
-  // ------------------------------------------------ contagem e recado do topo
+  // ------------------------------------------------ contagem do topo
   function duasCasas(n) { return (n < 10 ? '0' : '') + n; }
   function atualizarContagem() {
-    var agora = new Date(), recado = D.recadoPorData(agora);
-    var topo = $('recado-topo');
-    topo.textContent = '';
-    topo.appendChild(el('p', recado.titulo, 'titulo-recado'));
-    recado.textos.forEach(function (t) { topo.appendChild(el('p', t)); });
-    if (!recado.alvo) {
-      $('contagem-tempo').textContent = 'Prazo encerrado';
-      $('contagem-rotulo').textContent = recado.titulo;
-      return false;
-    }
-    var ms = Date.parse(recado.alvo) - agora.getTime();
-    var s = Math.max(0, Math.floor(ms / 1000));
+    var agora = new Date(), c = D.contagemPorData(agora);
+    $('contagem-rotulo').textContent = c.mensagem;
+    if (!c.alvo) { $('contagem-tempo').textContent = 'Prazo encerrado'; return false; }
+    var s = Math.max(0, Math.floor((Date.parse(c.alvo) - agora.getTime()) / 1000));
     var dias = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), seg = s % 60;
-    $('contagem-tempo').textContent = (dias > 0 ? dias + (dias === 1 ? ' dia ' : ' dias ') : '') + duasCasas(h) + 'h ' + duasCasas(m) + 'min ' + duasCasas(seg) + 's';
-    $('contagem-rotulo').textContent = 'faltam ' + recado.alvoRotulo;
+    $('contagem-tempo').textContent = 'Faltam ' + (dias > 0 ? dias + (dias === 1 ? ' dia ' : ' dias ') : '') + duasCasas(h) + 'h ' + duasCasas(m) + 'min ' + duasCasas(seg) + 's';
     return true;
   }
   if (atualizarContagem()) setInterval(atualizarContagem, 1000);
 
-  // ------------------------------------------------ formulário
-  var selAtividade = $('atividade'), selReducao = $('reducao');
-  D.ATIVIDADES.forEach(function (a) {
-    var o = el('option', a.rotulo); o.value = a.id; selAtividade.appendChild(o);
-  });
-  ['nenhuma', 'trinta', 'sessenta'].forEach(function (k) {
-    var o = el('option', PL.reducoes[k].rotulo); o.value = k; selReducao.appendChild(o);
-  });
+  // ------------------------------------------------ diagnóstico em quatro cliques
+  var respostas = { atividade: null, fatorR: null, faixa: null, mix: null, compras: null };
+  var PASSOS = ['atividade', 'fator-r', 'faixa', 'mix', 'compras'];
+  var NUMERO = { atividade: 1, 'fator-r': 1, faixa: 2, mix: 3, compras: 4 };
+  var atual = 'atividade', ultimo = null;
 
-  selAtividade.addEventListener('change', function () {
-    var a = D.atividade(selAtividade.value);
-    $('bloco-fator-r').hidden = !(a && a.fatorR);
-    if (a) selReducao.value = a.reducao;
-  });
+  function atividadeAtual() { return D.atividade(respostas.atividade); }
 
-  function lerRadio(nome) {
-    var r = document.querySelector('input[name="' + nome + '"]:checked');
-    return r ? r.value : undefined;
+  function irPara(passo, focar) {
+    atual = passo;
+    PASSOS.forEach(function (p) { $('p-' + p).hidden = p !== passo; });
+    var n = NUMERO[passo];
+    $('passo-rotulo').textContent = 'Pergunta ' + n + ' de 4';
+    $('barra').style.width = (n * 25) + '%';
+    $('barra-progresso').setAttribute('aria-valuenow', String(n));
+    $('voltar').hidden = passo === 'atividade';
+    $('erros').hidden = true;
+    if (focar === false) return;
+    $('p-' + passo).querySelector('h3').focus({ preventScroll: true });
+    var caixa = $('perguntas');
+    if (caixa.getBoundingClientRect().top < 0) caixa.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  // Total do mix: avisa sem bloquear a digitação.
-  function pctTexto(v) { return D.fmtNum(v, Math.round(v) === v ? 0 : 1) + '%'; }
-  function somaMix() {
-    var soma = ['pctCredita', 'pctSimples', 'pctConsumidor'].reduce(function (acc, id) {
-      var v = D.num($(id).value); return acc + (isNaN(v) ? 0 : v);
-    }, 0);
-    soma = Math.round(soma * 10) / 10;
-    var box = $('soma-mix'), fecha = Math.abs(soma - 100) <= 0.5;
-    box.textContent = fecha ? 'Total: 100%'
-      : 'Total: ' + pctTexto(soma) + ' · ' + (soma < 100 ? 'faltam ' + pctTexto(100 - soma) : 'passou ' + pctTexto(soma - 100));
-    box.className = 'total-mix ' + (fecha ? 'ok' : 'falta');
+
+  function anterior() {
+    var a = atividadeAtual();
+    return { 'fator-r': 'atividade', faixa: a && a.fatorR ? 'fator-r' : 'atividade', mix: 'faixa', compras: 'mix' }[atual];
   }
-  ['pctCredita', 'pctSimples', 'pctConsumidor'].forEach(function (id) { $(id).addEventListener('input', somaMix); });
-  somaMix();
 
-  // Valores em reais com separador de milhar enquanto a pessoa digita (centavos são ignorados).
-  Array.prototype.forEach.call(document.querySelectorAll('input[data-formato="milhar"]'), function (inp) {
-    inp.addEventListener('input', function () {
-      var digitos = inp.value.split(',')[0].replace(/\D/g, '').replace(/^0+(?=\d)/, '');
-      inp.value = digitos ? D.fmtNum(Number(digitos), 0) : '';
+  // Grupo de botões de escolha única; cada clique marca e chama aoEscolher.
+  function grupo(id, itens, aoEscolher) {
+    var caixa = $(id);
+    itens.forEach(function (it) {
+      var b = el('button', undefined, 'opcao');
+      b.type = 'button';
+      b.setAttribute('data-valor', String(it.valor));
+      b.setAttribute('aria-pressed', 'false');
+      b.appendChild(el('span', it.rotulo, 'opcao-rotulo'));
+      if (it.detalhe) b.appendChild(el('span', it.detalhe, 'opcao-detalhe'));
+      b.addEventListener('click', function () { marcar(id, it.valor); aoEscolher(it.valor); });
+      caixa.appendChild(b);
     });
+  }
+  function marcar(id, valor) {
+    Array.prototype.forEach.call($(id).children, function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-valor') === String(valor)));
+    });
+  }
+
+  grupo('opcoes-atividade', D.ATIVIDADES.map(function (a) { return { valor: a.id, rotulo: a.rotulo }; }), function (v) {
+    var mudou = respostas.atividade !== v;
+    respostas.atividade = v;
+    var a = atividadeAtual();
+    // A atividade sugere a resposta de compras; quem já escolheu na pergunta 4 e mudou de atividade recebe a nova sugestão.
+    if (mudou || !respostas.compras) { respostas.compras = a.compras; marcar('opcoes-compras', a.compras); }
+    irPara(a.fatorR ? 'fator-r' : 'faixa');
   });
+  grupo('opcoes-fator-r', [
+    { valor: 'sim', rotulo: 'Sim' }, { valor: 'nao', rotulo: 'Não' }, { valor: 'naosei', rotulo: 'Não sei' }
+  ], function (v) { respostas.fatorR = v; irPara('faixa'); });
+  grupo('opcoes-faixa', D.FAIXAS_RECEITA.map(function (f) { return { valor: f.id, rotulo: f.rotulo }; }), function (v) {
+    respostas.faixa = v; irPara('mix');
+  });
+  grupo('opcoes-mix', D.MIXES.map(function (m) {
+    return { valor: m.id, rotulo: m.rotulo, detalhe: m.detalhe };
+  }), function (v) { respostas.mix = v; irPara('compras'); });
+  grupo('opcoes-compras', D.COMPRAS.map(function (c) {
+    return { valor: c.id, rotulo: c.rotulo, detalhe: c.pct + '%' };
+  }), function (v) { respostas.compras = v; });
 
-  $('form-diagnostico').addEventListener('submit', function (ev) {
-    ev.preventDefault();
-    var a = D.atividade(selAtividade.value);
-    var f28 = lerRadio('folha28');
-    var r = D.diagnosticar({
-      atividade: selAtividade.value,
-      folha28: a && a.fatorR ? f28 : false,
-      rbt12: $('rbt12').value,
-      pctCredita: $('pctCredita').value, pctSimples: $('pctSimples').value, pctConsumidor: $('pctConsumidor').value,
-      pctCompras: $('pctCompras').value,
-      reducao: selReducao.value,
-      politica: lerRadio('politica')
-    });
+  $('voltar').addEventListener('click', function () { var p = anterior(); if (p) irPara(p); });
+
+  $('ver-diagnostico').addEventListener('click', function () {
+    var rr = D.diagnosticarRapido(respostas);
     var caixa = $('erros');
-    if (!r.ok) {
+    if (!rr.ok) {
       caixa.textContent = '';
-      var ul = el('ul'); preencherLista(ul, r.erros); caixa.appendChild(ul);
-      caixa.hidden = false; $('resultado').hidden = true;
-      caixa.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var ul = el('ul'); preencherLista(ul, rr.erros); caixa.appendChild(ul);
+      caixa.hidden = false;
       return;
     }
-    caixa.hidden = true;
-    mostrarResultado(r);
+    ultimo = rr;
+    mostrarResultado(rr);
+    enviarEvento(D.eventoAnonimo(rr, new Date()));
+    prepararInscricao(rr);
   });
 
-  function mostrarResultado(r) {
-    var sem = r.semaforo;
+  $('refazer').addEventListener('click', function () {
+    $('resultado').hidden = true;
+    $('perguntas').hidden = false;
+    irPara('atividade');
+  });
+
+  // Evento anônimo: fetch sem cookies (no-cors); sem fetch, sendBeacon.
+  function enviarEvento(ev) {
+    if (!COLETA) return;
+    var corpo = JSON.stringify(ev);
+    try {
+      if (window.fetch) {
+        fetch(COLETA, { method: 'POST', mode: 'no-cors', credentials: 'omit', keepalive: true, body: corpo })['catch'](function () {});
+      } else if (navigator.sendBeacon) {
+        navigator.sendBeacon(COLETA, corpo);
+      }
+    } catch (e) { /* a coleta nunca atrapalha o diagnóstico */ }
+  }
+
+  // ------------------------------------------------ resultado
+  var FRASES = {
+    hibrido: 'Para o seu perfil, pagar IBS e CBS por fora (híbrido) tende a deixar mais dinheiro na empresa.',
+    puro: 'Para o seu perfil, ficar no Simples puro tende a deixar mais dinheiro na empresa.',
+    analisar: 'A diferença é pequena ou muda de sinal conforme a alíquota final: vale analisar com seu contador.'
+  };
+  function arred(v) { return Math.round(v / 100) * 100; }
+  function intervaloTexto(iv) {
+    var a = arred(iv.min), b = arred(iv.max);
+    return a === b ? D.moedaSinal(a) : D.moedaSinal(a) + ' a ' + D.moedaSinal(b);
+  }
+
+  function mostrarResultado(rr) {
+    var r = rr.diagnostico, al = r.aliquota, sem = rr.semaforo;
     $('luz').className = 'luz ' + sem.cor;
     $('rotulo-semaforo').textContent = sem.rotulo;
-    $('texto-semaforo').textContent = sem.texto;
-    var dif = r.diferencaMes;
-    $('frase-resultado').textContent = Math.round(dif) === 0
-      ? 'Com CBS + IBS de ' + D.pct(r.aliquotaPadrao, 1) + ', o resultado é praticamente o mesmo nos dois regimes.'
-      : 'Com CBS + IBS de ' + D.pct(r.aliquotaPadrao, 1) + ' (TCU), o híbrido deixa ' + D.moeda(Math.abs(dif)) + ' por mês ' + (dif > 0 ? 'a mais' : 'a menos') + ' na empresa do que o Simples puro (' + D.pct(r.pctReceita, 1) + ' da receita).';
-    $('dif-mes').textContent = D.moedaSinal(dif);
-    $('dif-mes').className = classeSinal(dif);
-    $('dif-ano').textContent = D.moedaSinal(r.diferencaAno);
-    $('dif-ano').className = classeSinal(r.diferencaAno);
-    $('fica-puro').textContent = D.moeda(r.central.ficaPuro);
-    $('fica-hibrido').textContent = D.moeda(r.central.ficaHibrido);
-    var fx = r.faixaAliquota;
-    $('frase-faixa').textContent = 'Se a alíquota final ficar entre ' + D.pct(PL.aliquotaReferencia.minimo, 0) + ' e ' + D.pct(PL.aliquotaReferencia.maximo, 0) + ', a diferença por ano vai de ' + D.moedaSinal(fx.minAno) + ' a ' + D.moedaSinal(fx.maxAno) + '.';
+    $('frase-resultado').textContent = FRASES[rr.resultado];
+    $('valor-ano').textContent = intervaloTexto(rr.intervaloAno);
+    $('valor-ano').className = rr.resultado === 'hibrido' ? 'positivo' : (rr.resultado === 'puro' ? 'negativo' : '');
 
-    var rec = D.recadoPorData(new Date()), box = $('recado-resultado');
-    box.textContent = '';
-    box.appendChild(el('p', rec.titulo, 'titulo-recado'));
-    rec.textos.forEach(function (t) { box.appendChild(el('p', t)); });
+    var nota = $('nota-fator-r');
+    nota.hidden = !rr.fatorRIncerto;
+    if (rr.fatorRIncerto) {
+      nota.textContent = 'Como você não sabe se salários + pró-labore passam de 28%, mostramos o pior caso (Anexo ' + rr.anexo + '). No Anexo ' + rr.outroAnexo.anexo + ', a diferença por ano seria de ' + intervaloTexto(rr.outroAnexo.intervaloAno) + '.';
+    }
 
-    var al = r.aliquota;
+    var fr = { sim: 'sim', nao: 'não', naosei: 'não sei' }[rr.respostas.fatorR];
+    function minuscula(t) { return t.charAt(0).toLowerCase() + t.slice(1); }
+    var suas = [rr.atividade.rotulo];
+    if (fr) suas.push('salários + pró-labore acima de 28%: ' + fr);
+    suas.push('faturamento ' + minuscula(rr.faixa.rotulo), 'para quem mais vende: ' + minuscula(rr.mix.rotulo),
+      'compras: ' + minuscula(rr.compras.rotulo) + ' (' + rr.compras.pct + '% do faturamento)');
     preencherLista($('lista-premissas'), [
-      r.anexoNome + ', ' + al.faixa + 'ª faixa: alíquota efetiva do Simples de ' + D.pct(al.efetiva) + '.',
-      'Fatia de CBS + IBS no DAS: ' + D.pct(al.s) + ' (' + (al.sStatus === 'oficial' ? 'LC 227/2026, Anexo XX' : 'PIS + Cofins atuais, a conferir na LC 227') + '). No híbrido, o DAS cai para ' + D.pct(r.central.cenarios.taxaDasHibrido) + '.',
-      'Receita do mês: ' + D.moeda(r.receitaMensal) + ' (receita de 12 meses ÷ 12). Compras com crédito: ' + D.moeda(r.compras) + ' por mês.',
-      'IBS/CBS por fora: ' + D.pct(r.aliquotaPadrao, 1) + (r.reducao > 0 ? ', com redução de ' + D.pct(r.reducao, 0) + ' (' + D.pct(r.aliquotaPadrao * (1 - r.reducao), 2) + ')' : '') + '. Crédito das compras pela alíquota cheia.',
-      r.politica === 'preco'
-        ? 'Clientes empresa: o preço total cobrado continua o mesmo.'
-        : 'Clientes do Lucro Presumido ou Real: custo líquido igual ao de hoje. Demais clientes: preço final igual ao de hoje.',
+      'Suas respostas: ' + suas.join('; ') + '.',
+      'Clientes: ' + rr.mix.credita + '% empresas do Lucro Presumido ou Real (aproveitam o crédito), ' + rr.mix.simples + '% empresas do Simples e ' + rr.mix.consumidor + '% consumidor final.',
+      'Faturamento: o cálculo usa o meio da faixa, ' + D.moeda(rr.faixa.meio) + ' em 12 meses (' + D.moeda(r.receitaMensal) + ' por mês). O intervalo cobre a faixa inteira e CBS + IBS de ' + D.pct(PL.aliquotaReferencia.minimo, 0) + ' a ' + D.pct(PL.aliquotaReferencia.maximo, 0) + '. No meio da faixa, com ' + D.pct(r.aliquotaPadrao, 1) + ', a diferença é de ' + D.moedaSinal(arred(r.diferencaAno)) + ' por ano.',
+      r.anexoNome + ', ' + al.faixa + 'ª faixa: alíquota efetiva do Simples de ' + D.pct(al.efetiva) + '. Fatia de CBS + IBS no DAS: ' + D.pct(al.s) + ' (' + (al.sStatus === 'oficial' ? 'LC 227/2026, Anexo XX' : 'PIS + Cofins atuais, a conferir na LC 227') + '). No híbrido, o DAS cai para ' + D.pct(r.central.cenarios.taxaDasHibrido) + '.',
+      'IBS/CBS por fora: ' + D.pct(r.aliquotaPadrao, 1) + ' (TCU)' + (r.reducao > 0 ? ', com a redução de ' + D.pct(r.reducao, 0) + ' prevista para a atividade (' + D.pct(r.aliquotaPadrao * (1 - r.reducao), 2) + ')' : '') + '. Crédito das compras pela alíquota cheia, supondo fornecedores do regime regular.',
+      'Preço no híbrido: o cliente empresa do Lucro Presumido ou Real mantém o custo de hoje (o preço sem IBS/CBS cai um pouco e ele recupera o crédito); para empresas do Simples e consumidor final, o preço final fica igual ao de hoje.',
       'Não considera: sublimite, ICMS/ISS fora do DAS, substituição tributária, exportação, saldo credor acumulado, custo de contabilidade e reação dos clientes.'
     ]);
-    $('bloco-alertas').hidden = !r.alertas.length;
-    preencherLista($('lista-alertas'), r.alertas);
 
-    $('data-impressao').textContent = new Date().toLocaleString('pt-BR');
+    var rec = D.recadoPorData(new Date());
+    preencherLista($('lista-alertas'), [rec.titulo + ' ' + rec.textos.join(' ')].concat(r.alertas));
+
+    $('perguntas').hidden = true;
     var res = $('resultado');
     res.hidden = false;
+    $('titulo-resultado').focus({ preventScroll: true });
     res.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  $('imprimir').addEventListener('click', function () { window.print(); });
+  // ------------------------------------------------ inscrição na lista (Brevo) e PDF
+  // A lista aparece com o resultado ou pelos botões "Entrar na lista" (página enxuta antes disso).
+  function mostrarLista() { $('lista').hidden = false; }
+  if (window.location.hash !== '#lista') $('lista').hidden = true;
+  Array.prototype.forEach.call(document.querySelectorAll('a[href="#lista"]'), function (a) {
+    a.addEventListener('click', mostrarLista);
+  });
+  // Sugestão do campo RAMO do Brevo pela atividade (valores do formulário).
+  var RAMO_POR_ATIVIDADE = {
+    comercio: '1', industria: '2', servicos: '3', contabilidade: '6', educacao: '3',
+    intelectual: '3', engenharia: '4', saude: '5', advocacia: '4', construcao: '3'
+  };
+  var form = $('sib-form'), botao = form && form.querySelector('button[type="submit"]');
+  var enviando = false, inscrito = false;
+
+  function captchaOk() {
+    try { return !!(window.grecaptcha && window.grecaptcha.getResponse && window.grecaptcha.getResponse()); } catch (e) { return false; }
+  }
+  function atualizarBotao() {
+    if (!botao || enviando || inscrito) return;
+    var falta = D.camposFaltando({ email: $('EMAIL').value, ramo: $('RAMO').value, optin: $('OPT_IN').checked, captcha: captchaOk() });
+    botao.disabled = falta.length > 0;
+    $('falta-lista').textContent = falta.length ? 'Para liberar o botão, falta: ' + falta.join(', ') + '.' : '';
+  }
+
+  function prepararInscricao(rr) {
+    mostrarLista();
+    if (!form) return;
+    $('DIAG_RESULTADO').value = rr.resultado;
+    $('DIAG_RESUMO').value = D.resumoDiagnostico(rr, new Date());
+    var ramo = $('RAMO');
+    if (ramo && !ramo.value && RAMO_POR_ATIVIDADE[rr.atividade.id]) {
+      ramo.value = RAMO_POR_ATIVIDADE[rr.atividade.id];
+      ramo.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    $('rotulo-botao-lista').textContent = 'Baixar meu PDF e entrar na lista';
+    atualizarBotao();
+  }
+
+  function abrirPdf() {
+    if (!ultimo) return;
+    $('data-impressao').textContent = new Date().toLocaleString('pt-BR');
+    window.print();
+  }
+  // No PDF, premissas e alertas saem abertos.
+  var abertosAntes = [];
+  window.addEventListener('beforeprint', function () {
+    abertosAntes = ['bloco-premissas', 'bloco-alertas'].map(function (id) { var d = $(id), a = d.open; d.open = true; return [d, a]; });
+  });
+  window.addEventListener('afterprint', function () {
+    abertosAntes.forEach(function (p) { p[0].open = p[1]; });
+  });
+  $('abrir-pdf').addEventListener('click', abrirPdf);
+
+  if (form) {
+    form.addEventListener('input', atualizarBotao);
+    form.addEventListener('change', atualizarBotao);
+    var cap = $('sib-captcha');
+    if (cap) cap.addEventListener('captchaChange', atualizarBotao);
+    setInterval(atualizarBotao, 1000); // o reCAPTCHA expira sem avisar
+    form.addEventListener('submit', function () { if (!botao.disabled) enviando = true; }, true);
+
+    // O main.js do Brevo marca a mensagem de sucesso ou de erro com a classe --active.
+    var sucesso = $('success-message'), erro = $('error-message');
+    new MutationObserver(function () {
+      if (sucesso.classList.contains('sib-form-message-panel--active')) {
+        if (inscrito) return;
+        inscrito = true; enviando = false;
+        $('sib-container').style.display = 'none';
+        $('falta-lista').textContent = '';
+        $('pos-inscricao').hidden = false;
+        $('abrir-pdf').hidden = !ultimo;
+        abrirPdf();
+      } else if (erro.classList.contains('sib-form-message-panel--active')) {
+        enviando = false;
+        atualizarBotao();
+      }
+    }).observe($('sib-form-container'), { subtree: true, attributes: true, attributeFilter: ['class'] });
+    atualizarBotao();
+  }
 
   // ------------------------------------------------ exemplo B2B × B2C
   (function exemplo() {
