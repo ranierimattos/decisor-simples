@@ -1,0 +1,212 @@
+/* Marca Decisor: Manrope auto-hospedada (OFL, fontes/OFL-Manrope.txt). */
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 400; font-display: swap; src: url("fontes/manrope-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 500; font-display: swap; src: url("fontes/manrope-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 600; font-display: swap; src: url("fontes/manrope-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 700; font-display: swap; src: url("fontes/manrope-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 800; font-display: swap; src: url("fontes/manrope-latin-800-normal.woff2") format("woff2"); }
+:root {
+  --verde-escuro: #0B3D2E; /* Verde Decisor */
+  --verde: #0F7B5A;        /* Verde ação */
+  --menta: #EEF5F1;
+  --salvia: #B9D8C9;
+  --ambar: #F2A900;
+  /* sinais: só no resultado do semáforo, sempre com rótulo */
+  --sem-verde: #1F9D55;
+  --sem-ambar: #F2A900;
+  --sem-vermelho: #D64545;
+  --texto: #15201B;        /* Grafite */
+  --texto-suave: #5F726A;  /* Cinza verde */
+  --borda: #B9D8C9;
+  --branco: #FFFFFF;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--menta); color: var(--texto);
+  font-family: "Manrope", "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 17px; line-height: 1.55; overflow-wrap: anywhere;
+}
+h1, h2 { font-weight: 800; letter-spacing: -0.01em; }
+a { color: var(--verde); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--verde); outline-offset: 2px;
+}
+header.topo a:focus-visible { outline-color: var(--salvia); }
+.conteudo { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header.topo { background: var(--verde-escuro); color: var(--branco); padding: 20px 0 24px; }
+header.topo h1 { margin: 0 0 8px; font-size: 1.9rem; line-height: 1.15; }
+header.topo p { margin: 0 0 12px; color: var(--salvia); }
+.logo { display: inline-block; margin: 0 0 14px; line-height: 0; }
+.logo img { width: 196px; height: auto; }
+.contagem {
+  display: block; background: rgba(255,255,255,0.08); border: 1px solid rgba(185,216,201,0.35);
+  border-radius: 10px; padding: 12px 14px; margin-top: 12px;
+}
+.contagem strong { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--ambar); display: block; }
+.contagem span { font-size: 0.92rem; color: var(--salvia); }
+main section { margin: 28px 0; }
+h2 { color: var(--verde-escuro); font-size: 1.4rem; line-height: 1.2; margin: 0 0 12px; }
+h3 { color: var(--verde-escuro); font-size: 1.1rem; margin: 18px 0 8px; }
+.cartao { background: var(--branco); border: 1px solid var(--borda); border-radius: 12px; padding: 18px 16px; }
+.botao {
+  display: inline-block; background: var(--verde); color: var(--branco); border: 0; border-radius: 10px;
+  padding: 14px 20px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; text-align: center;
+}
+.botao:hover { background: var(--verde-escuro); }
+.botao.secundario { background: var(--branco); color: var(--verde); border: 2px solid var(--verde); }
+.botao.cheio { width: 100%; }
+main section > .botao { margin-top: 10px; }
+legend, label.rotulo { display: block; font-weight: 700; margin-bottom: 6px; padding: 0; }
+.ajuda { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: -2px 0 8px; font-weight: 400; }
+input[type="text"], select {
+  width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--texto-suave); border-radius: 8px;
+  background: var(--branco); color: var(--texto); min-height: 46px;
+}
+/* Diagnóstico em quatro cliques: uma pergunta por vez */
+.progresso { margin: 0 0 14px; }
+.passo { display: block; font-size: 0.85rem; font-weight: 700; color: var(--texto-suave); margin-bottom: 6px; }
+.trilho { height: 8px; border-radius: 4px; background: var(--menta); overflow: hidden; }
+.barra { height: 100%; width: 25%; background: var(--verde); border-radius: 4px; transition: width 0.25s ease; }
+.pergunta h3 { margin: 0 0 12px; font-size: 1.2rem; line-height: 1.3; outline: none; }
+.opcoes-botoes { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0 0 12px; }
+.opcoes-botoes.lado-a-lado { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.opcao {
+  display: block; width: 100%; min-height: 50px; padding: 11px 14px; text-align: left; cursor: pointer;
+  font: inherit; color: var(--texto); background: var(--branco); border: 1.5px solid var(--borda); border-radius: 10px;
+}
+.lado-a-lado .opcao { text-align: center; }
+.opcao:hover { border-color: var(--verde); background: var(--menta); }
+.opcao[aria-pressed="true"] { border-color: var(--verde); background: var(--menta); box-shadow: inset 0 0 0 1.5px var(--verde); }
+.opcao-rotulo { display: block; font-weight: 700; }
+.opcao-detalhe { display: block; font-size: 0.88rem; color: var(--texto-suave); }
+.dica { margin: 0 0 14px; }
+.voltar {
+  background: none; border: 0; padding: 10px 0 0; font: inherit; font-weight: 600; color: var(--verde);
+  cursor: pointer; text-decoration: underline;
+}
+.erros { background: #FDECEC; border-left: 5px solid var(--sem-vermelho); border-radius: 8px; padding: 10px 14px; margin: 12px 0; }
+.erros ul { margin: 0; padding-left: 18px; }
+/* Resultado */
+.titulo-resultado { margin: 0 0 12px; outline: none; }
+.semaforo { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+.luz { width: 54px; height: 54px; border-radius: 50%; flex: none; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15); }
+.luz.verde { background: var(--sem-verde); }
+.luz.amarelo { background: var(--sem-ambar); }
+.luz.vermelho { background: var(--sem-vermelho); }
+.semaforo strong { font-size: 1.45rem; font-weight: 800; color: var(--verde-escuro); display: block; line-height: 1.2; }
+.frase-resultado { margin: 0 0 12px; }
+.valor-ano { background: var(--menta); border-radius: 10px; padding: 12px 14px; margin: 0 0 12px; }
+.valor-ano small { display: block; color: var(--texto-suave); font-size: 0.88rem; }
+.valor-ano b { display: block; font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.25; }
+.positivo { color: var(--verde); }
+.negativo { color: var(--sem-vermelho); }
+details.detalhes { font-size: 0.85rem; color: var(--texto-suave); background: transparent; border-color: var(--borda); }
+details.detalhes summary { font-size: 0.9rem; padding: 9px 0; color: var(--verde-escuro); }
+.detalhes ul { padding-left: 18px; margin: 0 0 10px; }
+.detalhes li { margin: 3px 0; }
+.pos-inscricao { background: var(--menta); border-left: 5px solid var(--verde); border-radius: 8px; padding: 12px 14px; margin: 0 0 12px; }
+.pos-inscricao p { margin: 0 0 10px; color: var(--verde-escuro); }
+#falta-lista:empty { display: none; }
+.tabela-rolagem { overflow-x: auto; }
+table.exemplo { width: 100%; border-collapse: collapse; font-size: 0.86rem; font-variant-numeric: tabular-nums; font-weight: 500; background: var(--branco); }
+table.exemplo th, table.exemplo td { padding: 7px 6px; border-bottom: 1px solid var(--borda); text-align: right; vertical-align: top; overflow-wrap: normal; }
+table.exemplo td:not(:first-child) { white-space: nowrap; }
+table.exemplo th:first-child, table.exemplo td:first-child { text-align: left; }
+table.exemplo thead th { background: var(--verde-escuro); color: var(--branco); font-weight: 600; }
+table.exemplo tr.destaque td { font-weight: 700; background: var(--menta); }
+details { background: var(--branco); border: 1px solid var(--borda); border-radius: 10px; padding: 0 14px; margin: 8px 0; }
+summary { cursor: pointer; font-weight: 700; padding: 12px 0; }
+details p { margin: 0 0 12px; }
+.aviso { font-size: 0.92rem; color: var(--texto-suave); }
+.fontes li { margin: 6px 0; }
+.lista-form { min-height: 120px; }
+.confirmado { background: var(--verde); color: var(--branco); font-weight: 700; padding: 12px 0; }
+.confirmado .conteudo::before { content: "✓ "; }
+
+/* Formulário do Brevo (sibforms.com) com a marca: sobrepõe sib-styles.css */
+#lista .sib-form, #lista .sib-form-container, #lista #sib-container {
+  padding: 0; margin: 0; max-width: none; background: transparent; border: 0; text-align: left;
+  font-family: "Manrope", "Segoe UI", Roboto, Arial, sans-serif; color: var(--texto); font-size: 1rem;
+}
+#lista .sib-form input, #lista .sib-form select, #lista .sib-form button { font-family: inherit; }
+#lista .sib-bloco { padding: 0 0 16px; }
+#lista .sib-form-block { padding: 0; }
+#lista .sib-form .form__entry:not(:first-child) { margin-top: 0; }
+#lista .sib-form .entry__label { display: block; font-weight: 700; color: var(--texto); margin: 0 0 6px; font-size: 1rem; }
+#lista .sib-form .entry__label::after { color: var(--texto-suave); margin-left: 2px; }
+#lista .sib-form .entry__field {
+  display: flex; width: 100%; max-width: none; min-height: 46px; margin: 0;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-form .entry__field:focus-within { box-shadow: none; outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form .input { width: 100%; flex: 1 1 auto; font-size: 17px; color: var(--texto); padding: 0 12px; box-sizing: border-box; height: 44px; }
+#lista .sib-form select.input { padding-right: 2rem; }
+#lista .sib-form ::placeholder { color: var(--texto-suave); opacity: 0.75; }
+#lista .sib-form .entry__specification { display: block; color: var(--texto-suave); font-size: 0.9rem; margin: 6px 0 0; max-width: none; }
+#lista .sib-form .entry__error { color: var(--sem-vermelho); font-size: 0.9rem; line-height: 1.3; margin: 6px 0 0; }
+#lista .sib-form .sib-entry_errored:before { background: var(--sem-vermelho); }
+/* WhatsApp: componente do Brevo (bandeira, +55 e número) */
+#lista .sib-sms-input-wrapper, #lista .sib-sms-input { display: block; width: 100%; }
+#lista .sib-sms-select { display: flex; gap: 8px; align-items: stretch; font-size: 17px; }
+#lista .sib-sms-select__title {
+  flex: none; display: flex; align-items: center; width: auto; max-width: none; height: 46px; margin: 0; padding: 8px 28px 8px 10px;
+  border: 1px solid var(--texto-suave); border-radius: 8px; background: var(--branco);
+}
+#lista .sib-sms-select__title > .sib-sms-select__label-text { display: none; }
+#lista .sib-sms-select__title > .sib-flag { margin: 0; bottom: 0; float: none; }
+#lista .sib-sms-select__title::after { right: 10px; top: calc(50% - 2px); }
+#lista .sib-sms-select__number-input { flex: 1 1 auto; min-width: 0; height: 46px; border: 1px solid var(--texto-suave); border-radius: 8px; overflow: hidden; }
+#lista .sib-sms-select__number-input:focus-within { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-sms-select__calling-code {
+  max-width: 56px; height: 100%; padding: 0 6px; border: 0; border-right: 1px solid var(--borda); border-radius: 0;
+  box-shadow: none; color: var(--texto-suave); font-weight: 600; background: var(--menta);
+}
+#lista .sib-sms-select__phone-number { width: auto; flex: 1 1 auto; min-width: 0; padding: 0 12px; font-size: 17px; color: var(--texto); }
+#lista .sib-sms-select__list { border-color: var(--borda); border-radius: 8px; }
+#lista .sib-sms-select__list li:hover, #lista .sib-sms-select__list li.sib-is-selected { background-color: var(--menta); }
+/* Consentimento */
+#lista .sib-form .entry__choice { padding-left: 1.6em; text-indent: -1.6em; }
+#lista .sib-form .entry__choice label { cursor: pointer; }
+#lista .sib-form .texto-optin p { display: inline; font-size: 0.95rem; line-height: 1.5; color: var(--texto); }
+#lista .sib-form .checkbox { width: 1.15em; height: 1.15em; border: 2px solid var(--texto-suave); border-radius: 4px; vertical-align: -0.2em; }
+#lista .sib-form .input_replaced:checked + .checkbox_tick_positive { background: var(--verde); border-color: var(--verde); }
+#lista .sib-form .input_replaced:focus-visible + .checkbox { outline: 3px solid var(--verde); outline-offset: 2px; }
+#lista .sib-form-container a { color: var(--verde); text-decoration: underline; }
+/* reCAPTCHA: o widget do Google tem 304 px fixos; abaixo de 360 px de tela, reduz a escala */
+#lista .g-recaptcha { transform-origin: 0 0; }
+@media (max-width: 359px) { #lista .g-recaptcha { transform: scale(0.82); height: 64px; } }
+/* Botão e mensagens */
+#lista .sib-form-block__button {
+  width: 100%; min-height: 50px; padding: 14px 20px; border: 0; border-radius: 10px; text-align: center;
+  background: var(--verde); color: var(--branco); font-size: 17px; font-weight: 700; line-height: 1.3;
+}
+#lista .sib-form-block__button:hover { background: var(--verde-escuro); }
+#lista .sib-form-block__button[disabled] { background: var(--salvia); color: var(--verde-escuro); cursor: not-allowed; }
+#lista .sib-form .progress-indicator__icon { fill: var(--branco); }
+#lista .sib-form-message-panel { max-width: none; margin: 0 0 16px; border-radius: 8px; font-size: 1rem; border-width: 1px; }
+#lista #error-message { background: #FBEAEA; border-color: var(--sem-vermelho); color: var(--texto); }
+#lista #success-message { background: var(--menta); border-color: var(--verde); color: var(--verde-escuro); font-weight: 600; }
+#lista .sib-form-message-panel__text { padding: 8px; }
+
+footer { background: var(--verde-escuro); color: var(--salvia); padding: 24px 0 32px; margin-top: 36px; font-size: 0.92rem; }
+footer a { color: var(--branco); }
+footer p { margin: 6px 0; }
+.legal main { padding: 8px 0 24px; }
+.legal h1 { color: var(--verde-escuro); font-size: 1.7rem; line-height: 1.2; }
+.assinatura { font-weight: 700; color: var(--branco); }
+.legal header.topo h1 { color: var(--branco); }
+@media (min-width: 640px) {
+  header.topo h1 { font-size: 2.4rem; }
+  #ver-diagnostico { width: auto; min-width: 320px; }
+  table.exemplo { font-size: 0.95rem; }
+}
+@media print {
+  header.topo, #lista, #exemplo, #como-saber, #faq, #fontes, footer, #perguntas, .voltar, .contagem, .confirmado { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  main > .aviso { display: none; }
+  .cartao { border: 0; padding: 0; }
+  #imprimir-cabecalho { display: block !important; margin-bottom: 10px; }
+  details.detalhes { border: 0; padding: 0; font-size: 9.5pt; color: var(--texto); }
+  details.detalhes summary { list-style: none; padding: 6px 0 2px; }
+}
