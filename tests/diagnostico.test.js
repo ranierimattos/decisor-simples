@@ -271,7 +271,7 @@ test('contagem regressiva nas três datas (relógio simulado, Brasília)', (t) =
   const antes = em('2026-10-31T00:00:00-03:00');
   assert.equal(antes.fase, 'antes-cancelamento');
   assert.equal(antes.alvo, '2026-11-03T00:00:00-03:00');
-  assert.equal(antes.mensagem, 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12). Entre na lista: o Decisor completo abre nesse dia.');
+  assert.equal(antes.mensagem, 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12).');
   assert.equal(em('2026-11-02T23:59:59-03:00').fase, 'antes-cancelamento');
 
   const cancel = em('2026-11-03T00:00:00-03:00');
@@ -623,8 +623,8 @@ test('index.html: quatro perguntas, resultado, conversão e página enxuta', () 
     'Quanto a empresa faturou nos últimos 12 meses?', 'Para quem você mais vende?',
     'Quanto do faturamento vai para compras de outras empresas (mercadorias, matéria-prima, serviços)?',
     'No híbrido, você desconta o imposto que veio nessas compras.',
-    '>Ver meu diagnóstico</button>', 'Receba seu PDF e o aviso de 03/11',
-    'O Decisor completo abre em 03/11, com preço de lançamento para a lista.',
+    '>Ver meu diagnóstico</button>', 'Receba seu PDF e o aviso da alíquota oficial',
+    'receber o aviso quando sair a alíquota oficial da CBS (até 15/12).',
     '<details class="detalhes" id="bloco-premissas">', '<summary>Premissas de cálculo</summary>',
     '<details class="detalhes alertas" id="bloco-alertas">', '<summary>Atenção</summary>',
     '<b>Estimativa educativa; não substitui o contador.</b> Leve este resultado ao seu contador antes de decidir.',
@@ -660,6 +660,10 @@ test('index.html: quatro perguntas, resultado, conversão e página enxuta', () 
 test('textos: sem a promessa de que o diagnóstico não é enviado nem salvo', () => {
   const re = /n[ãa]o envia os dados|n[ãa]o (é|são) (enviad[oa]s?|gravad[oa]s? nem transmitid)|nem fica salvo|n[ãa]o saem dele|nada é enviado|fica só no seu navegador|No diagnóstico:<\/b> nenhum/i;
   for (const f of [...PAGINAS, 'README.md', 'src/pagina.js']) assert.doesNotMatch(ler(f), re, f);
+});
+
+test('textos: sem a promessa de abrir o Decisor em 03/11 com preço de lançamento', () => {
+  for (const f of [...PAGINAS, 'src/pagina.js']) assert.doesNotMatch(ler(f), /pre[çc]o de lan[çc]amento|Decisor completo abre/i, f);
 });
 
 test('privacidade e termos: dados, finalidades, base legal, prazo e operadores', () => {

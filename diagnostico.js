@@ -375,7 +375,7 @@
       return { fase: 'opcao', alvo: pz.opcao1sem2027.fim, mensagem: 'Último dia para optar pelo híbrido no 1º semestre de 2027 (até 30/10, 23h59, Brasília).' };
     }
     if (t < Date.parse(pz.cancelamento.inicio)) {
-      return { fase: 'antes-cancelamento', alvo: pz.cancelamento.inicio, mensagem: 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12). Entre na lista: o Decisor completo abre nesse dia.' };
+      return { fase: 'antes-cancelamento', alvo: pz.cancelamento.inicio, mensagem: 'Em 03/11 abre o prazo para cancelar o híbrido (até 20/12).' };
     }
     if (t <= Date.parse(pz.cancelamento.fim)) {
       return { fase: 'cancelamento', alvo: pz.cancelamento.fim, mensagem: 'Último prazo para cancelar o híbrido do 1º semestre de 2027 (até 20/12, 23h59, Brasília).' };
