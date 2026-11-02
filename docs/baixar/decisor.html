@@ -282,7 +282,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     <h2>Clientes e preço</h2>
     <div class="cartao">
       <h3>Para quem a empresa vende</h3>
-      <p class="ajuda">Distribua 100% da receita. Só as empresas do Lucro Presumido ou Real aproveitam o crédito integral do híbrido.</p>
+      <p class="ajuda">Distribua 100% da receita. Só as empresas do Lucro Presumido ou Real aproveitam o crédito integral do híbrido. Plano de saúde não aproveita: a operadora deduz da base o que paga à rede (LC 214, arts. 235, 238 e 303).</p>
       <div class="mix" id="mix"></div>
       <div class="linha-total"><span class="total-mix" id="total-mix"></span></div>
     </div>
@@ -304,7 +304,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
   <section role="tabpanel" id="painel-compras" aria-labelledby="aba-compras" hidden>
     <h2>Compras com crédito</h2>
     <div class="cartao">
-      <p class="ajuda">No híbrido, a empresa recupera o IBS/CBS destacado nas notas de compra. Informe o valor <b>sem IBS/CBS</b> (base da nota), por mês. No Simples puro não há crédito. Folha, aluguel de pessoa física e compras sem nota não geram crédito.</p>
+      <p class="ajuda">No híbrido, a empresa recupera o IBS/CBS destacado nas notas de compra. Informe o valor <b>sem IBS/CBS</b> (base da nota), por mês. No Simples puro não há crédito. Folha, aluguel de pessoa física e compras sem nota não geram crédito. Medicamentos e dispositivos médicos têm alíquota 60% menor e dão crédito menor (LC 214, arts. 131 e 133): use "Regular, alíquota 60% menor".</p>
       <div class="tabela-rolagem"><table class="editavel" id="tabela-compras">
         <thead><tr><th>Descrição</th><th class="num">Valor por mês</th><th>Meses</th><th>Fornecedor</th><th class="num">Crédito</th><th>Uso pessoal</th><th>Imobilizado</th><th></th></tr></thead>
         <tbody></tbody>
@@ -599,11 +599,14 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
  * parametros-2027.js.
  *
  * Notação: P = receita do mês; e = alíquota efetiva do Simples; s = fatia de
- * CBS + IBS no DAS; t = CBS + IBS × (1 − redução); c = alíquota cheia sobre as
- * compras com crédito.
+ * CBS + IBS no DAS; t = CBS + IBS × (1 − redução); c = alíquota sobre as compras
+ * com crédito (cheia; em saúde, reduzida em 60%, como medicamentos e dispositivos
+ * médicos, LC 214, arts. 131 e 133).
  *   Puro: a empresa fica com P × (1 − e).
  *   Híbrido, cliente que credita (mantém o custo líquido): B = P × (1 − e·s).
  *   Híbrido, cliente que não credita (mantém o preço final): B = P / (1 + t).
+ *   Plano de saúde não credita: deduz da base o que paga à rede (LC 214, arts. 235,
+ *   238 e 303).
  *   Híbrido: a empresa fica com B × (1 − e·(1 − s)), mais compras × c uma vez no mês.
  */
 (function (raiz) {
@@ -614,7 +617,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
 
   var LIMIAR_PADRAO = 0.005; // 0,5% da receita
   var ISS_MAXIMO = 0.05;
-  var VERSAO_MOTOR = '2.0.0';
+  var VERSAO_MOTOR = '2.1.0';
 
   // compras: resposta pré-marcada na pergunta 4 (ids de COMPRAS).
   var ATIVIDADES = [
@@ -625,7 +628,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     { id: 'educacao', rotulo: 'Educação (escola, curso)', anexo: 'III', reducao: 'sessenta', compras: 'quase-nada' },
     { id: 'intelectual', rotulo: 'TI, consultoria, publicidade, design', fatorR: true, reducao: 'nenhuma', compras: 'quase-nada' },
     { id: 'engenharia', rotulo: 'Engenharia, arquitetura', fatorR: true, reducao: 'trinta', compras: 'pouco' },
-    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta', compras: 'pouco' },
+    { id: 'saude', rotulo: 'Saúde (médico, dentista, psicólogo, fisioterapeuta)', fatorR: true, reducao: 'sessenta', compras: 'pouco', comprasReduzidas: true },
     { id: 'advocacia', rotulo: 'Advocacia', anexo: 'IV', reducao: 'trinta', compras: 'quase-nada' },
     { id: 'construcao', rotulo: 'Construção civil, vigilância, limpeza', anexo: 'IV', reducao: 'nenhuma', compras: 'bastante' }
   ];
@@ -640,12 +643,14 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     return { id: i + 1, de: de, ate: f.ate, meio: (de + f.ate) / 2, rotulo: ROTULOS_FAIXA[i] };
   });
 
-  // Pergunta 3: mix de clientes pronto, em % (Lucro Presumido/Real, Simples, consumidor final).
+  // Pergunta 3: mix de clientes pronto, em % (Lucro Presumido/Real, Simples, consumidor final,
+  // plano de saúde). A opção de planos só aparece para a atividade em 'so'.
   var MIXES = [
     { id: 'empresas', rotulo: 'Empresas maiores (fora do Simples)', detalhe: 'Lucro Presumido ou Real', credita: 70, simples: 15, consumidor: 15 },
     { id: 'simples', rotulo: 'Empresas do Simples', detalhe: 'outras pequenas empresas', credita: 15, simples: 70, consumidor: 15 },
     { id: 'consumidor', rotulo: 'Consumidor final', detalhe: 'pessoas físicas', credita: 10, simples: 10, consumidor: 80 },
-    { id: 'dividido', rotulo: 'Bem dividido', detalhe: 'um pouco de cada', credita: 34, simples: 33, consumidor: 33 }
+    { id: 'dividido', rotulo: 'Bem dividido', detalhe: 'um pouco de cada', credita: 34, simples: 33, consumidor: 33 },
+    { id: 'plano', rotulo: 'Planos de saúde e convênios', detalhe: 'operadoras, que não aproveitam o crédito', credita: 10, simples: 0, consumidor: 20, plano: 70, so: 'saude' }
   ];
 
   // Pergunta 4: compras de outras empresas, em % do faturamento.
@@ -744,7 +749,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
   // Um mês com o mix de clientes (frações que somam 1).
   function compararMes(d) {
     var cen = detalharCenarios(d);
-    var mix = d.mix, naoCred = (mix.simples || 0) + (mix.consumidor || 0);
+    var mix = d.mix, naoCred = (mix.simples || 0) + (mix.consumidor || 0) + (mix.plano || 0);
     var ficaHibrido = (mix.credita || 0) * cen.credita.ficaSemCreditos + naoCred * cen.naoCredita.ficaSemCreditos + cen.creditos;
     return {
       cenarios: cen, ficaPuro: cen.puro.fica, ficaHibrido: ficaHibrido,
@@ -772,7 +777,8 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
   /*
    * Entradas: atividade, folha28 (true/false), rbt12, pctCredita, pctSimples,
    * pctConsumidor, pctCompras (0–100), reducao ('nenhuma' | 'trinta' | 'sessenta'),
-   * politica ('custo' | 'preco'). Opcionais: aliquota (CBS + IBS), limiar.
+   * politica ('custo' | 'preco'). Opcionais: pctPlano (plano de saúde, 0–100),
+   * creditoCompras ('cheio' | 'reduzido'), aliquota (CBS + IBS), limiar.
    */
   function diagnosticar(ent) {
     var erros = [], alertas = [];
@@ -786,10 +792,12 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     if (!(rbt12 > 0)) erros.push('Informe a receita bruta dos últimos 12 meses.');
     else if (rbt12 > PL.limiteSimples.valor) erros.push('Receita acima de R$ 4,8 milhões: a empresa fica fora do Simples Nacional.');
     var pc = num(ent.pctCredita), ps = num(ent.pctSimples), pf = num(ent.pctConsumidor), pcomp = num(ent.pctCompras);
+    var pp = ent.pctPlano === undefined || ent.pctPlano === null || ent.pctPlano === '' ? 0 : num(ent.pctPlano);
+    if (!(pp >= 0 && pp <= 100)) erros.push('% de vendas para planos de saúde: use um número de 0 a 100.');
     [pc, ps, pf, pcomp].forEach(function (v, i) {
       if (!(v >= 0 && v <= 100)) erros.push(['% de vendas para Lucro Presumido/Real', '% de vendas para empresas do Simples', '% de vendas para consumidor final', '% de compras com crédito'][i] + ': use um número de 0 a 100.');
     });
-    if (pc >= 0 && ps >= 0 && pf >= 0 && Math.abs(pc + ps + pf - 100) > 0.5) erros.push('As três parcelas de vendas precisam somar 100% (hoje somam ' + fmtNum(pc + ps + pf, 0) + '%).');
+    if (pc >= 0 && ps >= 0 && pf >= 0 && Math.abs(pc + ps + pf + (pp || 0) - 100) > 0.5) erros.push('As parcelas de vendas precisam somar 100% (hoje somam ' + fmtNum(pc + ps + pf + (pp || 0), 0) + '%).');
     var red = PL.reducoes[ent.reducao];
     if (!red || typeof red.valor !== 'number') erros.push('Escolha a redução de alíquota.');
     var politica = ent.politica === 'preco' ? 'preco' : 'custo';
@@ -798,13 +806,14 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     var anexoId = anexoDaAtividade(at.id, folha28);
     var al = aliquotaEfetiva(anexoId, rbt12);
     var P = rbt12 / 12;
-    var mix = { credita: pc / 100, simples: ps / 100, consumidor: pf / 100 };
+    var mix = { credita: pc / 100, simples: ps / 100, consumidor: pf / 100, plano: pp / 100 };
+    var creditoReduzido = ent.creditoCompras === 'reduzido';
     var compras = P * pcomp / 100;
     var ref = PL.aliquotaReferencia;
     var tPadrao = ent.aliquota === undefined ? ref.padrao : num(ent.aliquota);
 
     function rodar(aliq) {
-      return compararMes({ receita: P, e: al.efetiva, s: al.s, t: aliq * (1 - red.valor), c: aliq, compras: compras, mix: mix, politica: politica });
+      return compararMes({ receita: P, e: al.efetiva, s: al.s, t: aliq * (1 - red.valor), c: creditoReduzido ? aliq * (1 - red.valor) : aliq, compras: compras, mix: mix, politica: politica });
     }
     var central = rodar(tPadrao);
     var grade = [];
@@ -824,12 +833,14 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     }
     if (al.sStatus !== 'oficial') alertas.push('A fatia de CBS/IBS no DAS deste anexo ainda não foi conferida na LC 227: usamos a de PIS + Cofins atual, que a lei repete no Anexo III.');
     if (red.valor > 0) alertas.push('A redução de alíquota tem requisitos (atividade, habilitação dos sócios etc.). Confirme com seu contador.');
+    if (pp > 0) alertas.push('Plano de saúde não aproveita o crédito do híbrido: a operadora deduz da base o que paga à rede (LC 214, arts. 235, 238 e 303).');
+    if (pcomp > 0 && creditoReduzido) alertas.push('Crédito das compras com a redução de 60% de medicamentos e dispositivos médicos (LC 214, arts. 131 e 133). Compras com alíquota cheia (aluguel de empresa, energia) melhoram o híbrido.');
     if (pcomp > 0) alertas.push('Créditos supõem compras de fornecedores do regime regular, com nota e sem vedação (uso e consumo pessoal não dá crédito).');
 
     return {
       ok: true, erros: [], alertas: alertas,
       atividade: at, anexo: anexoId, anexoNome: PL.anexos[anexoId].nome, aliquota: al,
-      receitaMensal: P, compras: compras, mix: mix, politica: politica, reducao: red.valor,
+      receitaMensal: P, compras: compras, mix: mix, politica: politica, reducao: red.valor, creditoReduzido: creditoReduzido,
       aliquotaPadrao: tPadrao, central: central,
       diferencaMes: central.diferenca, diferencaAno: central.diferenca * 12,
       pctReceita: central.diferenca / P,
@@ -893,8 +904,8 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     function rodar(folha28, rbt12) {
       return diagnosticar({
         atividade: at.id, folha28: folha28, rbt12: rbt12,
-        pctCredita: mx.credita, pctSimples: mx.simples, pctConsumidor: mx.consumidor,
-        pctCompras: cp.pct, reducao: at.reducao, politica: 'custo'
+        pctCredita: mx.credita, pctSimples: mx.simples, pctConsumidor: mx.consumidor, pctPlano: mx.plano || 0,
+        pctCompras: cp.pct, reducao: at.reducao, politica: 'custo', creditoCompras: at.comprasReduzidas ? 'reduzido' : 'cheio'
       });
     }
     function cenario(folha28) {
@@ -1545,7 +1556,8 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
 
   var MESES = ['jan/2027', 'fev/2027', 'mar/2027', 'abr/2027', 'mai/2027', 'jun/2027'];
   var HISTORICO = ['dez/2025', 'jan/2026', 'fev/2026', 'mar/2026', 'abr/2026', 'mai/2026', 'jun/2026', 'jul/2026', 'ago/2026', 'set/2026', 'out/2026', 'nov/2026', 'dez/2026'];
-  var TIPOS = ['credita', 'simples', 'consumidor', 'governo', 'exterior'];
+  // plano: operadoras de plano de saúde; não aproveitam o crédito (LC 214, arts. 235, 238 e 303).
+  var TIPOS = ['credita', 'simples', 'consumidor', 'plano', 'governo', 'exterior'];
   var CREDITO_SIMPLES_PADRAO = 1.5; // % do valor: fatia de CBS/IBS no DAS de um fornecedor típico do Simples
 
   function soma(v) { return v.reduce(function (a, b) { return a + b; }, 0); }
@@ -1633,7 +1645,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
         } else {
           var bCred = politica === 'repassar' ? Pa : (politica === 'preco' ? Pa / (1 + t) : Pa * (1 - e * s));
           var bNao = Pa / (1 + t);
-          var Bdom = bCred * mix.credita + bNao * (mix.simples + mix.consumidor + mix.governo);
+          var Bdom = bCred * mix.credita + bNao * (mix.simples + mix.consumidor + mix.plano + mix.governo);
           var Bexp = Pa * mix.exterior;
           linha.receita = Bdom + Bexp;
           linha.debito = Bdom * t;
@@ -1651,6 +1663,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
           if (meses.indexOf(m + 1) < 0) return;
           var v = n(c.valor, 0);
           if (c.fornecedor === 'regular') mes.creditos += v * (c.aliquota === null || c.aliquota === undefined || c.aliquota === '' ? aliq : n(c.aliquota, aliq * 100) / 100);
+          else if (c.fornecedor === 'reduzida') mes.creditos += v * aliq * (1 - PL.reducoes.sessenta.valor);
           else if (c.fornecedor === 'simples') mes.creditos += v * n(c.creditoSimples, CREDITO_SIMPLES_PADRAO) / 100;
         });
         var devido = mes.debito - mes.creditos - saldo;
@@ -1715,6 +1728,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     if (central.hibrido.total.saldoFinal > 0.5) alertas.push('Sobra saldo credor de ' + D.moeda(central.hibrido.total.saldoFinal) + ' em junho. Ele entra na comparação, mas pedir ressarcimento impede sair do regime regular no ano corrente e no seguinte (LC 214, art. 41, § 5º).');
     if (emp.ressarcimentoRecebido) alertas.push('Com ressarcimento de IBS/CBS recebido no ano corrente ou no anterior, a empresa não pode sair do regime regular.');
     if ((emp.compras || []).some(function (c) { return c && c.imobilizado && !c.usoPessoal; })) alertas.push('Crédito de imobilizado considerado integral no mês da compra; o prazo de apropriação ainda precisa de confirmação.');
+    if (n(emp.mix.plano, 0) > 0) alertas.push('Planos de saúde tratados como cliente que não credita: a operadora deduz da base o que paga à rede (LC 214, arts. 235, 238 e 303).');
     if (n(emp.mix.governo, 0) > 0) alertas.push('Vendas ao governo tratadas como cliente que não credita, com preço fixo; as regras de compras governamentais ainda precisam de confirmação.');
     if (central.puro.meses.some(function (m) { return m.atividades.some(function (x) { return PL.partilha2027[x.anexo] === undefined; }); })) alertas.push('A fatia de CBS/IBS no DAS de algum anexo ainda não foi conferida na LC 227: usamos a de PIS + Cofins atual.');
 
@@ -1738,7 +1752,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
       atividades: [{ atividade: ent.atividade, fatia: 100, reducao: ent.reducao || 'nenhuma' }],
       historico: { receita: rep(P, 13), folha: rep(folha, 13) },
       previsao: { receita: rep(P, 6), folha: rep(folha, 6) },
-      mix: { credita: n(ent.pctCredita, 0), simples: n(ent.pctSimples, 0), consumidor: n(ent.pctConsumidor, 0), governo: 0, exterior: 0 },
+      mix: { credita: n(ent.pctCredita, 0), simples: n(ent.pctSimples, 0), consumidor: n(ent.pctConsumidor, 0), plano: n(ent.pctPlano, 0), governo: 0, exterior: 0 },
       politica: ent.politica || 'custo',
       compras: compra > 0 ? [{ descricao: 'Compras com crédito', valor: compra, meses: 'todos', fornecedor: 'regular' }] : []
     };
@@ -1774,7 +1788,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     ['servicos', 'Serviços ao consumidor (salão, academia)', [{ atividade: 'servicos', fatia: 100 }], 40000, 0.35, [0, 5, 95, 0, 0],
       [{ descricao: 'Produtos e materiais', valor: 4000, fornecedor: 'regular' }]],
     ['saude', 'Clínica de saúde', [{ atividade: 'saude', fatia: 100, reducao: 'sessenta' }], 120000, 0.30, [10, 5, 85, 0, 0],
-      [{ descricao: 'Materiais e insumos', valor: 8000, fornecedor: 'regular' }]],
+      [{ descricao: 'Medicamentos e materiais médicos', valor: 8000, fornecedor: 'reduzida' }]],
     ['engenharia', 'Engenharia ou arquitetura', [{ atividade: 'engenharia', fatia: 100, reducao: 'trinta' }], 70000, 0.30, [65, 15, 20, 0, 0],
       [{ descricao: 'Software', valor: 1500, fornecedor: 'regular' }]],
     ['advocacia', 'Escritório de advocacia', [{ atividade: 'advocacia', fatia: 100, reducao: 'trinta' }], 60000, 0.25, [55, 20, 25, 0, 0],
@@ -1834,6 +1848,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     credita: 'Empresas do Lucro Presumido ou Real (aproveitam crédito)',
     simples: 'Empresas do Simples Nacional',
     consumidor: 'Consumidor final (pessoa física)',
+    plano: 'Planos de saúde e convênios (não aproveitam crédito)',
     governo: 'Governo (órgãos públicos)',
     exterior: 'Clientes no exterior (exportação)'
   };
@@ -2030,13 +2045,14 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
         });
         return h('label', { title: m }, [ck, m.slice(0, 1).toUpperCase()]);
       }));
-      var forn = h('select', { 'aria-label': 'Fornecedor da compra ' + (i + 1) }, [['regular', 'Regime regular'], ['simples', 'Simples puro'], ['sem', 'Sem crédito']].map(function (o) { return h('option', { value: o[0], text: o[1] }); }));
+      var forn = h('select', { 'aria-label': 'Fornecedor da compra ' + (i + 1) }, [['regular', 'Regime regular'], ['reduzida', 'Regular, alíquota 60% menor'], ['simples', 'Simples puro'], ['sem', 'Sem crédito']].map(function (o) { return h('option', { value: o[0], text: o[1] }); }));
       forn.value = c.fornecedor || 'regular';
       var credCampo = h('span');
       function desenharCredito() {
         limpar(credCampo);
         if (forn.value === 'regular') credCampo.appendChild(campo(c.aliquota === undefined ? '' : c.aliquota, function (v) { c.aliquota = v; marcar(); agendar(); }, { sufixo: '%', decimal: true, classe: 'campo-curto', rotulo: 'Alíquota do fornecedor (vazio = referência)' }));
         else if (forn.value === 'simples') credCampo.appendChild(campo(c.creditoSimples === undefined ? '' : c.creditoSimples, function (v) { c.creditoSimples = v; marcar(); agendar(); }, { sufixo: '%', decimal: true, classe: 'campo-curto', rotulo: 'Crédito informado pelo fornecedor do Simples' }));
+        else if (forn.value === 'reduzida') credCampo.appendChild(h('span', { text: D.fmtNum(estado.aliquota * (1 - PL.reducoes.sessenta.valor) * 100, 2) + '%' }));
         else credCampo.appendChild(h('span', { class: 'aviso', text: '—' }));
         var inp = credCampo.querySelector('input');
         if (inp) inp.placeholder = forn.value === 'regular' ? D.fmtNum(estado.aliquota * 100, 1) : D.fmtNum(M.CREDITO_SIMPLES_PADRAO, 1);
@@ -2190,9 +2206,9 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
       dados.appendChild(h('li', { text: (D.atividade(a.atividade) ? D.atividade(a.atividade).rotulo : 'Anexo ' + a.anexo) + ': ' + D.fmtNum(num(a.fatia), 0) + '% da receita; em jan/2027, Anexo ' + m0.anexo + ', ' + m0.faixa + 'ª faixa, alíquota efetiva ' + D.pct(m0.efetiva) + ', CBS/IBS no DAS ' + D.pct(m0.s) + (a.reducao && a.reducao !== 'nenhuma' ? '; redução de ' + D.pct(PL.reducoes[a.reducao].valor, 0) : '') + '.' }));
     });
     dados.appendChild(h('li', { text: 'RBT12 em jan/2027: ' + D.moeda(r.puro.meses[0].rbt12) + '; receita prevista no semestre: ' + D.moeda(r.puro.total.receitaHoje) + '.' }));
-    var CURTO = { credita: 'empresas do Lucro Presumido ou Real', simples: 'empresas do Simples', consumidor: 'consumidor final', governo: 'governo', exterior: 'exterior' };
+    var CURTO = { credita: 'empresas do Lucro Presumido ou Real', simples: 'empresas do Simples', consumidor: 'consumidor final', plano: 'planos de saúde', governo: 'governo', exterior: 'exterior' };
     dados.appendChild(h('li', { text: 'Clientes: ' + M.TIPOS.filter(function (k) { return num(e.mix[k]) > 0; }).map(function (k) { return CURTO[k] + ' ' + D.fmtNum(num(e.mix[k]), 0) + '%'; }).join('; ') + '. Preço para quem credita: ' + POLITICAS.filter(function (p) { return p[0] === (e.politica || 'custo'); })[0][1].toLowerCase() + '.' }));
-    dados.appendChild(h('li', { text: e.compras.length ? 'Compras com crédito: ' + e.compras.map(function (c) { return (c.descricao || 'compra') + ' (' + D.moeda(num(c.valor)) + '/mês, ' + ({ regular: 'regime regular', simples: 'fornecedor do Simples', sem: 'sem crédito' })[c.fornecedor || 'regular'] + (c.usoPessoal ? ', uso pessoal: sem crédito' : '') + ')'; }).join('; ') + '.' : 'Sem compras com crédito.' }));
+    dados.appendChild(h('li', { text: e.compras.length ? 'Compras com crédito: ' + e.compras.map(function (c) { return (c.descricao || 'compra') + ' (' + D.moeda(num(c.valor)) + '/mês, ' + ({ regular: 'regime regular', reduzida: 'regime regular, alíquota 60% menor', simples: 'fornecedor do Simples', sem: 'sem crédito' })[c.fornecedor || 'regular'] + (c.usoPessoal ? ', uso pessoal: sem crédito' : '') + ')'; }).join('; ') + '.' : 'Sem compras com crédito.' }));
     if (num(e.perdaPuro && e.perdaPuro.pctReceitaCredita) > 0) dados.appendChild(h('li', { text: 'No puro, perda de ' + D.fmtNum(num(e.perdaPuro.pctReceitaCredita), 0) + '% da receita de clientes do Presumido/Real, com margem de contribuição de ' + D.fmtNum(num(e.perdaPuro.margem), 0) + '%.' }));
     art.appendChild(dados);
     if (r.alertas.length) {
@@ -2204,7 +2220,7 @@ footer a { color: var(--branco); } footer p { margin: 6px 0; }
     [
       'Simples: alíquotas e faixas da LC 123; RBT12 e fator r com a defasagem de um mês (Res. CGSN 190/2026); fatia de CBS/IBS no DAS pela LC 227/2026, Anexo XX (Anexo III lido no texto oficial; demais anexos com PIS + Cofins atuais).',
       'Híbrido: DAS sem a fatia de CBS/IBS; IBS/CBS por fora com débito nas vendas e crédito nas compras; saldo credor transportado mês a mês.',
-      'Clientes do Simples, consumidores finais e governo pagam o mesmo preço final de hoje; exportação sem IBS/CBS e sem ICMS/ISS no DAS.',
+      'Clientes do Simples, consumidores finais, planos de saúde e governo pagam o mesmo preço final de hoje; exportação sem IBS/CBS e sem ICMS/ISS no DAS.',
       'Não considera: sublimite, ICMS/ISS fora do DAS, substituição tributária, regimes específicos, custo de contabilidade e efeitos fora do semestre.'
     ].forEach(function (t) { pr.appendChild(h('li', { text: t })); });
     art.appendChild(pr);
